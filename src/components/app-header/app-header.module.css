@@ -1,0 +1,15 @@
+.header {
+    width: 100%;
+}
+
+.headerContainer {
+    height: 88px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.navBar {
+    display: flex;
+    align-items: center;
+}
