@@ -1,15 +1,29 @@
-import React from "react";
+import Ingredients from "../ingredient/ingredient";
+import Ingredient from "../ingredient/ingredient";
+import styles from "./burger-ingredients.module.css";
 
-import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Icons } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Typography } from "@ya.praktikum/react-developer-burger-ui-components";
-import {Box} from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerIngredients() {
-    return (
-        <></>
-    )
+export default function BurgerIngredients() {
+  return (
+    <section className={styles.burgersIngredientSection}>
+      <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
+      <div className={styles.tabsContainer + " mt-5"}>
+        <Tab value="Булки" active={true}>
+          Булки
+        </Tab>
+        <Tab value="Соусы" active={false}>
+          Соусы
+        </Tab>
+        <Tab value="Начинки" active={false}>
+          Начинки
+        </Tab>
+      </div>
+      <div className={styles.ingredientContainer}>
+        <Ingredients value="Булки" type="bun" />
+        <Ingredients value="Соусы" type="sauce" />
+        <Ingredients value="Начинки" type="main" />
+      </div>
+    </section>
+  );
 }
-
-export default BurgerIngredients;

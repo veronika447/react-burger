@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./app-header.module.css";
 
 import {
@@ -10,10 +9,10 @@ import {
 
 import NavItem from "../nav-item/nav-item";
 
-function AppHeader({ sectionId }) {
+export default function AppHeader({ sectionId }) {
   return (
     <header className={styles.header}>
-      <div className={styles.headerContainer + " ml-10 mt-10 mr-10"}>
+      <div className={styles.headerContainer}>
         <nav className={styles.navBar}>
           <NavItem
             icon={<BurgerIcon type="primary" />}
@@ -41,5 +40,3 @@ function AppHeader({ sectionId }) {
     </header>
   );
 }
-
-export default AppHeader;

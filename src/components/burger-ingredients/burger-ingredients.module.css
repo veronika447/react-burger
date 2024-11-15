@@ -1,0 +1,13 @@
+.burgersIngredientSection {
+  width: 600px;
+  height: 912px;
+}
+
+.tabsContainer {
+  display: flex;
+}
+
+.ingredientContainer {
+  height: 60vh;
+  overflow: auto;
+}

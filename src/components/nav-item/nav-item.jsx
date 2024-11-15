@@ -1,7 +1,6 @@
-import React from "react";
 import styles from "./nav-item.module.css";
 
-function NavItem({ icon, text, sectionId, isActive }) {
+export default function NavItem({ icon, text, sectionId, isActive }) {
   return (
     <a href={"#" + sectionId} className={styles.navItem + " p-5 ml-2"}>
       {icon}
@@ -18,5 +17,3 @@ function NavItem({ icon, text, sectionId, isActive }) {
     </a>
   );
 }
-
-export default NavItem;
