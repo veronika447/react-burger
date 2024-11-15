@@ -1,5 +1,6 @@
 .navItem {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: rgba(242, 242, 243, 1);
 }
