@@ -28,10 +28,10 @@ export default function App() {
       <main className={styles.main}>
         <div className={styles.mainContainer}>
           <BurgerIngredients
-            data={data}
+            ingredients={data}
             selectedIngredients={selectedIngredients}
           />
-          <BurgerConstructor selectedIngredients={selectedIngredients}/>
+          <BurgerConstructor selectedIngredients={selectedIngredients} />
         </div>
       </main>
     </>

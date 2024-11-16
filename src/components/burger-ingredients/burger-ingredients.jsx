@@ -5,7 +5,10 @@ import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/types";
 
-export default function BurgerIngredients({ data, selectedIngredients }) {
+export default function BurgerIngredients({
+  ingredients,
+  selectedIngredients,
+}) {
   return (
     <section className={styles.burgersIngredientSection}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
@@ -24,19 +27,19 @@ export default function BurgerIngredients({ data, selectedIngredients }) {
         <Ingredients
           value="Булки"
           type="bun"
-          data={data}
+          ingredients={ingredients}
           selectedIngredients={selectedIngredients}
         />
         <Ingredients
           value="Соусы"
           type="sauce"
-          data={data}
+          ingredients={ingredients}
           selectedIngredients={selectedIngredients}
         />
         <Ingredients
           value="Начинки"
           type="main"
-          data={data}
+          ingredients={ingredients}
           selectedIngredients={selectedIngredients}
         />
       </div>
@@ -45,6 +48,6 @@ export default function BurgerIngredients({ data, selectedIngredients }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType),
+  ingredients: PropTypes.arrayOf(ingredientType),
   selectedIngredients: PropTypes.arrayOf(ingredientType),
 };

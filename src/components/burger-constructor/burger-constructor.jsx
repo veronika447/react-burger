@@ -29,7 +29,7 @@ export default function BurgerConstructor({ selectedIngredients }) {
             {selectedIngredients.map(
               (el) =>
                 el.type !== "bun" && (
-                  <li className={styles.listFillingItem}>
+                  <li key={el._id} className={styles.listFillingItem}>
                     <DragIcon type="primary" />
                     <ConstructorElement
                       text={el.name}
@@ -55,9 +55,7 @@ export default function BurgerConstructor({ selectedIngredients }) {
       </ul>
       <div className={styles.price + " mt-10"}>
         <p className="text text_type_digits-medium">
-          {selectedIngredients
-            .map((el) => el.price)
-            .reduce((s, c) => s + c, 0) +
+          {selectedIngredients.reduce((s, c) => s + c.price, 0) +
             bun.price +
             " "}
           <CurrencyIcon type="primary" />
