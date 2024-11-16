@@ -1,4 +1,5 @@
 import styles from "./app-header.module.css";
+import PropTypes from "prop-types";
 
 import {
   BurgerIcon,
@@ -40,3 +41,7 @@ export default function AppHeader({ sectionId }) {
     </header>
   );
 }
+
+AppHeader.propTypes = {
+  sectionId: PropTypes.string,
+};

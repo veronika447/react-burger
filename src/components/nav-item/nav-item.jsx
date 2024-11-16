@@ -1,4 +1,5 @@
 import styles from "./nav-item.module.css";
+import PropTypes from "prop-types";
 
 export default function NavItem({ icon, text, sectionId, isActive }) {
   return (
@@ -17,3 +18,9 @@ export default function NavItem({ icon, text, sectionId, isActive }) {
     </a>
   );
 }
+
+NavItem.propTypes = {
+  text: PropTypes.string,
+  sectionId: PropTypes.string,
+  isActive: PropTypes.bool,
+};
