@@ -1,10 +1,9 @@
-import Ingredients from "../ingredient/ingredient";
-import Ingredient from "../ingredient/ingredient";
+import Ingredients from "../ingredients/ingredients";
 import styles from "./burger-ingredients.module.css";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({ data, selectedIngredients }) {
   return (
     <section className={styles.burgersIngredientSection}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
@@ -20,9 +19,24 @@ export default function BurgerIngredients() {
         </Tab>
       </div>
       <div className={styles.ingredientContainer}>
-        <Ingredients value="Булки" type="bun" />
-        <Ingredients value="Соусы" type="sauce" />
-        <Ingredients value="Начинки" type="main" />
+        <Ingredients
+          value="Булки"
+          type="bun"
+          data={data}
+          selectedIngredients={selectedIngredients}
+        />
+        <Ingredients
+          value="Соусы"
+          type="sauce"
+          data={data}
+          selectedIngredients={selectedIngredients}
+        />
+        <Ingredients
+          value="Начинки"
+          type="main"
+          data={data}
+          selectedIngredients={selectedIngredients}
+        />
       </div>
     </section>
   );

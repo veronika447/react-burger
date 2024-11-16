@@ -1,10 +1,22 @@
 import styles from "./ingredient-card.module.css";
 
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function IngredientCard({ image, name, price }) {
+export default function IngredientCard({
+  image,
+  name,
+  price,
+  selectedIngredients,
+}) {
   return (
     <div className={styles.container}>
+      {selectedIngredients.some((el) => el.name === name) ? (
+        <Counter count={1} size="default" extraClass="m-1" />
+      ) : null}
+
       <img src={image} alt={name}></img>
       <div className={styles.priceContainer + " mt-1 mb-1"}>
         <p className="text text_type_digits-default">{price}</p>

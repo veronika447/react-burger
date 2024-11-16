@@ -1,0 +1,38 @@
+.burgerConstructorSection {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 16px;
+    list-style: none;
+    padding: 0;
+}
+
+.listFilling {
+    width: 100%;
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    list-style: none;
+    overflow-y: scroll;
+    padding: 0;
+}
+
+.listFillingItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price {
+    display: flex;
+    column-gap: 40px;
+}

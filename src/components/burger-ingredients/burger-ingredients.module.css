@@ -1,6 +1,5 @@
 .burgersIngredientSection {
   width: 600px;
-  height: 912px;
 }
 
 .tabsContainer {
@@ -8,6 +7,6 @@
 }
 
 .ingredientContainer {
-  height: 60vh;
-  overflow: auto;
+  height: 50vh;
+  overflow-y: scroll;
 }
