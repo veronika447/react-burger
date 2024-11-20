@@ -27,9 +27,9 @@ export default function BurgerConstructor({ selectedIngredients }) {
         <li>
           <ul className={styles.listFilling}>
             {selectedIngredients.map(
-              (el) =>
+              (el, index) =>
                 el.type !== "bun" && (
-                  <li key={el._id} className={styles.listFillingItem}>
+                  <li key={index} className={styles.listFillingItem}>
                     <DragIcon type="primary" />
                     <ConstructorElement
                       text={el.name}
