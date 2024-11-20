@@ -1,0 +1,14 @@
+.modalWindow {
+  z-index: 10;
+  width: 720px;
+  height: 70vh;
+  background-color: rgba(28, 28, 33, 1);
+  border-radius: 40px;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+}

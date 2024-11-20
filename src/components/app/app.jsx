@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./app.module.css";
 
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
@@ -8,6 +9,8 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { ModalOverlay } from "../modal-overlay/modal-overlay";
+const modalRoot = document.getElementById("react-modals");
 
 export default function App() {
   const url = "https://norma.nomoreparties.space/api/ingredients";
@@ -132,6 +135,7 @@ export default function App() {
           <BurgerConstructor selectedIngredients={selectedIngredients} />
         </div>
       </main>
+      {createPortal(<ModalOverlay text="Детали ингредиента" />, modalRoot)}
     </>
   );
 }
