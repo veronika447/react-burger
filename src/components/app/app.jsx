@@ -8,8 +8,9 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+// import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
@@ -138,7 +139,8 @@ export default function App() {
         </div>
       </main>
       <Modal>
-        <IngredientDetails ingredient={selectedIngredients[0]} />
+        {/* <IngredientDetails ingredient={selectedIngredients[0]} /> */}
+        <OrderDetails orderNumber="034536" />
       </Modal>
       ,
     </>

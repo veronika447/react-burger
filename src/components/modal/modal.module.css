@@ -1,7 +1,6 @@
 .modalWindow {
   z-index: 10;
   width: 720px;
-  /* height: 70vh; */
   background-color: rgba(28, 28, 33, 1);
   border-radius: 40px;
   position: absolute;
@@ -13,4 +12,10 @@
   position: absolute;
   top: 50px;
   right: 40px;
+}
+
+@media screen and (max-height: 700px) {
+  .modalWindow {
+    height: 75vh;
+  }
 }
