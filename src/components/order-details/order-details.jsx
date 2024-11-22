@@ -1,5 +1,6 @@
 import styles from "./order-details.module.css";
 import pathImg from "../../images/done.png";
+import PropTypes from "prop-types";
 
 export default function OrderDetails({ orderNumber }) {
   return (
@@ -8,7 +9,7 @@ export default function OrderDetails({ orderNumber }) {
         {orderNumber}
       </h3>
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
-      <img className={styles.icon + " mt-15"} alt="done" src={pathImg} ></img>
+      <img className={styles.icon + " mt-15"} alt="done" src={pathImg}></img>
       <p className="text text_type_main-small mt-15">
         Ваш заказ начали готовить
       </p>
@@ -18,3 +19,7 @@ export default function OrderDetails({ orderNumber }) {
     </div>
   );
 }
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.string,
+};

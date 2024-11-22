@@ -8,7 +8,7 @@ import { ingredientType } from "../../utils/types";
 export default function BurgerIngredients({
   ingredients,
   selectedIngredients,
-  openModalWindow
+  openModalWindow,
 }) {
   return (
     <section className={styles.burgersIngredientSection}>
@@ -54,4 +54,5 @@ export default function BurgerIngredients({
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientType),
   selectedIngredients: PropTypes.arrayOf(ingredientType),
+  openModalWindow: PropTypes.func,
 };

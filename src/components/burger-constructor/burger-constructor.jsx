@@ -79,4 +79,5 @@ export default function BurgerConstructor({
 
 BurgerConstructor.propTypes = {
   selectedIngredients: PropTypes.arrayOf(ingredientType),
+  openModalWindow: PropTypes.func,
 };

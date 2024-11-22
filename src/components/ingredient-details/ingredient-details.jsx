@@ -1,4 +1,6 @@
 import styles from "./ingredient-details.module.css";
+import PropTypes from "prop-types";
+import { ingredientType } from "../../utils/types";
 
 export default function IngredientDetails({ ingredients, id }) {
   const ingredient = ingredients.find((item) => item._id === id);
@@ -59,3 +61,8 @@ export default function IngredientDetails({ ingredients, id }) {
     </div>
   );
 }
+
+IngredientDetails.propTypes = {
+  ingredients: PropTypes.arrayOf(ingredientType),
+  id: PropTypes.string,
+};

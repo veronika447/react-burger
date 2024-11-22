@@ -35,4 +35,5 @@ Ingredients.propTypes = {
   type: PropTypes.string,
   ingredients: PropTypes.arrayOf(ingredientType),
   selectedIngredients: PropTypes.arrayOf(ingredientType),
+  openModalWindow: PropTypes.func,
 };

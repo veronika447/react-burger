@@ -38,8 +38,7 @@ export default function IngredientCard({
 }
 
 IngredientCard.propTypes = {
-  image: PropTypes.string,
-  name: PropTypes.string,
-  price: PropTypes.number,
+  ingredient: ingredientType,
   selectedIngredients: PropTypes.arrayOf(ingredientType),
+  openModalWindow: PropTypes.func,
 };
