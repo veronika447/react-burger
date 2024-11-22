@@ -9,6 +9,7 @@ export default function Ingredients({
   type,
   ingredients,
   selectedIngredients,
+  openModalWindow,
 }) {
   return (
     <section>
@@ -22,7 +23,9 @@ export default function Ingredients({
               image={ingredient.image}
               name={ingredient.name}
               price={ingredient.price}
+              id={ingredient._id}
               selectedIngredients={selectedIngredients}
+              openModalWindow={openModalWindow}
             />
           ))}
       </div>

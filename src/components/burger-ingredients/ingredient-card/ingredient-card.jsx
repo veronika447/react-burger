@@ -11,20 +11,27 @@ export default function IngredientCard({
   image,
   name,
   price,
+  id,
   selectedIngredients,
+  openModalWindow,
 }) {
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      onClick={() => openModalWindow("ingredient", id)}
+    >
       {selectedIngredients.some((el) => el.name === name) ? (
         <Counter count={1} size="default" extraClass="m-1" />
       ) : null}
 
-      <img src={image} alt={name}></img>
+      <img className={styles.ingredientImage} src={image} alt={name}></img>
       <div className={styles.priceContainer + " mt-1 mb-1"}>
         <p className="text text_type_digits-default">{price}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <h3 className="text text_type_main-default">{name}</h3>
+      <h3 className={styles.ingredientName + " text text_type_main-default"}>
+        {name}
+      </h3>
     </div>
   );
 }

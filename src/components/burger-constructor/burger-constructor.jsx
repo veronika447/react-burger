@@ -9,7 +9,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/types";
 
-export default function BurgerConstructor({ selectedIngredients }) {
+export default function BurgerConstructor({
+  selectedIngredients,
+  openModalWindow,
+}) {
   const bun = selectedIngredients.find((item) => item.type === "bun");
   return (
     <section className={styles.burgerConstructorSection + " pl-4 pr-4 pt-25"}>
@@ -61,7 +64,12 @@ export default function BurgerConstructor({ selectedIngredients }) {
             " "}
           <CurrencyIcon type="primary" />
         </p>
-        <Button htmlType="button" type="primary" size="medium">
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={() => openModalWindow("order", null)}
+        >
           Оформить заказ
         </Button>
       </div>

@@ -1,12 +1,13 @@
 import styles from "./ingredient-details.module.css";
 
-export default function IngredientDetails({ ingredient }) {
+export default function IngredientDetails({ ingredients, id }) {
+  const ingredient = ingredients.find((item) => item._id === id);
   return (
     <div className={styles.ingredientDetails}>
       <h2 className={styles.modalTitle + " text text_type_main-large"}>
         Детали ингредиента
       </h2>
-      <img src={ingredient.image_large} alt={ingredient.name} />
+      <img src={ingredient.image_large} alt={ingredient.name} className={styles.ingredientImage} />
       <h3 className="text text_type_main-medium mt-4">{ingredient.name}</h3>
       <div className={styles.nutritionalValueContainer + " mt-8"}>
         <p

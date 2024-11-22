@@ -5,12 +5,12 @@ import { createPortal } from "react-dom";
 
 const modalRoot = document.getElementById("react-modals");
 
-export default function Modal({ children }) {
+export default function Modal({ children, closeModalWindow }) {
   return createPortal(
     <>
-      <ModalOverlay />
+      <ModalOverlay closeModalWindow={closeModalWindow} />
       <div className={styles.modalWindow + " pt-10 pl-10 pr-10 pb-15"}>
-        <div className={styles.icon}>
+        <div className={styles.icon} onClick={() => closeModalWindow()}>
           <CloseIcon type="primary" />
         </div>
         {children}

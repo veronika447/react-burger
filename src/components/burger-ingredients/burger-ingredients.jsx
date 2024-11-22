@@ -8,6 +8,7 @@ import { ingredientType } from "../../utils/types";
 export default function BurgerIngredients({
   ingredients,
   selectedIngredients,
+  openModalWindow
 }) {
   return (
     <section className={styles.burgersIngredientSection}>
@@ -29,18 +30,21 @@ export default function BurgerIngredients({
           type="bun"
           ingredients={ingredients}
           selectedIngredients={selectedIngredients}
+          openModalWindow={openModalWindow}
         />
         <Ingredients
           value="Соусы"
           type="sauce"
           ingredients={ingredients}
           selectedIngredients={selectedIngredients}
+          openModalWindow={openModalWindow}
         />
         <Ingredients
           value="Начинки"
           type="main"
           ingredients={ingredients}
           selectedIngredients={selectedIngredients}
+          openModalWindow={openModalWindow}
         />
       </div>
     </section>

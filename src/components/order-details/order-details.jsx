@@ -8,7 +8,7 @@ export default function OrderDetails({ orderNumber }) {
         {orderNumber}
       </h2>
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
-      <img className="mt-15" alt="done" src={pathImg}></img>
+      <img className={styles.icon + " mt-15"} alt="done" src={pathImg} ></img>
       <p className="text text_type_main-small mt-15">
         Ваш заказ начали готовить
       </p>
