@@ -43,5 +43,5 @@ export default function Modal({ children, closeModalWindow, title }) {
 Modal.propTypes = {
   children: PropTypes.node,
   closeModalWindow: PropTypes.func,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
