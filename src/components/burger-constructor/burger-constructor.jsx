@@ -10,7 +10,7 @@ import {
 import { ingredientType } from "../../utils/types";
 
 export default function BurgerConstructor({ selectedIngredients }) {
-  const bun = selectedIngredients.find((el) => el.type === "bun");
+  const bun = selectedIngredients.find((item) => item.type === "bun");
   return (
     <section className={styles.burgerConstructorSection + " pl-4 pr-4 pt-25"}>
       <ul className={styles.list}>
@@ -26,20 +26,21 @@ export default function BurgerConstructor({ selectedIngredients }) {
         </li>
         <li>
           <ul className={styles.listFilling}>
-            {selectedIngredients.map(
-              (el, index) =>
-                el.type !== "bun" && (
-                  <li key={index} className={styles.listFillingItem}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={el.name}
-                      price={el.price}
-                      thumbnail={el.image_mobile}
-                      extraClass="pt-4 pb-4 pr-8 pl-6"
-                    />
-                  </li>
-                )
-            )}
+            {selectedIngredients.length &&
+              selectedIngredients.map(
+                (el, index) =>
+                  el.type !== "bun" && (
+                    <li key={index} className={styles.listFillingItem}>
+                      <DragIcon type="primary" />
+                      <ConstructorElement
+                        text={el.name}
+                        price={el.price}
+                        thumbnail={el.image_mobile}
+                        extraClass="pt-4 pb-4 pr-8 pl-6"
+                      />
+                    </li>
+                  )
+              )}
           </ul>
         </li>
         <li>

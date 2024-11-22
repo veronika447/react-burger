@@ -8,7 +8,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import NavItem from "../nav-item/nav-item";
+import NavItem from "./nav-item/nav-item";
 
 export default function AppHeader({ sectionId }) {
   return (

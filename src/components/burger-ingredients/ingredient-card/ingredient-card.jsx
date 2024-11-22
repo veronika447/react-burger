@@ -5,7 +5,7 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientType } from "../../utils/types";
+import { ingredientType } from "../../../utils/types";
 
 export default function IngredientCard({
   image,

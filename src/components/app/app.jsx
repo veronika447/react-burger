@@ -8,141 +8,57 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import selectedIngredients from "../../utils/data";
 // import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
+// import Modal from "../modal/modal";
+// import OrderDetails from "../order-details/order-details";
 
 const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 export default function App() {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [ingredients, setIngredients] = useState([]);
-  // const [selectedIngredients, setSelectedIngredients] = useState([]);
-  const selectedIngredients = [
-    {
-      _id: "60666c42cc7b410027a1a9b1",
-      name: "Краторная булка N-200i",
-      type: "bun",
-      proteins: 80,
-      fat: 24,
-      carbohydrates: 53,
-      calories: 420,
-      price: 1255,
-      image: "https://code.s3.yandex.net/react/code/bun-02.png",
-      image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-      image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-      __v: 0,
-    },
-    {
-      _id: "60666c42cc7b410027a1a9b9",
-      name: "Соус традиционный галактический",
-      type: "sauce",
-      proteins: 42,
-      fat: 24,
-      carbohydrates: 42,
-      calories: 99,
-      price: 15,
-      image: "https://code.s3.yandex.net/react/code/sauce-03.png",
-      image_mobile: "https://code.s3.yandex.net/react/code/sauce-03-mobile.png",
-      image_large: "https://code.s3.yandex.net/react/code/sauce-03-large.png",
-      __v: 0,
-    },
-    {
-      _id: "60666c42cc7b410027a1a9b4",
-      name: "Мясо бессмертных моллюсков Protostomia",
-      type: "main",
-      proteins: 433,
-      fat: 244,
-      carbohydrates: 33,
-      calories: 420,
-      price: 1337,
-      image: "https://code.s3.yandex.net/react/code/meat-02.png",
-      image_mobile: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
-      image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
-      __v: 0,
-    },
-    {
-      _id: "60666c42cc7b410027a1a9bc",
-      name: "Плоды Фалленианского дерева",
-      type: "main",
-      proteins: 20,
-      fat: 5,
-      carbohydrates: 55,
-      calories: 77,
-      price: 874,
-      image: "https://code.s3.yandex.net/react/code/sp_1.png",
-      image_mobile: "https://code.s3.yandex.net/react/code/sp_1-mobile.png",
-      image_large: "https://code.s3.yandex.net/react/code/sp_1-large.png",
-      __v: 0,
-    },
-    {
-      _id: "60666c42cc7b410027a1a9bb",
-      name: "Хрустящие минеральные кольца",
-      type: "main",
-      proteins: 808,
-      fat: 689,
-      carbohydrates: 609,
-      calories: 986,
-      price: 300,
-      image: "https://code.s3.yandex.net/react/code/mineral_rings.png",
-      image_mobile:
-        "https://code.s3.yandex.net/react/code/mineral_rings-mobile.png",
-      image_large:
-        "https://code.s3.yandex.net/react/code/mineral_rings-large.png",
-      __v: 0,
-    },
-    {
-      _id: "60666c42cc7b410027a1a9bb",
-      name: "Хрустящие минеральные кольца",
-      type: "main",
-      proteins: 808,
-      fat: 689,
-      carbohydrates: 609,
-      calories: 986,
-      price: 300,
-      image: "https://code.s3.yandex.net/react/code/mineral_rings.png",
-      image_mobile:
-        "https://code.s3.yandex.net/react/code/mineral_rings-mobile.png",
-      image_large:
-        "https://code.s3.yandex.net/react/code/mineral_rings-large.png",
-      __v: 0,
-    },
-  ];
 
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
-      .then((res) => setIngredients(res.data))
-      .catch((error) => console.error(error));
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setIngredients(result.data);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
   }, []);
 
-  console.log(ingredients);
-
-  // const selectedIngredients = [
-  //   "Краторная булка N-200i",
-  //   "Соус традиционный галактический",
-  //   "Мясо бессмертных моллюсков Protostomia",
-  //   "Плоды Фалленианского дерева",
-  //   "Хрустящие минеральные кольца",
-  //   "Хрустящие минеральные кольца",
-  // ].map((el) => data.find((item) => item.name === el));
-
-  return (
-    <>
-      <AppHeader />
-      <main className={styles.main}>
-        <div className={styles.mainContainer}>
-          <BurgerIngredients
-            ingredients={ingredients}
-            selectedIngredients={selectedIngredients}
-          />
-          <BurgerConstructor selectedIngredients={selectedIngredients} />
-        </div>
-      </main>
-      <Modal>
+  if (error) {
+    return <div>Ошибка: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Загрузка...</div>;
+  } else {
+    return (
+      <>
+        <AppHeader />
+        <main className={styles.main}>
+          <div className={styles.mainContainer}>
+            {
+              <BurgerIngredients
+                ingredients={ingredients}
+                selectedIngredients={selectedIngredients}
+              />
+            }
+            {<BurgerConstructor selectedIngredients={selectedIngredients} />}
+          </div>
+        </main>
+        {/* <Modal> */}
         {/* <IngredientDetails ingredient={selectedIngredients[0]} /> */}
-        <OrderDetails orderNumber="034536" />
-      </Modal>
-      ,
-    </>
-  );
+        {/* <OrderDetails orderNumber="034536" /> */}
+        {/* </Modal> */},
+      </>
+    );
+  }
 }

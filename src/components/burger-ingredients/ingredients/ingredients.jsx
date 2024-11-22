@@ -2,7 +2,7 @@ import styles from "./ingredients.module.css";
 import PropTypes from "prop-types";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
-import { ingredientType } from "../../utils/types";
+import { ingredientType } from "../../../utils/types";
 
 export default function Ingredients({
   value,
