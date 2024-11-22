@@ -32,7 +32,7 @@ export default function App() {
         },
         (error) => {
           setIsLoaded(true);
-          setError(error);
+          setError(error.message);
         }
       );
   }, []);
@@ -47,20 +47,15 @@ export default function App() {
     setSelectedIngredientId(null);
   }
 
-  function onEscClick(e) {
-    if (e.key === "Escape") e.preventDefault();
-    closeModalWindow();
-  }
-
-  useEffect(() => {
-    document.addEventListener("keyup", onEscClick);
-  });
-
   if (error) {
     return <div>Ошибка: {error.message}</div>;
   }
   if (!isLoaded) {
-    return <div>Загрузка...</div>;
+    return (
+      <div className={styles.loaderContainer}>
+        <span className={styles.loader}></span>;
+      </div>
+    );
   }
 
   return (
@@ -68,23 +63,23 @@ export default function App() {
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.mainContainer}>
-          {
-            <BurgerIngredients
-              ingredients={ingredients}
-              selectedIngredients={selectedIngredients}
-              openModalWindow={openModalWindow}
-            />
-          }
-          {
-            <BurgerConstructor
-              selectedIngredients={selectedIngredients}
-              openModalWindow={openModalWindow}
-            />
-          }
+          <BurgerIngredients
+            ingredients={ingredients}
+            selectedIngredients={selectedIngredients}
+            openModalWindow={openModalWindow}
+          />
+          <BurgerConstructor
+            selectedIngredients={selectedIngredients}
+            openModalWindow={openModalWindow}
+          />
         </div>
       </main>
+
       {modalState && (
-        <Modal closeModalWindow={closeModalWindow}>
+        <Modal
+          closeModalWindow={closeModalWindow}
+          title={modalState === "ingredient" && "Детали ингредиента"}
+        >
           {modalState === "ingredient" ? (
             <IngredientDetails
               ingredients={ingredients}

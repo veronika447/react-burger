@@ -20,10 +20,7 @@ export default function Ingredients({
           .map((ingredient) => (
             <IngredientCard
               key={ingredient._id}
-              image={ingredient.image}
-              name={ingredient.name}
-              price={ingredient.price}
-              id={ingredient._id}
+              ingredient={ingredient}
               selectedIngredients={selectedIngredients}
               openModalWindow={openModalWindow}
             />

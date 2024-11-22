@@ -4,9 +4,9 @@ import pathImg from "../../images/done.png";
 export default function OrderDetails({ orderNumber }) {
   return (
     <div className={styles.orderDetails}>
-      <h2 className={styles.orderNumber + " text text_type_digits-large mt-20"}>
+      <h3 className={styles.orderNumber + " text text_type_digits-large"}>
         {orderNumber}
-      </h2>
+      </h3>
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
       <img className={styles.icon + " mt-15"} alt="done" src={pathImg} ></img>
       <p className="text text_type_main-small mt-15">

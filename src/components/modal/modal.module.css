@@ -15,6 +15,10 @@
   cursor: pointer;
 }
 
+.modalTitle {
+  width: 100%;
+}
+
 @media screen and (max-height: 700px) {
   .modalWindow {
     height: 75vh;
