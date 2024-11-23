@@ -24,17 +24,21 @@ export default function App() {
 
   useEffect(() => {
     fetch(API_URL)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setIngredients(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error.message);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
         }
-      );
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then((result) => {
+        setIngredients(result.data);
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setIsLoaded(true);
+      });
   }, []);
 
   function openModalWindow(value, id) {

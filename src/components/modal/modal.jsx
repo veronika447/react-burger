@@ -8,20 +8,19 @@ import PropTypes from "prop-types";
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal({ children, closeModalWindow, title }) {
-  function onEscClick(e) {
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeModalWindow();
-    }
-  }
-
   useEffect(() => {
+    function onEscClick(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeModalWindow();
+      }
+    }
     document.addEventListener("keyup", onEscClick);
 
     return () => {
       document.removeEventListener("keyup", onEscClick);
     };
-  }, []);
+  }, [closeModalWindow]);
 
   return createPortal(
     <>
