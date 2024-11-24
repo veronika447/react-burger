@@ -1,0 +1,12 @@
+.burgersIngredientSection {
+  width: 600px;
+}
+
+.tabsContainer {
+  display: flex;
+}
+
+.ingredientContainer {
+  height: 50vh;
+  overflow-y: scroll;
+}

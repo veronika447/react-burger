@@ -1,0 +1,27 @@
+.ingredientDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredientImage {
+  width: 520px;
+  height: 240px;
+}
+
+.nutritionalValueContainer {
+  display: flex;
+  column-gap: 20px;
+}
+
+.nutritionalValue {
+  min-width: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 8px;
+}
+
+.value {
+  display: block;
+}
