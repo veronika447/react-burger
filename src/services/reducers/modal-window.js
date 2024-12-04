@@ -1,46 +1,18 @@
-import {
-  ADD_DETAILS,
-  REMOVE_DETAILS,
-  OPEN_ORDER_WINDOW,
-} from "../actions/modal-window";
+import { OPEN_MODAL_WINDOW, CLOSE_MODAL_WINDOW } from "../actions/modal-window";
 
 const initialState = {
-  window: null,
-  info: {
-    src: "",
-    name: "",
-    calories: "",
-    proteins: "",
-    fat: "",
-    carbohydrates: "",
-  },
+  value: null,
 };
 
-export const ingredientDetailsReducer = (state = initialState, action) => {
+export const modalStateReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_DETAILS: {
+    case OPEN_MODAL_WINDOW: {
       return {
-        ...state,
-        window: "ingredient",
-        info: {
-          ...state.info,
-          src: action.ingredient.image_large,
-          name: action.ingredient.name,
-          calories: action.ingredient.calories,
-          proteins: action.ingredient.proteins,
-          fat: action.ingredient.fat,
-          carbohydrates: action.ingredient.carbohydrates,
-        },
+        value: action.value,
       };
     }
-    case REMOVE_DETAILS: {
+    case CLOSE_MODAL_WINDOW: {
       return initialState;
-    }
-    case OPEN_ORDER_WINDOW: {
-      return {
-        ...initialState,
-        window: "order",
-      };
     }
     default: {
       return state;

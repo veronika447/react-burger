@@ -1,7 +1,8 @@
 import styles from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { ADD_DETAILS } from "../../../services/actions/modal-window";
+import { ADD_DETAILS } from "../../../services/actions/ingredient-details";
+import { OPEN_MODAL_WINDOW } from "../../../services/actions/modal-window";
 
 import {
   Counter,
@@ -15,6 +16,10 @@ export default function IngredientCard({ ingredient, selectedIngredients }) {
     dispatch({
       type: ADD_DETAILS,
       ingredient: item,
+    });
+    dispatch({
+      type: OPEN_MODAL_WINDOW,
+      value: "ingredient",
     });
   };
   return (

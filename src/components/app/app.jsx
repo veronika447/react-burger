@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./app.module.css";
 
@@ -20,7 +20,8 @@ export const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 export default function App() {
   const { ingredientsRequest, ingredientsFailed, error, ingredients } =
     useSelector((store) => store.ingredients);
-  const modalWindow = useSelector((store) => store.details);
+  const ingredientDetails = useSelector((store) => store.details);
+  const modalState = useSelector((store) => store.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,12 +52,12 @@ export default function App() {
         </div>
       </main>
 
-      {modalWindow.window && (
+      {modalState.value && (
         <Modal
-          title={modalWindow.window === "ingredient" && "Детали ингредиента"}
+          title={modalState.value === "ingredient" && "Детали ингредиента"}
         >
-          {modalWindow.window === "ingredient" ? (
-            <IngredientDetails {...modalWindow.info} />
+          {modalState.value === "ingredient" ? (
+            <IngredientDetails {...ingredientDetails} />
           ) : (
             <OrderDetails orderNumber="034536" />
           )}

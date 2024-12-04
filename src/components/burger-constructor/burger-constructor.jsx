@@ -1,7 +1,7 @@
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
-import { OPEN_ORDER_WINDOW } from "../../services/actions/modal-window";
 import { useDispatch } from "react-redux";
+import { OPEN_MODAL_WINDOW } from "../../services/actions/modal-window";
 
 import {
   Button,
@@ -15,7 +15,8 @@ export default function BurgerConstructor({ selectedIngredients }) {
   const dispatch = useDispatch();
   const openModalWindow = () => {
     dispatch({
-      type: OPEN_ORDER_WINDOW,
+      type: OPEN_MODAL_WINDOW,
+      value: "order",
     });
   };
   const bun = selectedIngredients.find((item) => item.type === "bun");
