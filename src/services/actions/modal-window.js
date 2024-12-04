@@ -1,0 +1,3 @@
+export const ADD_DETAILS = "ADD_DETAILS";
+export const REMOVE_DETAILS = "REMOVE_DETAILS";
+export const OPEN_ORDER_WINDOW = "OPEN_ORDER_WINDOW";

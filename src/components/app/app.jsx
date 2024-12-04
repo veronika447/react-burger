@@ -18,26 +18,14 @@ import { getIngredients } from "../../services/actions/ingredients";
 export const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 export default function App() {
-  const [modalState, setModalState] = useState(null);
-  const [selectedIngredientId, setSelectedIngredientId] = useState(null);
-
   const { ingredientsRequest, ingredientsFailed, error, ingredients } =
     useSelector((store) => store.ingredients);
+  const modalWindow = useSelector((store) => store.details);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
-
-  function openModalWindow(value, id) {
-    setModalState(value);
-    setSelectedIngredientId(id);
-  }
-
-  function closeModalWindow() {
-    setModalState(null);
-    setSelectedIngredientId(null);
-  }
 
   if (ingredientsFailed) {
     return <div>Ошибка: {error}</div>;
@@ -58,25 +46,17 @@ export default function App() {
           <BurgerIngredients
             ingredients={ingredients}
             selectedIngredients={selectedIngredients}
-            openModalWindow={openModalWindow}
           />
-          <BurgerConstructor
-            selectedIngredients={selectedIngredients}
-            openModalWindow={openModalWindow}
-          />
+          <BurgerConstructor selectedIngredients={selectedIngredients} />
         </div>
       </main>
 
-      {modalState && (
+      {modalWindow.window && (
         <Modal
-          closeModalWindow={closeModalWindow}
-          title={modalState === "ingredient" && "Детали ингредиента"}
+          title={modalWindow.window === "ingredient" && "Детали ингредиента"}
         >
-          {modalState === "ingredient" ? (
-            <IngredientDetails
-              ingredients={ingredients}
-              id={selectedIngredientId}
-            />
+          {modalWindow.window === "ingredient" ? (
+            <IngredientDetails {...modalWindow.info} />
           ) : (
             <OrderDetails orderNumber="034536" />
           )}

@@ -1,5 +1,7 @@
 import styles from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { ADD_DETAILS } from "../../../services/actions/modal-window";
 
 import {
   Counter,
@@ -7,15 +9,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../../utils/types";
 
-export default function IngredientCard({
-  ingredient,
-  selectedIngredients,
-  openModalWindow,
-}) {
+export default function IngredientCard({ ingredient, selectedIngredients }) {
+  const dispatch = useDispatch();
+  const openModalWindow = (item) => {
+    dispatch({
+      type: ADD_DETAILS,
+      ingredient: item,
+    });
+  };
   return (
     <div
       className={styles.container}
-      onClick={() => openModalWindow("ingredient", ingredient._id)}
+      onClick={() => openModalWindow(ingredient)}
     >
       {selectedIngredients.some((el) => el.name === ingredient.name) ? (
         <Counter count={1} size="default" extraClass="m-1" />

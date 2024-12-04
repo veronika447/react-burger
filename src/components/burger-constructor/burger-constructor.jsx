@@ -1,5 +1,7 @@
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
+import { OPEN_ORDER_WINDOW } from "../../services/actions/modal-window";
+import { useDispatch } from "react-redux";
 
 import {
   Button,
@@ -9,10 +11,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/types";
 
-export default function BurgerConstructor({
-  selectedIngredients,
-  openModalWindow,
-}) {
+export default function BurgerConstructor({ selectedIngredients }) {
+  const dispatch = useDispatch();
+  const openModalWindow = () => {
+    dispatch({
+      type: OPEN_ORDER_WINDOW,
+    });
+  };
   const bun = selectedIngredients.find((item) => item.type === "bun");
   return (
     <section className={styles.burgerConstructorSection + " pl-4 pr-4 pt-25"}>
@@ -68,7 +73,7 @@ export default function BurgerConstructor({
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => openModalWindow("order", null)}
+          onClick={() => openModalWindow()}
         >
           Оформить заказ
         </Button>
