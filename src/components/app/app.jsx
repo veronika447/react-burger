@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./app.module.css";
 
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
@@ -12,33 +13,20 @@ import selectedIngredients from "../../utils/data";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import { getIngredients } from "../../services/actions/ingredients";
 
-const API_URL = "https://norma.nomoreparties.space/api/ingredients";
+export const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 export default function App() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [ingredients, setIngredients] = useState([]);
   const [modalState, setModalState] = useState(null);
   const [selectedIngredientId, setSelectedIngredientId] = useState(null);
 
+  const { ingredientsRequest, ingredientsFailed, error, ingredients } =
+    useSelector((store) => store.ingredients);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    fetch(API_URL)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((result) => {
-        setIngredients(result.data);
-      })
-      .catch((error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setIsLoaded(true);
-      });
+    dispatch(getIngredients());
   }, []);
 
   function openModalWindow(value, id) {
@@ -51,10 +39,10 @@ export default function App() {
     setSelectedIngredientId(null);
   }
 
-  if (error) {
-    return <div>Ошибка: {error.message}</div>;
+  if (ingredientsFailed) {
+    return <div>Ошибка: {error}</div>;
   }
-  if (!isLoaded) {
+  if (ingredientsRequest) {
     return (
       <div className={styles.loaderContainer}>
         <span className={styles.loader}></span>;
