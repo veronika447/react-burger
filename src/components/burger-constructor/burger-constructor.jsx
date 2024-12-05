@@ -13,6 +13,7 @@ import {
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useMemo } from "react";
 
 export default function BurgerConstructor() {
   const selectedIngredients = useSelector((store) => store.burgerConstructor);
@@ -76,6 +77,15 @@ export default function BurgerConstructor() {
       key: value,
     });
   };
+
+  const totalPrice = useMemo(() => {
+    if (selectedIngredients.bun)
+      return (
+        selectedIngredients.bun.price * 2 +
+        selectedIngredients.ingredients.reduce((acc, cur) => acc + cur.price, 0)
+      );
+    return 0;
+  }, [selectedIngredients]);
 
   return (
     <section className={styles.burgerConstructorSection + " pl-4 pr-4 pt-25"}>
@@ -149,7 +159,7 @@ export default function BurgerConstructor() {
       </ul>
       <div className={styles.price + " mt-10"}>
         <p className="text text_type_digits-medium">
-          0
+          {totalPrice + " "}
           <CurrencyIcon type="primary" />
         </p>
         <Button
