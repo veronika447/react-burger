@@ -1,7 +1,7 @@
+import { v4 } from "uuid";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
-  DELETE_BUN,
   DELETE_INGREDIENT,
 } from "../actions/burger-constructor";
 
@@ -21,20 +21,20 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingredients: [...state.ingredients, action.ingredient],
-      };
-    }
-    case DELETE_BUN: {
-      return {
-        ...state,
-        bun: initialState.bun,
+        ingredients: [
+          ...state.ingredients,
+          {
+            ...action.ingredient,
+            key: v4(),
+          },
+        ],
       };
     }
     case DELETE_INGREDIENT: {
       return {
         ...state,
         ingredients: [...state.ingredients].filter(
-          (element) => element._id !== action.ingredient._id
+          (element) => element.key !== action.key
         ),
       };
     }

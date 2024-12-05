@@ -1,6 +1,5 @@
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
 
 export default function IngredientDetails({
   src,
@@ -10,7 +9,6 @@ export default function IngredientDetails({
   fat,
   carbohydrates,
 }) {
-  // const ingredient = ingredients.find((item) => item._id === id);
   return (
     <div className={styles.ingredientDetails}>
       <img src={src} alt={name} className={styles.ingredientImage} />
@@ -66,6 +64,10 @@ export default function IngredientDetails({
 }
 
 IngredientDetails.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType),
-  id: PropTypes.string,
+  src: PropTypes.string,
+  name: PropTypes.string,
+  calories: PropTypes.number,
+  proteins: PropTypes.number,
+  fat: PropTypes.number,
+  carbohydrates: PropTypes.number,
 };

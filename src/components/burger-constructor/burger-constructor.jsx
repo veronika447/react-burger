@@ -1,19 +1,21 @@
 import styles from "./burger-constructor.module.css";
-// import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
 import { OPEN_MODAL_WINDOW } from "../../services/actions/modal-window";
-import { v4 } from "uuid";
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+} from "../../services/actions/burger-constructor";
 import {
   Button,
   ConstructorElement,
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-// import { ingredientType } from "../../utils/types";
 
 export default function BurgerConstructor() {
   const selectedIngredients = useSelector((store) => store.burgerConstructor);
-  console.log(selectedIngredients);
   const dispatch = useDispatch();
   const openModalWindow = () => {
     dispatch({
@@ -21,17 +23,75 @@ export default function BurgerConstructor() {
       value: "order",
     });
   };
+
+  const [{ isHoverTopBun }, topBunRef] = useDrop({
+    accept: "bun",
+    collect: (monitor) => ({
+      isHoverTopBun: monitor.isOver(),
+    }),
+    drop(item) {
+      dispatch({
+        type: ADD_BUN,
+        bun: item,
+      });
+    },
+  });
+
+  const [{ isHoverBottomBun }, bottomBunRef] = useDrop({
+    accept: "bun",
+    collect: (monitor) => ({
+      isHoverBottomBun: monitor.isOver(),
+    }),
+    drop(item) {
+      dispatch({
+        type: ADD_BUN,
+        bun: item,
+      });
+    },
+  });
+
+  const [{ isHoverFiling }, filingRef] = useDrop({
+    accept: "filing",
+    collect: (monitor) => ({
+      isHoverFiling: monitor.isOver(),
+    }),
+    drop(item) {
+      dispatch({
+        type: ADD_INGREDIENT,
+        ingredient: item,
+      });
+    },
+  });
+
+  const boxShadowBun =
+    isHoverTopBun || isHoverBottomBun ? "0px 0px 10px  2px lightblue" : "none";
+
+  const boxShadowFiling = isHoverFiling
+    ? "0px 0px 10px  2px lightblue"
+    : "none";
+
+  const deleteIngredient = (value, id) => {
+    dispatch({
+      type: DELETE_INGREDIENT,
+      key: value,
+    });
+  };
+
   return (
     <section className={styles.burgerConstructorSection + " pl-4 pr-4 pt-25"}>
       <ul className={styles.list}>
-        <li>
+        <li
+          ref={topBunRef}
+          className={styles.listItem}
+          style={{ boxShadow: boxShadowBun }}
+        >
           {selectedIngredients.bun ? (
             <ConstructorElement
               type="top"
               isLocked={true}
               text={selectedIngredients.bun.name + " (верх)"}
               price={selectedIngredients.bun.price}
-              thumbnail={selectedIngredients.bun.image_mobile}
+              thumbnail={selectedIngredients.bun.image}
               extraClass="ml-8 pt-4 pb-4 pr-8 pl-6 mr-4"
             />
           ) : (
@@ -42,17 +102,18 @@ export default function BurgerConstructor() {
             </p>
           )}
         </li>
-        <li>
+        <li ref={filingRef} style={{ boxShadow: boxShadowFiling }}>
           {selectedIngredients.ingredients.length ? (
             <ul className={styles.listFilling}>
               {selectedIngredients.ingredients.map((el) => (
-                <li key={v4()} className={styles.listFillingItem}>
+                <li key={el.key} className={styles.listFillingItem}>
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={el.name}
                     price={el.price}
-                    thumbnail={el.image_mobile}
+                    thumbnail={el.image}
                     extraClass="pt-4 pb-4 pr-8 pl-6"
+                    handleClose={() => deleteIngredient(el.key, el._id)}
                   />
                 </li>
               ))}
@@ -67,14 +128,14 @@ export default function BurgerConstructor() {
             </p>
           )}
         </li>
-        <li>
+        <li ref={bottomBunRef} style={{ boxShadow: boxShadowBun }}>
           {selectedIngredients.bun ? (
             <ConstructorElement
               type="bottom"
               isLocked={true}
               text={selectedIngredients.bun.name + " (низ)"}
               price={selectedIngredients.bun.price}
-              thumbnail={selectedIngredients.bun.image_mobile}
+              thumbnail={selectedIngredients.bun.image}
               extraClass="ml-8 pt-4 pb-4 pr-8 pl-6 mr-4"
             />
           ) : (
@@ -103,10 +164,3 @@ export default function BurgerConstructor() {
     </section>
   );
 }
-
-// BurgerConstructor.propTypes = {
-//   selectedIngredients: PropTypes.objectOf(
-//     PropTypes(ingredientType),
-//     PropTypes.arrayOf(ingredientType)
-//   ),
-// };

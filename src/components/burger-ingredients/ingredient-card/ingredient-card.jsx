@@ -1,17 +1,18 @@
 import styles from "./ingredient-card.module.css";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ADD_DETAILS } from "../../../services/actions/ingredient-details";
 import { OPEN_MODAL_WINDOW } from "../../../services/actions/modal-window";
+import { useDrag } from "react-dnd";
 
 import {
-  Counter,
   CurrencyIcon,
+  Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../../utils/types";
 
-export default function IngredientCard({ ingredient, selectedIngredients }) {
+export default function IngredientCard({ ingredient }) {
   const dispatch = useDispatch();
+  const selectedIngredients = useSelector((store) => store.burgerConstructor);
   const openModalWindow = (item) => {
     dispatch({
       type: ADD_DETAILS,
@@ -22,13 +23,29 @@ export default function IngredientCard({ ingredient, selectedIngredients }) {
       value: "ingredient",
     });
   };
+
+  const count =
+    ingredient.type === "bun"
+      ? selectedIngredients.bun?._id === ingredient._id
+        ? 2
+        : 0
+      : selectedIngredients.ingredients.filter(
+          (el) => el._id === ingredient._id
+        ).length;
+
+  const [{}, dragRef] = useDrag({
+    type: ingredient.type === "bun" ? "bun" : "filing",
+    item: ingredient,
+  });
   return (
     <div
       className={styles.container}
       onClick={() => openModalWindow(ingredient)}
+      ref={dragRef}
+      draggable
     >
-      {selectedIngredients.some((el) => el.name === ingredient.name) ? (
-        <Counter count={1} size="default" extraClass="m-1" />
+      {count > 0 ? (
+        <Counter count={count} size="default" extraClass="m-1" />
       ) : null}
 
       <img
@@ -49,6 +66,4 @@ export default function IngredientCard({ ingredient, selectedIngredients }) {
 
 IngredientCard.propTypes = {
   ingredient: ingredientType,
-  selectedIngredients: PropTypes.arrayOf(ingredientType),
-  openModalWindow: PropTypes.func,
 };
