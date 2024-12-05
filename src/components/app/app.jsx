@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./app.module.css";
 
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
@@ -42,15 +44,17 @@ export default function App() {
   return (
     <>
       <AppHeader />
-      <main className={styles.main}>
-        <div className={styles.mainContainer}>
-          <BurgerIngredients
-            ingredients={ingredients}
-            selectedIngredients={selectedIngredients}
-          />
-          <BurgerConstructor selectedIngredients={selectedIngredients} />
-        </div>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <div className={styles.mainContainer}>
+            <BurgerIngredients
+              ingredients={ingredients}
+              selectedIngredients={selectedIngredients}
+            />
+            <BurgerConstructor />
+          </div>
+        </main>
+      </DndProvider>
 
       {modalState.value && (
         <Modal

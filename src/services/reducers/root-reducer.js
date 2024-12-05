@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from "./ingredients";
-import { constructorReducer } from "./constructor";
+import { constructorReducer } from "./burger-constructor";
 import { ingredientDetailsReducer } from "./ingredient-details";
 import { modalStateReducer } from "./modal-window";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  constructor: constructorReducer,
+  burgerConstructor: constructorReducer,
   details: ingredientDetailsReducer,
   modal: modalStateReducer,
 });

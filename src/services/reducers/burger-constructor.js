@@ -3,7 +3,7 @@ import {
   ADD_INGREDIENT,
   DELETE_BUN,
   DELETE_INGREDIENT,
-} from "../actions/constructor";
+} from "../actions/burger-constructor";
 
 const initialState = {
   bun: null,

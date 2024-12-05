@@ -1,4 +1,4 @@
-import Ingredients from "./ingredients/ingredients";
+import { Ingredients } from "./ingredients/ingredients";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 
