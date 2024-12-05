@@ -84,7 +84,10 @@ export default function BurgerConstructor() {
         selectedIngredients.bun.price * 2 +
         selectedIngredients.ingredients.reduce((acc, cur) => acc + cur.price, 0)
       );
-    return 0;
+    return selectedIngredients.ingredients.reduce(
+      (acc, cur) => acc + cur.price,
+      0
+    );
   }, [selectedIngredients]);
 
   return (
