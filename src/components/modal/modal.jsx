@@ -4,14 +4,16 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { REMOVE_DETAILS } from "../../services/actions/ingredient-details";
 import { CLOSE_MODAL_WINDOW } from "../../services/actions/modal-window";
+import { RESET_CONSTRUCTOR } from "../../services/actions/burger-constructor";
 
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal({ children, title }) {
   const dispatch = useDispatch();
+  const modalState = useSelector((store) => store.modal.value);
   const closeModalWindow = () => {
     dispatch({
       type: REMOVE_DETAILS,
@@ -19,6 +21,11 @@ export default function Modal({ children, title }) {
     dispatch({
       type: CLOSE_MODAL_WINDOW,
     });
+    if (modalState === "order") {
+      dispatch({
+        type: RESET_CONSTRUCTOR,
+      });
+    }
   };
 
   useEffect(() => {

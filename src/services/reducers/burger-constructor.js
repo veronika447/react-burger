@@ -4,6 +4,7 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   SORT_INGREDIENT,
+  RESET_CONSTRUCTOR,
 } from "../actions/burger-constructor";
 
 const initialState = {
@@ -50,6 +51,9 @@ export const constructorReducer = (state = initialState, action) => {
         ...state,
         ingredients: ingredients.filter((item) => item),
       };
+    }
+    case RESET_CONSTRUCTOR: {
+      return initialState;
     }
     default: {
       return state;

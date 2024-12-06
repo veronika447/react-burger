@@ -7,7 +7,6 @@ import {
 const initialState = {
   orderRequest: false,
   orderFailed: false,
-  error: null,
   orderNumber: null,
 };
 

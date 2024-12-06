@@ -19,12 +19,12 @@ import { getIngredients } from "../../services/actions/ingredients";
 export const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 export default function App() {
-  const { ingredientsRequest, ingredientsFailed, error } = useSelector(
+  const { ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   );
   const ingredientDetails = useSelector((store) => store.details);
   const modalState = useSelector((store) => store.modal);
-  const { orderRequest, orderFailed, orderError } = useSelector(
+  const { orderRequest, orderFailed } = useSelector(
     (store) => store.order
   );
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export default function App() {
   }, []);
 
   if (ingredientsFailed) {
-    return <div>Ошибка: {error}</div>;
+    return <div>Ошибка</div>;
   }
   if (ingredientsRequest) {
     return (
@@ -44,7 +44,7 @@ export default function App() {
     );
   }
   if (orderFailed) {
-    return <div> При создании заказа произошла ошибка: {orderError}</div>;
+    return <div> При создании заказа произошла ошибка</div>;
   }
   if (orderRequest) {
     return (
