@@ -1,8 +1,9 @@
 import styles from "./order-details.module.css";
 import pathImg from "../../images/done.png";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-export default function OrderDetails({ orderNumber }) {
+export default function OrderDetails() {
+  const orderNumber = useSelector((store) => store.order.orderNumber);
   return (
     <div className={styles.orderDetails}>
       <h3 className={styles.orderNumber + " text text_type_digits-large"}>
@@ -20,6 +21,3 @@ export default function OrderDetails({ orderNumber }) {
   );
 }
 
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.string,
-};

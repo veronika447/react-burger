@@ -15,11 +15,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
+import { getOrderNumber } from "../../services/actions/order";
 
 export default function BurgerConstructor() {
   const selectedIngredients = useSelector((store) => store.burgerConstructor);
   const dispatch = useDispatch();
   const openModalWindow = () => {
+    dispatch(getOrderNumber());
     dispatch({
       type: OPEN_MODAL_WINDOW,
       value: "order",

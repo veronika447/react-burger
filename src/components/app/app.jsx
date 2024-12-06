@@ -24,6 +24,9 @@ export default function App() {
   );
   const ingredientDetails = useSelector((store) => store.details);
   const modalState = useSelector((store) => store.modal);
+  const { orderRequest, orderFailed, orderError } = useSelector(
+    (store) => store.order
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +39,17 @@ export default function App() {
   if (ingredientsRequest) {
     return (
       <div className={styles.loaderContainer}>
-        <span className={styles.loader}></span>;
+        <span className={styles.loader}></span>
+      </div>
+    );
+  }
+  if (orderFailed) {
+    return <div> При создании заказа произошла ошибка: {orderError}</div>;
+  }
+  if (orderRequest) {
+    return (
+      <div className={styles.loaderContainer}>
+        <span className={styles.loader}></span>
       </div>
     );
   }
@@ -60,7 +73,7 @@ export default function App() {
           {modalState.value === "ingredient" ? (
             <IngredientDetails {...ingredientDetails} />
           ) : (
-            <OrderDetails orderNumber="034536" />
+            <OrderDetails />
           )}
         </Modal>
       )}
