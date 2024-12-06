@@ -1,4 +1,5 @@
 import styles from "./draggable-ingredient-wrapper.module.css";
+import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
@@ -58,4 +59,10 @@ export const DraggableIngredientWrapper = ({ children, id, index }) => {
       {children}
     </li>
   );
+};
+
+DraggableIngredientWrapper.propTypes = {
+  children: PropTypes.node,
+  id: PropTypes.string,
+  index: PropTypes.number,
 };
