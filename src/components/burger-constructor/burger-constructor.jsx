@@ -4,8 +4,8 @@ import { useDrop } from "react-dnd";
 import { OPEN_MODAL_WINDOW } from "../../services/actions/modal-window";
 import {
   ADD_BUN,
-  ADD_INGREDIENT,
   DELETE_INGREDIENT,
+  addIngredient,
 } from "../../services/actions/burger-constructor";
 import {
   Button,
@@ -60,10 +60,8 @@ export default function BurgerConstructor() {
       isHoverFiling: monitor.isOver(),
     }),
     drop(item) {
-      dispatch({
-        type: ADD_INGREDIENT,
-        ingredient: item,
-      });
+      console.log(selectedIngredients);
+      dispatch(addIngredient(item));
     },
   });
 
@@ -123,7 +121,7 @@ export default function BurgerConstructor() {
             <ul className={styles.listFilling}>
               {selectedIngredients.ingredients.map((el, index) => (
                 <DraggableIngredientWrapper
-                  key={el.key}
+                  key={el.uniqueId}
                   id={el._id}
                   index={index}
                 >

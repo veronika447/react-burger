@@ -1,4 +1,3 @@
-import { v4 } from "uuid";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
@@ -26,8 +25,7 @@ export const constructorReducer = (state = initialState, action) => {
         ingredients: [
           ...state.ingredients,
           {
-            ...action.ingredient,
-            key: v4(),
+            ...action.payload,
           },
         ],
       };
