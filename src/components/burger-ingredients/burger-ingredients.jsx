@@ -15,11 +15,7 @@ export default function BurgerIngredients() {
 
   const handleOnScroll = (e) => {
     e.preventDefault();
-    const arr = [];
-    console.log("container: ", containerRef.current);
-    console.log("bun: ", bunsRef.current);
-    console.log("sauce: ", sauceRef.current);
-    console.log("main: ", mainRef.current);
+    const distances = [];
     if (
       !containerRef.current ||
       !bunsRef.current ||
@@ -34,11 +30,10 @@ export default function BurgerIngredients() {
     const bunsPositionY = bunsRef.current.getBoundingClientRect().y;
     const saucePositionY = sauceRef.current.getBoundingClientRect().y;
     const mainPositionY = mainRef.current.getBoundingClientRect().y;
-    arr.push(Math.abs(bunsPositionY - containerPositionY));
-    arr.push(Math.abs(saucePositionY - containerPositionY));
-    arr.push(Math.abs(mainPositionY - containerPositionY));
-    const [bunsDistance, sauceDistance, mainDistance] = arr;
-    console.log(arr);
+    distances.push(Math.abs(bunsPositionY - containerPositionY));
+    distances.push(Math.abs(saucePositionY - containerPositionY));
+    distances.push(Math.abs(mainPositionY - containerPositionY));
+    const [bunsDistance, sauceDistance, mainDistance] = distances;
     if (bunsDistance <= sauceDistance && bunsDistance < mainDistance) {
       setIsBunActive(true);
       setIsMainActive(false);
