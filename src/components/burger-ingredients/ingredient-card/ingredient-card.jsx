@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_DETAILS,
-  REMOVE_DETAILS,
 } from "../../../services/actions/ingredient-details";
 import { CHANGE_VALUE } from "../../../services/actions/modal-window";
 import { useDrag } from "react-dnd";

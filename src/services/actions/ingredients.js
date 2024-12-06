@@ -1,4 +1,3 @@
-import { API_URL } from "../../components/app/app";
 import { request } from "../../utils/request";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
@@ -10,7 +9,7 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS,
     });
-    request(API_URL)
+    request("/ingredients")
       .then((res) => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,

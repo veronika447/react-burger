@@ -1,5 +1,6 @@
 import { checkResponse } from "./checkResponse";
+import { BASE_URL } from "../components/app/app";
 
-export function request(url, options) {
-  return fetch(url, options).then(checkResponse);
+export function request(endPoint, options) {
+  return fetch(BASE_URL + endPoint, options).then(checkResponse);
 }

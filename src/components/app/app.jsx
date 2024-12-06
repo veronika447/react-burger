@@ -16,7 +16,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { getIngredients } from "../../services/actions/ingredients";
 
-export const API_URL = "https://norma.nomoreparties.space/api/ingredients";
+export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {
   const dispatch = useDispatch();

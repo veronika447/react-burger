@@ -1,5 +1,4 @@
 import { request } from "../../utils/request";
-const ORDER_API = "https://norma.nomoreparties.space/api/orders";
 
 export const GET_ORDER = "GET_ORDER";
 export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
@@ -15,7 +14,7 @@ export function getOrderNumber() {
       ...getState().burgerConstructor.ingredients.map((item) => item._id),
       getState().burgerConstructor.bun._id,
     ];
-    request(ORDER_API, {
+    request("/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
