@@ -60,7 +60,6 @@ export default function BurgerConstructor() {
       isHoverFiling: monitor.isOver(),
     }),
     drop(item) {
-      console.log(selectedIngredients);
       dispatch(addIngredient(item));
     },
   });
@@ -75,7 +74,7 @@ export default function BurgerConstructor() {
   const deleteIngredient = (value) => {
     dispatch({
       type: DELETE_INGREDIENT,
-      key: value,
+      uniqueId: value,
     });
   };
 
@@ -131,7 +130,7 @@ export default function BurgerConstructor() {
                     price={el.price}
                     thumbnail={el.image}
                     extraClass="pt-4 pb-4 pr-8 pl-6"
-                    handleClose={() => deleteIngredient(el.key, el._id)}
+                    handleClose={() => deleteIngredient(el.uniqueId, el._id)}
                   />
                 </DraggableIngredientWrapper>
               ))}

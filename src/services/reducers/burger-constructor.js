@@ -34,7 +34,7 @@ export const constructorReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: [...state.ingredients].filter(
-          (element) => element.key !== action.key
+          (element) => element.uniqueId !== action.uniqueId
         ),
       };
     }
