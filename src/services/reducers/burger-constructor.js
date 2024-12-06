@@ -3,6 +3,7 @@ import {
   ADD_BUN,
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
+  SORT_INGREDIENT,
 } from "../actions/burger-constructor";
 
 const initialState = {
@@ -36,6 +37,18 @@ export const constructorReducer = (state = initialState, action) => {
         ingredients: [...state.ingredients].filter(
           (element) => element.key !== action.key
         ),
+      };
+    }
+    case SORT_INGREDIENT: {
+      const ingredients = [...state.ingredients];
+      ingredients.splice(
+        action.hoverIndex,
+        0,
+        ingredients.splice(action.dragIndex, 1)[0]
+      );
+      return {
+        ...state,
+        ingredients: ingredients.filter((item) => item),
       };
     }
     default: {

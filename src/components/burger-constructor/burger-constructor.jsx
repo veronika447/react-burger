@@ -14,6 +14,7 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
+import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
 
 export default function BurgerConstructor() {
   const selectedIngredients = useSelector((store) => store.burgerConstructor);
@@ -71,7 +72,7 @@ export default function BurgerConstructor() {
     ? "0px 0px 10px  2px lightblue"
     : "none";
 
-  const deleteIngredient = (value, id) => {
+  const deleteIngredient = (value) => {
     dispatch({
       type: DELETE_INGREDIENT,
       key: value,
@@ -118,8 +119,12 @@ export default function BurgerConstructor() {
         <li ref={filingRef} style={{ boxShadow: boxShadowFiling }}>
           {selectedIngredients.ingredients.length ? (
             <ul className={styles.listFilling}>
-              {selectedIngredients.ingredients.map((el) => (
-                <li key={el.key} className={styles.listFillingItem}>
+              {selectedIngredients.ingredients.map((el, index) => (
+                <DraggableIngredientWrapper
+                  key={el.key}
+                  id={el._id}
+                  index={index}
+                >
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={el.name}
@@ -128,7 +133,7 @@ export default function BurgerConstructor() {
                     extraClass="pt-4 pb-4 pr-8 pl-6"
                     handleClose={() => deleteIngredient(el.key, el._id)}
                   />
-                </li>
+                </DraggableIngredientWrapper>
               ))}
             </ul>
           ) : (

@@ -26,12 +26,6 @@
   padding: 0;
 }
 
-.listFillingItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .price {
   display: flex;
   column-gap: 40px;
