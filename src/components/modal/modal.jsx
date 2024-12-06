@@ -4,35 +4,15 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { REMOVE_DETAILS } from "../../services/actions/ingredient-details";
-import { CLOSE_MODAL_WINDOW } from "../../services/actions/modal-window";
-import { RESET_CONSTRUCTOR } from "../../services/actions/burger-constructor";
 
 const modalRoot = document.getElementById("react-modals");
 
-export default function Modal({ children, title }) {
-  const dispatch = useDispatch();
-  const modalState = useSelector((store) => store.modal.value);
-  const closeModalWindow = () => {
-    dispatch({
-      type: REMOVE_DETAILS,
-    });
-    dispatch({
-      type: CLOSE_MODAL_WINDOW,
-    });
-    if (modalState === "order") {
-      dispatch({
-        type: RESET_CONSTRUCTOR,
-      });
-    }
-  };
-
+export default function Modal({ children, title, onClose }) {
   useEffect(() => {
     function onEscClick(e) {
       if (e.key === "Escape") {
         e.preventDefault();
-        closeModalWindow();
+        onClose();
       }
     }
     document.addEventListener("keyup", onEscClick);
@@ -44,12 +24,12 @@ export default function Modal({ children, title }) {
 
   return createPortal(
     <>
-      <ModalOverlay />
+      <ModalOverlay onClose={onClose} />
       <div className={styles.modalWindow + " pt-10 pl-10 pr-10 pb-15"}>
         <h2 className={styles.modalTitle + " text text_type_main-large mt-1"}>
           {title}
         </h2>
-        <div className={styles.icon} onClick={() => closeModalWindow()}>
+        <div className={styles.icon} onClick={() => onClose()}>
           <CloseIcon type="primary" />
         </div>
         {children}
@@ -62,4 +42,5 @@ export default function Modal({ children, title }) {
 Modal.propTypes = {
   children: PropTypes.node,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  onClose: PropTypes.func,
 };

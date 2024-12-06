@@ -1,7 +1,8 @@
 import styles from "./burger-constructor.module.css";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { OPEN_MODAL_WINDOW } from "../../services/actions/modal-window";
+import { CHANGE_VALUE } from "../../services/actions/modal-window";
 import {
   ADD_BUN,
   DELETE_INGREDIENT,
@@ -17,15 +18,16 @@ import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
 import { getOrderNumber } from "../../services/actions/order";
 
-export default function BurgerConstructor() {
-  const selectedIngredients = useSelector((store) => store.burgerConstructor);
+export default function BurgerConstructor({ onOpen }) {
   const dispatch = useDispatch();
+  const selectedIngredients = useSelector((store) => store.burgerConstructor);
   const openModalWindow = () => {
-    dispatch(getOrderNumber());
     dispatch({
-      type: OPEN_MODAL_WINDOW,
+      type: CHANGE_VALUE,
       value: "order",
     });
+    dispatch(getOrderNumber());
+    onOpen();
   };
 
   const [{ isHoverTopBun }, topBunRef] = useDrop({
@@ -181,3 +183,7 @@ export default function BurgerConstructor() {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  onOpen: PropTypes.func,
+};

@@ -1,7 +1,11 @@
 import styles from "./ingredient-card.module.css";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_DETAILS } from "../../../services/actions/ingredient-details";
-import { OPEN_MODAL_WINDOW } from "../../../services/actions/modal-window";
+import {
+  ADD_DETAILS,
+  REMOVE_DETAILS,
+} from "../../../services/actions/ingredient-details";
+import { CHANGE_VALUE } from "../../../services/actions/modal-window";
 import { useDrag } from "react-dnd";
 
 import {
@@ -10,18 +14,20 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../../utils/types";
 
-export default function IngredientCard({ ingredient }) {
+export default function IngredientCard({ ingredient, onOpen }) {
   const dispatch = useDispatch();
   const selectedIngredients = useSelector((store) => store.burgerConstructor);
-  const openModalWindow = (item) => {
+
+  const openIngredientModalWindow = () => {
     dispatch({
-      type: ADD_DETAILS,
-      ingredient: item,
-    });
-    dispatch({
-      type: OPEN_MODAL_WINDOW,
+      type: CHANGE_VALUE,
       value: "ingredient",
     });
+    dispatch({
+      type: ADD_DETAILS,
+      ingredient: ingredient,
+    });
+    onOpen();
   };
 
   const count =
@@ -33,14 +39,14 @@ export default function IngredientCard({ ingredient }) {
           (el) => el._id === ingredient._id
         ).length;
 
-  const [{}, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: ingredient.type === "bun" ? "bun" : "filing",
     item: ingredient,
   });
   return (
     <div
       className={styles.container}
-      onClick={() => openModalWindow(ingredient)}
+      onClick={() => openIngredientModalWindow()}
       ref={dragRef}
       draggable
     >
@@ -66,4 +72,5 @@ export default function IngredientCard({ ingredient }) {
 
 IngredientCard.propTypes = {
   ingredient: ingredientType,
+  onOpen: PropTypes.func,
 };

@@ -1,23 +1,10 @@
 import styles from "./modal-overlay.module.css";
-import { useDispatch } from "react-redux";
-import { REMOVE_DETAILS } from "../../services/actions/ingredient-details";
-import { CLOSE_MODAL_WINDOW } from "../../services/actions/modal-window";
+import PropTypes from "prop-types";
 
-export default function ModalOverlay() {
-  const dispatch = useDispatch();
-  const closeModalWindow = () => {
-    dispatch({
-      type: REMOVE_DETAILS,
-    });
-    dispatch({
-      type: CLOSE_MODAL_WINDOW,
-    });
-  };
-  return (
-    <div
-      className={styles.modalOverlay}
-      onClick={() => closeModalWindow()}
-    ></div>
-  );
+export default function ModalOverlay({ onClose }) {
+  return <div className={styles.modalOverlay} onClick={() => onClose()}></div>;
 }
 
+ModalOverlay.propTypes = {
+  onClose: PropTypes.func,
+};

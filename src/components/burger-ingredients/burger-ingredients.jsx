@@ -1,10 +1,11 @@
 import { Ingredients } from "./ingredients/ingredients";
 import styles from "./burger-ingredients.module.css";
+import PropTypes from "prop-types";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef, useState } from "react";
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({ onOpen }) {
   const containerRef = useRef(null);
   const bunsRef = useRef(null);
   const sauceRef = useRef(null);
@@ -67,10 +68,24 @@ export default function BurgerIngredients() {
         className={styles.ingredientContainer}
         onScroll={(e) => handleOnScroll(e)}
       >
-        <Ingredients value="Булки" type="bun" ref={bunsRef} />
-        <Ingredients value="Соусы" type="sauce" ref={sauceRef} />
-        <Ingredients value="Начинки" type="main" ref={mainRef} />
+        <Ingredients value="Булки" type="bun" onOpen={onOpen} ref={bunsRef} />
+        <Ingredients
+          value="Соусы"
+          type="sauce"
+          onOpen={onOpen}
+          ref={sauceRef}
+        />
+        <Ingredients
+          value="Начинки"
+          type="main"
+          onOpen={onOpen}
+          ref={mainRef}
+        />
       </div>
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  onOpen: PropTypes.func,
+};

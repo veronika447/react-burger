@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -19,19 +19,26 @@ import { getIngredients } from "../../services/actions/ingredients";
 export const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 export default function App() {
+  const dispatch = useDispatch();
   const { ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   );
   const ingredientDetails = useSelector((store) => store.details);
-  const modalState = useSelector((store) => store.modal);
-  const { orderRequest, orderFailed } = useSelector(
-    (store) => store.order
-  );
-  const dispatch = useDispatch();
+  const { orderRequest, orderFailed } = useSelector((store) => store.order);
+  const modalValue = useSelector((store) => store.modalValue.value);
+  const [modalState, setModalState] = useState(false);
 
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
+
+  const openModalWindow = () => {
+    setModalState(true);
+  };
+
+  const closeModalWindow = () => {
+    setModalState(false);
+  };
 
   if (ingredientsFailed) {
     return <div>Ошибка</div>;
@@ -60,17 +67,18 @@ export default function App() {
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
           <div className={styles.mainContainer}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            <BurgerIngredients onOpen={openModalWindow} />
+            <BurgerConstructor onOpen={openModalWindow} />
           </div>
         </main>
       </DndProvider>
 
-      {modalState.value && (
+      {modalState && (
         <Modal
-          title={modalState.value === "ingredient" && "Детали ингредиента"}
+          onClose={closeModalWindow}
+          title={modalValue === "ingredient" && "Детали ингредиента"}
         >
-          {modalState.value === "ingredient" ? (
+          {modalValue === "ingredient" ? (
             <IngredientDetails {...ingredientDetails} />
           ) : (
             <OrderDetails />

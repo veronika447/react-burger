@@ -1,18 +1,15 @@
-import { OPEN_MODAL_WINDOW, CLOSE_MODAL_WINDOW } from "../actions/modal-window";
+import { CHANGE_VALUE } from "../actions/modal-window";
 
 const initialState = {
   value: null,
 };
 
-export const modalStateReducer = (state = initialState, action) => {
+export const modalValueReducer = (state = initialState, action) => {
   switch (action.type) {
-    case OPEN_MODAL_WINDOW: {
+    case CHANGE_VALUE: {
       return {
         value: action.value,
       };
-    }
-    case CLOSE_MODAL_WINDOW: {
-      return initialState;
     }
     default: {
       return state;
