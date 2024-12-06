@@ -1,3 +1,4 @@
+import { checkResponse } from "../../utils/checkResponse";
 const ORDER_API = "https://norma.nomoreparties.space/api/orders";
 
 export const GET_ORDER = "GET_ORDER";
@@ -21,20 +22,12 @@ export function getOrderNumber() {
       },
       body: JSON.stringify({ ingredients: order }),
     })
+      .then(checkResponse)
       .then((res) => {
-        if (res && res.ok) {
-          res.json().then((res) => {
-            dispatch({
-              type: GET_ORDER_SUCCESS,
-              orderNumber: res.order.number,
-            });
-          });
-        } else {
-          dispatch({
-            type: GET_ORDER_FAILED,
-            error: res.status,
-          });
-        }
+        dispatch({
+          type: GET_ORDER_SUCCESS,
+          orderNumber: res.order.number,
+        });
       })
       .catch((err) => {
         dispatch({

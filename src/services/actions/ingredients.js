@@ -1,4 +1,5 @@
 import { API_URL } from "../../components/app/app";
+import { checkResponse } from "../../utils/checkResponse";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
 export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
@@ -11,25 +12,17 @@ export function getIngredients() {
     });
 
     fetch(API_URL)
+      .then(checkResponse)
       .then((res) => {
-        if (res && res.ok) {
-          res.json().then((res) => {
-            dispatch({
-              type: GET_INGREDIENTS_SUCCESS,
-              ingredients: res.data,
-            });
-          });
-        } else {
-          dispatch({
-            type: GET_INGREDIENTS_FAILED,
-            error: res.status,
-          });
-        }
+        dispatch({
+          type: GET_INGREDIENTS_SUCCESS,
+          ingredients: res.data,
+        });
       })
       .catch((err) => {
         dispatch({
           type: GET_INGREDIENTS_FAILED,
-          error: err.message,
+          error: err,
         });
       });
   };
