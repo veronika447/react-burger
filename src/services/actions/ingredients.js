@@ -1,5 +1,5 @@
 import { API_URL } from "../../components/app/app";
-import { checkResponse } from "../../utils/checkResponse";
+import { request } from "../../utils/request";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
 export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
@@ -10,9 +10,7 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS,
     });
-
-    fetch(API_URL)
-      .then(checkResponse)
+    request(API_URL)
       .then((res) => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,

@@ -1,4 +1,4 @@
-import { checkResponse } from "../../utils/checkResponse";
+import { request } from "../../utils/request";
 const ORDER_API = "https://norma.nomoreparties.space/api/orders";
 
 export const GET_ORDER = "GET_ORDER";
@@ -15,14 +15,13 @@ export function getOrderNumber() {
       ...getState().burgerConstructor.ingredients.map((item) => item._id),
       getState().burgerConstructor.bun._id,
     ];
-    fetch(ORDER_API, {
+    request(ORDER_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({ ingredients: order }),
     })
-      .then(checkResponse)
       .then((res) => {
         dispatch({
           type: GET_ORDER_SUCCESS,
