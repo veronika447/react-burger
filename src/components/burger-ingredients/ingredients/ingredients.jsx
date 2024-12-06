@@ -8,16 +8,13 @@ import IngredientCard from "../ingredient-card/ingredient-card";
 export const Ingredients = forwardRef(({ value, type }, ref) => {
   const ingredients = useSelector((store) => store.ingredients.ingredients);
   return (
-    <section>
+    <section ref={ref}>
       <h2 className="text text_type_main-medium mt-10">{value}</h2>
       <div className={styles.container + " pt-6 pb-10"}>
         {ingredients
           .filter((ingredient) => ingredient.type === type)
           .map((ingredient) => (
-            <IngredientCard
-              key={ingredient._id}
-              ingredient={ingredient}
-            />
+            <IngredientCard key={ingredient._id} ingredient={ingredient} />
           ))}
       </div>
     </section>
