@@ -14,18 +14,17 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { getIngredients } from "../../services/actions/ingredients";
-
+import { getIngredients } from "../../services/ingredients/ingredients-slice";
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {
   const dispatch = useDispatch();
   const { ingredientsRequest, ingredientsFailed } = useSelector(
-    (store) => store.ingredients
+    (state) => state.ingredients
   );
-  const ingredientDetails = useSelector((store) => store.details);
-  const { orderRequest, orderFailed } = useSelector((store) => store.order);
-  const modalValue = useSelector((store) => store.modalValue.value);
+  const ingredientDetails = useSelector((state) => state.details);
+  const { orderRequest, orderFailed } = useSelector((state) => state.order);
+  const modalValue = useSelector((state) => state.modalValue.value);
   const [modalState, setModalState] = useState(false);
 
   useEffect(() => {

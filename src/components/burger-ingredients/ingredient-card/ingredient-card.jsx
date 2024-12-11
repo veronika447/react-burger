@@ -1,10 +1,8 @@
 import styles from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_DETAILS,
-} from "../../../services/actions/ingredient-details";
-import { CHANGE_VALUE } from "../../../services/actions/modal-window";
+import { changeValue } from "../../../services/modal-window/modal-window-slice";
+import { addDetails } from "../../../services/ingredient-details/ingredient-details-slice";
 import { useDrag } from "react-dnd";
 
 import {
@@ -15,17 +13,11 @@ import { ingredientType } from "../../../utils/types";
 
 export default function IngredientCard({ ingredient, onOpen }) {
   const dispatch = useDispatch();
-  const selectedIngredients = useSelector((store) => store.burgerConstructor);
+  const selectedIngredients = useSelector((state) => state.burgerConstructor);
 
   const openIngredientModalWindow = () => {
-    dispatch({
-      type: CHANGE_VALUE,
-      value: "ingredient",
-    });
-    dispatch({
-      type: ADD_DETAILS,
-      ingredient: ingredient,
-    });
+    dispatch(changeValue("ingredient"));
+    dispatch(addDetails(ingredient));
     onOpen();
   };
 

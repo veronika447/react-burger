@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { SORT_INGREDIENT } from "../../../services/actions/burger-constructor";
+import { sortIngredients } from "../../../services/burger-constructor/burger-constructor-slice";
 
 export const DraggableIngredientWrapper = ({ children, id, index }) => {
   const dispatch = useDispatch();
@@ -39,11 +39,9 @@ export const DraggableIngredientWrapper = ({ children, id, index }) => {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      dispatch({
-        type: SORT_INGREDIENT,
-        dragIndex: dragIndex,
-        hoverIndex: hoverIndex,
-      });
+      dispatch(
+        sortIngredients({ dragIndex: dragIndex, hoverIndex: hoverIndex })
+      );
       item.index = hoverIndex;
     },
   });

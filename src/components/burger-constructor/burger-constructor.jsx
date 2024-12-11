@@ -1,13 +1,13 @@
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrop } from "react-dnd";
-import { CHANGE_VALUE } from "../../services/actions/modal-window";
+import { changeValue } from "../../services/modal-window/modal-window-slice";
 import {
-  ADD_BUN,
-  DELETE_INGREDIENT,
+  addBun,
   addIngredient,
-} from "../../services/actions/burger-constructor";
+  deleteIngredient,
+} from "../../services/burger-constructor/burger-constructor-slice";
+import { useDrop } from "react-dnd";
 import {
   Button,
   ConstructorElement,
@@ -16,18 +16,26 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
-import { getOrderNumber } from "../../services/actions/order";
+import { getOrderNumber } from "../../services/order/order-slice";
+import { resetConstructor } from "../../services/burger-constructor/burger-constructor-slice";
 
 export default function BurgerConstructor({ onOpen }) {
   const dispatch = useDispatch();
-  const selectedIngredients = useSelector((store) => store.burgerConstructor);
+  const selectedIngredients = useSelector((state) => state.burgerConstructor);
   const openModalWindow = () => {
-    dispatch({
-      type: CHANGE_VALUE,
-      value: "order",
-    });
-    dispatch(getOrderNumber());
+    if (!selectedIngredients.bun) {
+      return;
+    }
+    dispatch(getOrderNumber())
+      .unwrap()
+      .then(() => {
+        dispatch(resetConstructor());
+      })
+      .catch(() => {
+        return;
+      });
     onOpen();
+    dispatch(changeValue("order"));
   };
 
   const [{ isHoverTopBun }, topBunRef] = useDrop({
@@ -36,10 +44,7 @@ export default function BurgerConstructor({ onOpen }) {
       isHoverTopBun: monitor.isOver(),
     }),
     drop(item) {
-      dispatch({
-        type: ADD_BUN,
-        bun: item,
-      });
+      dispatch(addBun(item));
     },
   });
 
@@ -49,10 +54,7 @@ export default function BurgerConstructor({ onOpen }) {
       isHoverBottomBun: monitor.isOver(),
     }),
     drop(item) {
-      dispatch({
-        type: ADD_BUN,
-        bun: item,
-      });
+      dispatch(addBun(item));
     },
   });
 
@@ -72,13 +74,6 @@ export default function BurgerConstructor({ onOpen }) {
   const boxShadowFiling = isHoverFiling
     ? "0px 0px 10px  2px lightblue"
     : "none";
-
-  const deleteIngredient = (value) => {
-    dispatch({
-      type: DELETE_INGREDIENT,
-      uniqueId: value,
-    });
-  };
 
   const totalPrice = useMemo(() => {
     if (selectedIngredients.bun)
@@ -132,7 +127,7 @@ export default function BurgerConstructor({ onOpen }) {
                     price={el.price}
                     thumbnail={el.image}
                     extraClass="pt-4 pb-4 pr-8 pl-6"
-                    handleClose={() => deleteIngredient(el.uniqueId, el._id)}
+                    handleClose={() => dispatch(deleteIngredient(el.uniqueId))}
                   />
                 </DraggableIngredientWrapper>
               ))}
