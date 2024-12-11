@@ -1,38 +1,50 @@
 .burgerConstructorSection {
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 16px;
-    list-style: none;
-    padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 16px;
+  list-style: none;
+  padding: 0;
 }
 
 .listFilling {
-    width: 100%;
-    height: 25vh;
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    list-style: none;
-    overflow-y: scroll;
-    padding: 0;
-}
-
-.listFillingItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  max-height: 25vh;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  list-style: none;
+  overflow-y: scroll;
+  padding: 0;
 }
 
 .price {
-    display: flex;
-    column-gap: 40px;
+  display: flex;
+  column-gap: 40px;
+}
+
+.placeholder {
+  width: 500px;
+  height: 50px;
+  background-color: #2f2f37;
+  text-align: center;
+  border-radius: 50px;
+}
+
+.topBun {
+  border-top-left-radius: 150px;
+  border-top-right-radius: 150px;
+}
+
+.bottomBun {
+  border-bottom-left-radius: 150px;
+  border-bottom-right-radius: 150px;
 }

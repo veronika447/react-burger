@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./app.module.css";
 
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
@@ -8,56 +11,51 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import selectedIngredients from "../../utils/data";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-
-const API_URL = "https://norma.nomoreparties.space/api/ingredients";
+import { getIngredients } from "../../services/ingredients/ingredients-slice";
+export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [ingredients, setIngredients] = useState([]);
-  const [modalState, setModalState] = useState(null);
-  const [selectedIngredientId, setSelectedIngredientId] = useState(null);
+  const dispatch = useDispatch();
+  const { ingredientsRequest, ingredientsFailed } = useSelector(
+    (state) => state.ingredients
+  );
+  const ingredientDetails = useSelector((state) => state.details);
+  const { orderRequest, orderFailed } = useSelector((state) => state.order);
+  const modalValue = useSelector((state) => state.modalValue.value);
+  const [modalState, setModalState] = useState(false);
 
   useEffect(() => {
-    fetch(API_URL)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((result) => {
-        setIngredients(result.data);
-      })
-      .catch((error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setIsLoaded(true);
-      });
+    dispatch(getIngredients());
   }, []);
 
-  function openModalWindow(value, id) {
-    setModalState(value);
-    setSelectedIngredientId(id);
-  }
+  const openModalWindow = () => {
+    setModalState(true);
+  };
 
-  function closeModalWindow() {
-    setModalState(null);
-    setSelectedIngredientId(null);
-  }
+  const closeModalWindow = () => {
+    setModalState(false);
+  };
 
-  if (error) {
-    return <div>Ошибка: {error.message}</div>;
+  if (ingredientsFailed) {
+    return <div>Ошибка</div>;
   }
-  if (!isLoaded) {
+  if (ingredientsRequest) {
     return (
       <div className={styles.loaderContainer}>
-        <span className={styles.loader}></span>;
+        <span className={styles.loader}></span>
+      </div>
+    );
+  }
+  if (orderFailed) {
+    return <div> При создании заказа произошла ошибка</div>;
+  }
+  if (orderRequest) {
+    return (
+      <div className={styles.loaderContainer}>
+        <span className={styles.loader}></span>
       </div>
     );
   }
@@ -65,32 +63,24 @@ export default function App() {
   return (
     <>
       <AppHeader />
-      <main className={styles.main}>
-        <div className={styles.mainContainer}>
-          <BurgerIngredients
-            ingredients={ingredients}
-            selectedIngredients={selectedIngredients}
-            openModalWindow={openModalWindow}
-          />
-          <BurgerConstructor
-            selectedIngredients={selectedIngredients}
-            openModalWindow={openModalWindow}
-          />
-        </div>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <div className={styles.mainContainer}>
+            <BurgerIngredients onOpen={openModalWindow} />
+            <BurgerConstructor onOpen={openModalWindow} />
+          </div>
+        </main>
+      </DndProvider>
 
       {modalState && (
         <Modal
-          closeModalWindow={closeModalWindow}
-          title={modalState === "ingredient" && "Детали ингредиента"}
+          onClose={closeModalWindow}
+          title={modalValue === "ingredient" && "Детали ингредиента"}
         >
-          {modalState === "ingredient" ? (
-            <IngredientDetails
-              ingredients={ingredients}
-              id={selectedIngredientId}
-            />
+          {modalValue === "ingredient" ? (
+            <IngredientDetails {...ingredientDetails} />
           ) : (
-            <OrderDetails orderNumber="034536" />
+            <OrderDetails />
           )}
         </Modal>
       )}

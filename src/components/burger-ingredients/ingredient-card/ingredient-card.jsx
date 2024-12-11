@@ -1,24 +1,48 @@
 import styles from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { changeValue } from "../../../services/modal-window/modal-window-slice";
+import { addDetails } from "../../../services/ingredient-details/ingredient-details-slice";
+import { useDrag } from "react-dnd";
 
 import {
-  Counter,
   CurrencyIcon,
+  Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../../utils/types";
 
-export default function IngredientCard({
-  ingredient,
-  selectedIngredients,
-  openModalWindow,
-}) {
+export default function IngredientCard({ ingredient, onOpen }) {
+  const dispatch = useDispatch();
+  const selectedIngredients = useSelector((state) => state.burgerConstructor);
+
+  const openIngredientModalWindow = () => {
+    dispatch(changeValue("ingredient"));
+    dispatch(addDetails(ingredient));
+    onOpen();
+  };
+
+  const count =
+    ingredient.type === "bun"
+      ? selectedIngredients.bun?._id === ingredient._id
+        ? 2
+        : 0
+      : selectedIngredients.ingredients.filter(
+          (el) => el._id === ingredient._id
+        ).length;
+
+  const [, dragRef] = useDrag({
+    type: ingredient.type === "bun" ? "bun" : "filing",
+    item: ingredient,
+  });
   return (
     <div
       className={styles.container}
-      onClick={() => openModalWindow("ingredient", ingredient._id)}
+      onClick={() => openIngredientModalWindow()}
+      ref={dragRef}
+      draggable
     >
-      {selectedIngredients.some((el) => el.name === ingredient.name) ? (
-        <Counter count={1} size="default" extraClass="m-1" />
+      {count > 0 ? (
+        <Counter count={count} size="default" extraClass="m-1" />
       ) : null}
 
       <img
@@ -39,6 +63,5 @@ export default function IngredientCard({
 
 IngredientCard.propTypes = {
   ingredient: ingredientType,
-  selectedIngredients: PropTypes.arrayOf(ingredientType),
-  openModalWindow: PropTypes.func,
+  onOpen: PropTypes.func,
 };

@@ -7,12 +7,12 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-export default function Modal({ children, closeModalWindow, title }) {
+export default function Modal({ children, title, onClose }) {
   useEffect(() => {
     function onEscClick(e) {
       if (e.key === "Escape") {
         e.preventDefault();
-        closeModalWindow();
+        onClose();
       }
     }
     document.addEventListener("keyup", onEscClick);
@@ -20,16 +20,16 @@ export default function Modal({ children, closeModalWindow, title }) {
     return () => {
       document.removeEventListener("keyup", onEscClick);
     };
-  }, [closeModalWindow]);
+  }, []);
 
   return createPortal(
     <>
-      <ModalOverlay closeModalWindow={closeModalWindow} />
+      <ModalOverlay onClose={onClose} />
       <div className={styles.modalWindow + " pt-10 pl-10 pr-10 pb-15"}>
         <h2 className={styles.modalTitle + " text text_type_main-large mt-1"}>
           {title}
         </h2>
-        <div className={styles.icon} onClick={() => closeModalWindow()}>
+        <div className={styles.icon} onClick={() => onClose()}>
           <CloseIcon type="primary" />
         </div>
         {children}
@@ -41,6 +41,6 @@ export default function Modal({ children, closeModalWindow, title }) {
 
 Modal.propTypes = {
   children: PropTypes.node,
-  closeModalWindow: PropTypes.func,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  onClose: PropTypes.func,
 };
