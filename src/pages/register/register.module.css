@@ -36,3 +36,7 @@
 .spanText {
   color: rgba(76, 76, 255, 1);
 }
+
+.link {
+  text-decoration: none;
+}

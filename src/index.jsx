@@ -6,7 +6,7 @@ import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./components/app/store";
-import { LoginPage, RegisterPage } from "./pages";
+import { LoginPage, RegisterPage, ForgotPasswordPage } from "./pages";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,6 +16,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Routes>
     </Router>
   </Provider>

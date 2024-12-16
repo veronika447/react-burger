@@ -4,6 +4,7 @@ import {
   Button,
   ShowIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from "react-router";
 
 export const LoginPage = () => {
   return (
@@ -34,11 +35,15 @@ export const LoginPage = () => {
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Вы - новый пользователь?
-          <span className={styles.spanText}> Зарегистрироваться</span>
+          <Link to="/register" className={styles.link}>
+            <span className={styles.spanText}> Зарегистрироваться</span>
+          </Link>
         </p>
         <p className="text text_type_main-small text_color_inactive mt-4">
           Забыли пароль?
-          <span className={styles.spanText}> Восстановить пароль</span>
+          <Link to="/forgot-password" className={styles.link}>
+            <span className={styles.spanText}> Восстановить пароль</span>
+          </Link>
         </p>
       </article>
     </div>
