@@ -2,7 +2,7 @@ import styles from "./login.module.css";
 import AppHeader from "../../components/app-header/app-header";
 import {
   Button,
-  ShowIcon,
+  Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router";
 
@@ -13,17 +13,25 @@ export const LoginPage = () => {
       <article className={styles.container + " mt-20"}>
         <h2 className={styles.title + " text text_type_main-medium"}>Вход</h2>
         <form className={styles.form}>
-          <div className={styles.formElement + " mt-6 pl-6 pr-6"}>
-            <input
-              type="email"
-              placeholder="E-mail"
-              className={styles.input}
-            ></input>
-          </div>
-          <div className={styles.formElement + " mt-6 pl-6 pr-6"}>
-            <input type="text" placeholder="Пароль"></input>
-            <ShowIcon type="primary" />
-          </div>
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="ml-1 mt-6"
+          />
+          <Input
+            type={"password"}
+            placeholder={"Пароль"}
+            name={"name"}
+            icon={"ShowIcon"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="ml-1 mt-6"
+          />
           <Button
             htmlType="button"
             type="primary"

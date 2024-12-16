@@ -22,17 +22,6 @@
   align-items: center;
 }
 
-.formElement {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  height: 64px;
-  background-color: rgba(47, 47, 55, 1);
-  border: 2px solid transparent;
-  border-radius: 40px;
-}
-
 .spanText {
   color: rgba(76, 76, 255, 1);
 }

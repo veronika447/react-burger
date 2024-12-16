@@ -2,6 +2,7 @@ import styles from "./forgot-password.module.css";
 import AppHeader from "../../components/app-header/app-header";
 import {
   Button,
+  Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router";
 
@@ -14,13 +15,15 @@ export const ForgotPasswordPage = () => {
           Восстановление пароля
         </h2>
         <form className={styles.form}>
-          <div className={styles.formElement + " mt-6 pl-6 pr-6"}>
-            <input
-              type="email"
-              placeholder="Укажите e-mail"
-              className={styles.input}
-            ></input>
-          </div>
+          <Input
+            type={"email"}
+            placeholder={"Укажите e-mail"}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="ml-1 mt-6"
+          />
           <Button
             htmlType="button"
             type="primary"
