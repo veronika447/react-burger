@@ -7,6 +7,7 @@ import orderReducer from "../../services/order-slice";
 import loginFormReducer from "../../services/login-form-slice";
 import registerFormReducer from "../../services/register-form-slice";
 import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
+import resetPasswordFormReducer from "../../services/reset-password-form-slice";
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     loginForm: loginFormReducer,
     registerForm: registerFormReducer,
     forgotPasswordForm: forgotPasswordFormReducer,
+    resetPasswordForm: resetPasswordFormReducer,
   },
 });

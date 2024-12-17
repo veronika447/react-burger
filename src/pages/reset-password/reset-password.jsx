@@ -5,8 +5,19 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPasswordFormSetValue } from "../../services/reset-password-form-slice";
 
 export const ResetPasswordPage = () => {
+  const dispatch = useDispatch();
+  const resetPasswordForm = useSelector((state) => state.resetPasswordForm);
+
+  const handleInputChange = (e) => {
+    dispatch(
+      resetPasswordFormSetValue({ field: e.target.name, value: e.target.value })
+    );
+  };
+
   return (
     <div className={styles.page}>
       <AppHeader />
@@ -16,9 +27,11 @@ export const ResetPasswordPage = () => {
         </h2>
         <form className={styles.form}>
           <Input
+            name={"password"}
             type={"password"}
             placeholder={"Введите новый пароль"}
-            name={"name"}
+            value={resetPasswordForm.password}
+            onChange={handleInputChange}
             icon={"ShowIcon"}
             error={false}
             errorText={"Ошибка"}
@@ -26,16 +39,18 @@ export const ResetPasswordPage = () => {
             extraClass="ml-1 mt-6"
           />
           <Input
+            name={"code"}
             type={"text"}
             placeholder={"Введите код из письма"}
-            name={"name"}
+            value={resetPasswordForm.code}
+            onChange={handleInputChange}
             error={false}
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass="mt-6"
