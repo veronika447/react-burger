@@ -1,8 +1,8 @@
 import styles from "./ingredient-card.module.css";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { changeValue } from "../../../services/modal-window/modal-window-slice";
-import { addDetails } from "../../../services/ingredient-details/ingredient-details-slice";
+import { changeValue } from "../../../services/modal-window-slice";
+import { addDetails } from "../../../services/ingredient-details-slice";
 import { useDrag } from "react-dnd";
 
 import {

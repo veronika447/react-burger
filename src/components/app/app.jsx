@@ -14,7 +14,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { getIngredients } from "../../services/ingredients/ingredients-slice";
+import { getIngredients } from "../../services/ingredients-slice";
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {

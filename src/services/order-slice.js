@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { request } from "../../utils/request";
+import { request } from "../utils/request";
 
 export const getOrderNumber = createAsyncThunk(
   "order/orderNumber",

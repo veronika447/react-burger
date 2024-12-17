@@ -1,12 +1,12 @@
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { changeValue } from "../../services/modal-window/modal-window-slice";
+import { changeValue } from "../../services/modal-window-slice";
 import {
   addBun,
   addIngredient,
   deleteIngredient,
-} from "../../services/burger-constructor/burger-constructor-slice";
+} from "../../services/burger-constructor-slice";
 import { useDrop } from "react-dnd";
 import {
   Button,
@@ -16,8 +16,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
-import { getOrderNumber } from "../../services/order/order-slice";
-import { resetConstructor } from "../../services/burger-constructor/burger-constructor-slice";
+import { getOrderNumber } from "../../services/order-slice";
+import { resetConstructor } from "../../services/burger-constructor-slice";
 
 export default function BurgerConstructor({ onOpen }) {
   const dispatch = useDispatch();

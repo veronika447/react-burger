@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { sortIngredients } from "../../../services/burger-constructor/burger-constructor-slice";
+import { sortIngredients } from "../../../services/burger-constructor-slice";
 
 export const DraggableIngredientWrapper = ({ children, id, index }) => {
   const dispatch = useDispatch();
