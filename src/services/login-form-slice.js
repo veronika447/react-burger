@@ -10,11 +10,7 @@ const loginFormSlice = createSlice({
   initialState,
   reducers: {
     loginFormSetValue: (state, action) => {
-      if (action.payload.field === "email") {
-        state.email = action.payload.value;
-      } else if (action.payload.field === "password") {
-        state.password = action.payload.value;
-      }
+      state[action.payload.field] = action.payload.value;
     },
   },
 });

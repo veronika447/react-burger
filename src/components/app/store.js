@@ -5,6 +5,7 @@ import modalWindowReducer from "../../services/modal-window-slice";
 import ingredientsReducer from "../../services/ingredients-slice";
 import orderReducer from "../../services/order-slice";
 import loginFormReducer from "../../services/login-form-slice";
+import registerFormReducer from "../../services/register-form-slice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     ingredients: ingredientsReducer,
     order: orderReducer,
     loginForm: loginFormReducer,
+    registerForm: registerFormReducer,
   },
 });
