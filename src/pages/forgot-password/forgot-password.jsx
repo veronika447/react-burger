@@ -4,15 +4,29 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { forgotPasswordFormSetValue } from "../../services/forgot-password-form-slice";
+import {
+  forgotPasswordFormSetValue,
+  checkEmail,
+} from "../../services/forgot-password-form-slice";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
-  const email = useSelector((state) => state.forgotPasswordForm.email);
+  const form = useSelector((state) => state.forgotPasswordForm.form);
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     dispatch(forgotPasswordFormSetValue(e.target.value));
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(checkEmail(form.email))
+      .unwrap()
+      .then(() => {
+        navigate("/reset-password");
+      });
   };
 
   return (
@@ -27,7 +41,7 @@ export const ForgotPasswordPage = () => {
             name={"email"}
             type={"email"}
             placeholder={"Укажите e-mail"}
-            value={email}
+            value={form.email}
             onChange={handleInputChange}
             error={false}
             errorText={"Ошибка"}
@@ -39,6 +53,7 @@ export const ForgotPasswordPage = () => {
             type="primary"
             size="medium"
             extraClass="mt-6"
+            onClick={(e) => handleClick(e)}
           >
             Восстановить{" "}
           </Button>

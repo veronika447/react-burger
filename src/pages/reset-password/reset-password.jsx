@@ -6,16 +6,29 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPasswordFormSetValue } from "../../services/reset-password-form-slice";
+import {
+  resetPasswordFormSetValue,
+  resetPassword,
+} from "../../services/reset-password-form-slice";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  const resetPasswordForm = useSelector((state) => state.resetPasswordForm);
+  const form = useSelector((state) => state.resetPasswordForm.form);
 
   const handleInputChange = (e) => {
     dispatch(
       resetPasswordFormSetValue({ field: e.target.name, value: e.target.value })
     );
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(resetPassword(form.password, ""))
+      .unwrap()
+      .then(() => {})
+      .catch(() => {
+        console.log("Ошибка при сбросе пароля");
+      });
   };
 
   return (
@@ -30,7 +43,7 @@ export const ResetPasswordPage = () => {
             name={"password"}
             type={"password"}
             placeholder={"Введите новый пароль"}
-            value={resetPasswordForm.password}
+            value={form.password}
             onChange={handleInputChange}
             icon={"ShowIcon"}
             error={false}
@@ -42,7 +55,7 @@ export const ResetPasswordPage = () => {
             name={"code"}
             type={"text"}
             placeholder={"Введите код из письма"}
-            value={resetPasswordForm.code}
+            value={form.code}
             onChange={handleInputChange}
             error={false}
             errorText={"Ошибка"}
@@ -54,6 +67,7 @@ export const ResetPasswordPage = () => {
             type="primary"
             size="medium"
             extraClass="mt-6"
+            onClick={(e) => handleClick(e)}
           >
             Сохранить{" "}
           </Button>
