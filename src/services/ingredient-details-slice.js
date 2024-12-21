@@ -24,5 +24,5 @@ const ingredientDetailsSlice = createSlice({
   },
 });
 
-export const { addDetails } = ingredientDetailsSlice.actions;
+export const { addDetails, resetDetails } = ingredientDetailsSlice.actions;
 export default ingredientDetailsSlice.reducer;

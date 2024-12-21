@@ -13,7 +13,7 @@ import OrderDetails from "../../components/order-details/order-details";
 import { getIngredients } from "../../services/ingredients-slice";
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
-export function HomePage() {
+export const HomePage = () => {
   const dispatch = useDispatch();
   const { ingredientsRequest, ingredientsFailed } = useSelector(
     (state) => state.ingredients
@@ -82,4 +82,4 @@ export function HomePage() {
       )}
     </>
   );
-}
+};

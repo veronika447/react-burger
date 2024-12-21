@@ -1,4 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 import burgerConstructorReducer from "../../services/burger-constructor-slice";
 import ingredientDetailsReducer from "../../services/ingredient-details-slice";
 import modalWindowReducer from "../../services/modal-window-slice";
@@ -9,16 +12,34 @@ import registerFormReducer from "../../services/register-form-slice";
 import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
 import resetPasswordFormReducer from "../../services/reset-password-form-slice";
 
-export const store = configureStore({
-  reducer: {
-    burgerConstructor: burgerConstructorReducer,
-    details: ingredientDetailsReducer,
-    modalValue: modalWindowReducer,
-    ingredients: ingredientsReducer,
-    order: orderReducer,
-    loginForm: loginFormReducer,
-    registerForm: registerFormReducer,
-    forgotPasswordForm: forgotPasswordFormReducer,
-    resetPasswordForm: resetPasswordFormReducer,
-  },
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const rootReducer = combineReducers({
+  burgerConstructor: burgerConstructorReducer,
+  details: ingredientDetailsReducer,
+  modalValue: modalWindowReducer,
+  ingredients: ingredientsReducer,
+  order: orderReducer,
+  loginForm: loginFormReducer,
+  registerForm: registerFormReducer,
+  forgotPasswordForm: forgotPasswordFormReducer,
+  resetPasswordForm: resetPasswordFormReducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
