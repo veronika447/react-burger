@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, useLocation } from "react-router";
 
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
@@ -13,17 +13,38 @@ import {
   DetailsPage,
 } from "../../pages";
 
+import { Modal } from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {
+  const location = useLocation();
+  const previousLocation = location.state?.previousLocation;
+
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/ingredients/:id" element={<DetailsPage />} />
-    </Routes>
+    <>
+      <Routes location={previousLocation || location}>
+        <Route path="/" element={<HomePage />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/ingredients/:id" element={<DetailsPage />} />
+        </Route>
+      </Routes>
+      {previousLocation && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal title="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+    </>
   );
 }

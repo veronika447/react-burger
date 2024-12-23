@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
 
-export const Ingredients = forwardRef(({ value, type, onOpen }, ref) => {
+export const Ingredients = forwardRef(({ value, type }, ref) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   console.log(ingredients);
   return (
@@ -15,11 +15,7 @@ export const Ingredients = forwardRef(({ value, type, onOpen }, ref) => {
         {ingredients
           .filter((ingredient) => ingredient.type === type)
           .map((ingredient) => (
-            <IngredientCard
-              key={ingredient._id}
-              ingredient={ingredient}
-              onOpen={onOpen}
-            />
+            <IngredientCard key={ingredient._id} ingredient={ingredient} />
           ))}
       </div>
     </section>
@@ -29,5 +25,4 @@ export const Ingredients = forwardRef(({ value, type, onOpen }, ref) => {
 Ingredients.propTypes = {
   value: PropTypes.string,
   type: PropTypes.string,
-  onOpen: PropTypes.func,
 };

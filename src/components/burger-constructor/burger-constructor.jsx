@@ -19,7 +19,7 @@ import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/dragg
 import { getOrderNumber } from "../../services/order-slice";
 import { resetConstructor } from "../../services/burger-constructor-slice";
 
-export default function BurgerConstructor({ onOpen }) {
+export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const selectedIngredients = useSelector((state) => state.burgerConstructor);
   const openModalWindow = () => {
@@ -34,7 +34,6 @@ export default function BurgerConstructor({ onOpen }) {
       .catch(() => {
         return;
       });
-    onOpen();
     dispatch(changeValue("order"));
   };
 
