@@ -22,6 +22,7 @@ export const HomePage = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
+    // return () => 
   }, []);
 
   if (ingredientsFailed) {
@@ -57,7 +58,7 @@ export const HomePage = () => {
         </main>
       </DndProvider>
 
-      {modalValue && (
+      {modalValue === "order" && (
         <Modal>{modalValue === "order" && <OrderDetails />}</Modal>
       )}
     </>

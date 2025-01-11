@@ -4,5 +4,14 @@ import { ForgotPasswordPage } from "./forgot-password/forgot-password";
 import { ResetPasswordPage } from "./reset-password/reset-password";
 import { HomePage } from "./home/home";
 import { DetailsPage } from "./details/details";
+import { ProfilePage } from "./profile/profile";
 
-export { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, HomePage, DetailsPage };
+export {
+  LoginPage,
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  HomePage,
+  DetailsPage,
+  ProfilePage,
+};

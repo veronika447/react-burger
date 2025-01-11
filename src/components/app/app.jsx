@@ -11,27 +11,29 @@ import {
   ResetPasswordPage,
   HomePage,
   DetailsPage,
+  ProfilePage,
 } from "../../pages";
 
 import { Modal } from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useEffect } from "react";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {
   const location = useLocation();
   const previousLocation = location.state?.previousLocation;
-
   return (
     <>
       <Routes location={previousLocation || location}>
-        <Route path="/" element={<HomePage />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/ingredients/:id" element={<DetailsPage />} />
-        </Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/ingredients/:id" element={<DetailsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        {/* </Route> */}
       </Routes>
       {previousLocation && (
         <Routes>

@@ -1,9 +1,10 @@
 import styles from "./nav-item.module.css";
 import PropTypes from "prop-types";
 
-export default function NavItem({ icon, text, sectionId, isActive }) {
+export default function NavItem({ icon, text, isActive }) {
   return (
-    <a href={"#" + sectionId} className={styles.navItem + " p-5 ml-2"}>
+    // <a href={"#" + sectionId} className={styles.navItem + " p-5 ml-2"}>
+    <div className={styles.navItem + " p-5 ml-2"}>
       {icon}
       <p
         className={
@@ -15,7 +16,9 @@ export default function NavItem({ icon, text, sectionId, isActive }) {
         {" "}
         {text}{" "}
       </p>
-    </a>
+    </div>
+
+    // </a>
   );
 }
 
