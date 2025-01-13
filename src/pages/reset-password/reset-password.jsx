@@ -6,14 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  resetPasswordFormSetValue,
-  resetPassword,
-} from "../../services/reset-password-form-slice";
+import { resetPasswordFormSetValue } from "../../services/reset-password-form-slice";
+import { request } from "../../utils/request";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
-  const form = useSelector((state) => state.resetPasswordForm.form);
+  const form = useSelector((state) => state.resetPasswordForm);
 
   const handleInputChange = (e) => {
     dispatch(
@@ -21,24 +19,25 @@ export const ResetPasswordPage = () => {
     );
   };
 
-  const handleClick = (e) => {
+  const resetPassword = (e) => {
     e.preventDefault();
-    dispatch(resetPassword(form.password, ""))
-      .unwrap()
-      .then(() => {})
-      .catch(() => {
-        console.log("Ошибка при сбросе пароля");
-      });
+    request("/password-reset/reset", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ password: form.password, token: form.code }),
+    });
   };
 
   return (
     <div className={styles.page}>
       <AppHeader />
-      <article className={styles.container + " mt-20"}>
+      <section className={styles.container + " mt-20"}>
         <h2 className={styles.title + " text text_type_main-medium"}>
           Восстановление пароля
         </h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={(e) => resetPassword(e)}>
           <Input
             name={"password"}
             type={"password"}
@@ -67,7 +66,6 @@ export const ResetPasswordPage = () => {
             type="primary"
             size="medium"
             extraClass="mt-6"
-            onClick={(e) => handleClick(e)}
           >
             Сохранить{" "}
           </Button>
@@ -78,7 +76,7 @@ export const ResetPasswordPage = () => {
             <span className={styles.spanText}> Войти</span>
           </Link>
         </p>
-      </article>
+      </section>
     </div>
   );
 };
