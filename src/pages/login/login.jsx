@@ -4,13 +4,44 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormSetValue } from "../../services/login-form-slice";
+import { request } from "../../utils/request";
+import { setUserData } from "../../services/auth-slice";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loginForm = useSelector((state) => state.loginForm);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    request("/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        email: loginForm.email,
+        password: loginForm.password,
+      }),
+    }).then((res) => {
+      if (res.success) {
+        const userData = res.user;
+        const token = res.accessToken.split(" ")[1];
+        const refreshToken = res.refreshToken;
+        dispatch(
+          setUserData({
+            user: userData,
+            accessToken: token,
+            refreshToken: refreshToken,
+          })
+        );
+        navigate("/");
+      }
+    });
+  };
 
   const handleInputChange = (e) => {
     dispatch(
@@ -23,7 +54,7 @@ export const LoginPage = () => {
       <AppHeader />
       <article className={styles.container + " mt-20"}>
         <h2 className={styles.title + " text text_type_main-medium"}>Вход</h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={(e) => handleLogin(e)}>
           <Input
             name={"email"}
             type={"email"}

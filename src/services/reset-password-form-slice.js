@@ -4,7 +4,7 @@ import { request } from "../utils/request";
 export const resetPassword = createAsyncThunk(
   "resetPasswordForm/resetPassword",
   async (password, token) => {
-    const response = await request("password-reset/reset", {
+    const response = await request("/password-reset/reset", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

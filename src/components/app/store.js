@@ -11,6 +11,7 @@ import loginFormReducer from "../../services/login-form-slice";
 import registerFormReducer from "../../services/register-form-slice";
 import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
 import resetPasswordFormReducer from "../../services/reset-password-form-slice";
+import authReducer from "../../services/auth-slice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   registerForm: registerFormReducer,
   forgotPasswordForm: forgotPasswordFormReducer,
   resetPasswordForm: resetPasswordFormReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

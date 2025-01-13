@@ -7,10 +7,40 @@ import {
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { registerFormSetValue } from "../../services/register-form-slice";
+import { request } from "../../utils/request";
+import { setUserData } from "../../services/auth-slice";
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
   const registerForm = useSelector((state) => state.registerForm);
+
+  const register = (e) => {
+    e.preventDefault();
+    request("/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        email: registerForm.email,
+        password: registerForm.password,
+        name: registerForm.name,
+      }),
+    }).then((res) => {
+      if (res.success) {
+        const userData = res.user;
+        const token = res.accessToken.split(" ")[1];
+        const refreshToken = res.refreshToken;
+        dispatch(
+          setUserData({
+            user: userData,
+            accessToken: token,
+            refreshToken: refreshToken,
+          })
+        );
+      }
+    });
+  };
 
   const handleInputChange = (e) => {
     dispatch(
@@ -25,7 +55,7 @@ export const RegisterPage = () => {
         <h2 className={styles.title + " text text_type_main-medium"}>
           Регистрация
         </h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={(e) => register(e)}>
           <Input
             name={"name"}
             type={"text"}
