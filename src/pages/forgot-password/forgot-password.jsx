@@ -6,26 +6,40 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  forgotPasswordFormSetValue,
-  checkEmail,
-} from "../../services/forgot-password-form-slice";
+import { forgotPasswordFormSetValue } from "../../services/forgot-password-form-slice";
+import { request } from "../../utils/request";
+import { useState } from "react";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
-  const form = useSelector((state) => state.forgotPasswordForm.form);
   const navigate = useNavigate();
+  const form = useSelector((state) => state.forgotPasswordForm);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const handleInputChange = (e) => {
     dispatch(forgotPasswordFormSetValue(e.target.value));
   };
 
-  const handleClick = (e) => {
+  const checkEmail = (e) => {
     e.preventDefault();
-    dispatch(checkEmail(form.email))
-      .unwrap()
-      .then(() => {
-        navigate("/reset-password");
+    request("/password-reset", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        email: form.email,
+      }),
+    })
+      .then((res) => {
+        if (res.success) {
+          navigate("/reset-password");
+        } else {
+          setErrorMessage(true);
+        }
+      })
+      .catch(() => {
+        setErrorMessage(true);
       });
   };
 
@@ -36,7 +50,7 @@ export const ForgotPasswordPage = () => {
         <h2 className={styles.title + " text text_type_main-medium"}>
           Восстановление пароля
         </h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={(e) => checkEmail(e)}>
           <Input
             name={"email"}
             type={"email"}
@@ -48,12 +62,16 @@ export const ForgotPasswordPage = () => {
             size={"default"}
             extraClass="ml-1 mt-6"
           />
+          {errorMessage && (
+            <span className={`${styles.errorMessage} ml-8`}>
+              Неверный e-mail
+            </span>
+          )}
           <Button
             htmlType="submit"
             type="primary"
             size="medium"
             extraClass="mt-6"
-            onClick={(e) => handleClick(e)}
           >
             Восстановить{" "}
           </Button>
