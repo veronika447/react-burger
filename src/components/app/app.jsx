@@ -12,11 +12,11 @@ import {
   HomePage,
   DetailsPage,
   ProfilePage,
+  OrdersPage,
 } from "../../pages";
 
 import { Modal } from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useEffect } from "react";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
@@ -33,7 +33,7 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/ingredients/:id" element={<DetailsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        {/* </Route> */}
+        <Route path="/orders" element={<OrdersPage />} />
       </Routes>
       {previousLocation && (
         <Routes>

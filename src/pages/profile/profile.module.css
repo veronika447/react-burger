@@ -39,4 +39,9 @@
 
 .link {
   text-decoration: none;
+  color: unset;
+}
+
+.btnsContainer {
+  align-self: flex-end;
 }
