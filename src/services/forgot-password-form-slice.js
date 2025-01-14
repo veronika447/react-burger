@@ -11,8 +11,11 @@ const forgotPasswordFormSlice = createSlice({
     forgotPasswordFormSetValue: (state, action) => {
       state.email = action.payload;
     },
+    resetForm: (state) => {
+      state.email = "";
+    },
   },
 });
 
-export const { forgotPasswordFormSetValue } = forgotPasswordFormSlice.actions;
+export const { forgotPasswordFormSetValue, resetForm } = forgotPasswordFormSlice.actions;
 export default forgotPasswordFormSlice.reducer;

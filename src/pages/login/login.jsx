@@ -1,4 +1,5 @@
 import styles from "./login.module.css";
+import { useState } from "react";
 import AppHeader from "../../components/app-header/app-header";
 import {
   Button,
@@ -6,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { loginFormSetValue } from "../../services/login-form-slice";
+import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
 import { request } from "../../utils/request";
 import { setUserData } from "../../services/auth-slice";
 
@@ -14,9 +15,11 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginForm = useSelector((state) => state.loginForm);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsSubmit(true);
     request("/auth/login", {
       method: "POST",
       headers: {
@@ -26,21 +29,26 @@ export const LoginPage = () => {
         email: loginForm.email,
         password: loginForm.password,
       }),
-    }).then((res) => {
-      if (res.success) {
-        const userData = res.user;
-        const token = res.accessToken.split(" ")[1];
-        const refreshToken = res.refreshToken;
-        dispatch(
-          setUserData({
-            user: userData,
-            accessToken: token,
-            refreshToken: refreshToken,
-          })
-        );
-        navigate("/");
-      }
-    });
+    })
+      .then((res) => {
+        if (res.success) {
+          const userData = res.user;
+          const token = res.accessToken.split(" ")[1];
+          const refreshToken = res.refreshToken;
+          dispatch(
+            setUserData({
+              user: userData,
+              accessToken: token,
+              refreshToken: refreshToken,
+            })
+          );
+          dispatch(resetForm());
+          navigate("/");
+        }
+      })
+      .finally(() => {
+        setIsSubmit(false);
+      });
   };
 
   const handleInputChange = (e) => {
@@ -65,6 +73,7 @@ export const LoginPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
           <Input
             name={"password"}
@@ -78,15 +87,29 @@ export const LoginPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-            extraClass="mt-6"
-          >
-            Войти{" "}
-          </Button>
+          {isSubmit ? (
+            <Button
+              htmlType="button"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              <div className={styles.loaderContainer}>
+                <div className={styles.loader}></div>
+              </div>
+            </Button>
+          ) : (
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              Войти{" "}
+            </Button>
+          )}
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Вы - новый пользователь?

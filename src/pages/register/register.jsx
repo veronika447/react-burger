@@ -4,18 +4,25 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { registerFormSetValue } from "../../services/register-form-slice";
+import {
+  registerFormSetValue,
+  resetForm,
+} from "../../services/register-form-slice";
 import { request } from "../../utils/request";
 import { setUserData } from "../../services/auth-slice";
+import { useState } from "react";
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const registerForm = useSelector((state) => state.registerForm);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const register = (e) => {
     e.preventDefault();
+    setIsSubmit(true);
     request("/auth/register", {
       method: "POST",
       headers: {
@@ -26,20 +33,26 @@ export const RegisterPage = () => {
         password: registerForm.password,
         name: registerForm.name,
       }),
-    }).then((res) => {
-      if (res.success) {
-        const userData = res.user;
-        const token = res.accessToken.split(" ")[1];
-        const refreshToken = res.refreshToken;
-        dispatch(
-          setUserData({
-            user: userData,
-            accessToken: token,
-            refreshToken: refreshToken,
-          })
-        );
-      }
-    });
+    })
+      .then((res) => {
+        if (res.success) {
+          const userData = res.user;
+          const token = res.accessToken.split(" ")[1];
+          const refreshToken = res.refreshToken;
+          dispatch(
+            setUserData({
+              user: userData,
+              accessToken: token,
+              refreshToken: refreshToken,
+            })
+          );
+          dispatch(resetForm());
+          navigate("/");
+        }
+      })
+      .finally(() => {
+        setIsSubmit(false);
+      });
   };
 
   const handleInputChange = (e) => {
@@ -66,6 +79,7 @@ export const RegisterPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
           <Input
             name={"email"}
@@ -77,6 +91,7 @@ export const RegisterPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
           <Input
             name={"password"}
@@ -89,15 +104,29 @@ export const RegisterPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-            extraClass="mt-6"
-          >
-            Зарегистрироваться{" "}
-          </Button>
+          {isSubmit ? (
+            <Button
+              htmlType="button"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              <div className={styles.loaderContainer}>
+                <div className={styles.loader}></div>
+              </div>
+            </Button>
+          ) : (
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              Зарегистрироваться{" "}
+            </Button>
+          )}
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Уже зарегистрированы?

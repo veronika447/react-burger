@@ -12,8 +12,12 @@ const resetPasswordFormSlice = createSlice({
     resetPasswordFormSetValue: (state, action) => {
       state[action.payload.field] = action.payload.value;
     },
+    resetForm: (state) => {
+      state.password = "";
+      state.code = "";
+    },
   },
 });
 
-export const { resetPasswordFormSetValue } = resetPasswordFormSlice.actions;
+export const { resetPasswordFormSetValue, resetForm } = resetPasswordFormSlice.actions;
 export default resetPasswordFormSlice.reducer;

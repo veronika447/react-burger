@@ -16,6 +16,7 @@ export const ProfilePage = () => {
     email: userData.email,
     password: "",
   });
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ export const ProfilePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmit(true);
   };
 
   const cancelChanges = (e) => {
@@ -84,6 +86,7 @@ export const ProfilePage = () => {
               errorText={"Ошибка"}
               size={"default"}
               extraClass="ml-1 mt-6"
+              disabled={isSubmit}
             />
             <Input
               name={"email"}
@@ -96,6 +99,7 @@ export const ProfilePage = () => {
               errorText={"Ошибка"}
               size={"default"}
               extraClass="ml-1 mt-6"
+              disabled={isSubmit}
             />
             <Input
               name={"password"}
@@ -108,13 +112,32 @@ export const ProfilePage = () => {
               errorText={"Ошибка"}
               size={"default"}
               extraClass="ml-1 mt-6"
+              disabled={isSubmit}
             />
-            {isChanged && (
+            {isChanged && isSubmit && (
               <div className={`${styles.btnsContainer} mt-6`}>
                 <Button type="secondary" onClick={(e) => cancelChanges(e)}>
                   Отмена
                 </Button>
-                <Button type="submit">Сохранить</Button>
+                <Button htmlType="button" type="primary" size="medium">
+                  <div className={styles.loaderContainer}>
+                    <div className={styles.loader}></div>
+                  </div>
+                </Button>
+              </div>
+            )}
+            {isChanged && !isSubmit && (
+              <div className={`${styles.btnsContainer} mt-6`}>
+                <Button
+                  htmlType="button"
+                  type="secondary"
+                  onClick={(e) => cancelChanges(e)}
+                >
+                  Отмена
+                </Button>
+                <Button htmlType="submit" type="primary" size="medium">
+                  Сохранить
+                </Button>
               </div>
             )}
           </form>

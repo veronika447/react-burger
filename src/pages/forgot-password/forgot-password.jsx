@@ -6,7 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { forgotPasswordFormSetValue } from "../../services/forgot-password-form-slice";
+import {
+  forgotPasswordFormSetValue,
+  resetForm,
+} from "../../services/forgot-password-form-slice";
 import { request } from "../../utils/request";
 import { useState } from "react";
 
@@ -15,6 +18,7 @@ export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const form = useSelector((state) => state.forgotPasswordForm);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (e) => {
     dispatch(forgotPasswordFormSetValue(e.target.value));
@@ -22,6 +26,7 @@ export const ForgotPasswordPage = () => {
 
   const checkEmail = (e) => {
     e.preventDefault();
+    setIsSubmit(true);
     request("/password-reset", {
       method: "POST",
       headers: {
@@ -34,12 +39,16 @@ export const ForgotPasswordPage = () => {
       .then((res) => {
         if (res.success) {
           navigate("/reset-password");
+          dispatch(resetForm());
         } else {
           setErrorMessage(true);
         }
       })
       .catch(() => {
         setErrorMessage(true);
+      })
+      .finally(() => {
+        setIsSubmit(false);
       });
   };
 
@@ -61,20 +70,34 @@ export const ForgotPasswordPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
           {errorMessage && (
             <span className={`${styles.errorMessage} ml-8`}>
               Неверный e-mail
             </span>
           )}
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-            extraClass="mt-6"
-          >
-            Восстановить{" "}
-          </Button>
+          {isSubmit ? (
+            <Button
+              htmlType="button"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              <div className={styles.loaderContainer}>
+                <div className={styles.loader}></div>
+              </div>
+            </Button>
+          ) : (
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              Восстановить{" "}
+            </Button>
+          )}
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Вспомнили пароль?

@@ -13,8 +13,13 @@ const registerFormSlice = createSlice({
     registerFormSetValue: (state, action) => {
       state[action.payload.field] = action.payload.value;
     },
+    resetForm: (state) => {
+      state.name = "";
+      state.email = "";
+      state.password = "";
+    },
   },
 });
 
-export const { registerFormSetValue } = registerFormSlice.actions;
+export const { registerFormSetValue, resetForm } = registerFormSlice.actions;
 export default registerFormSlice.reducer;

@@ -6,12 +6,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPasswordFormSetValue } from "../../services/reset-password-form-slice";
+import {
+  resetPasswordFormSetValue,
+  resetForm,
+} from "../../services/reset-password-form-slice";
 import { request } from "../../utils/request";
+import { useState } from "react";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const form = useSelector((state) => state.resetPasswordForm);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (e) => {
     dispatch(
@@ -21,13 +26,22 @@ export const ResetPasswordPage = () => {
 
   const resetPassword = (e) => {
     e.preventDefault();
+    setIsSubmit(true);
     request("/password-reset/reset", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({ password: form.password, token: form.code }),
-    });
+    })
+      .then((res) => {
+        if (res.success) {
+          dispatch(resetForm());
+        }
+      })
+      .finally(() => {
+        setIsSubmit(false);
+      });
   };
 
   return (
@@ -49,6 +63,7 @@ export const ResetPasswordPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
           <Input
             name={"code"}
@@ -60,15 +75,29 @@ export const ResetPasswordPage = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="ml-1 mt-6"
+            disabled={isSubmit}
           />
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-            extraClass="mt-6"
-          >
-            Сохранить{" "}
-          </Button>
+          {isSubmit ? (
+            <Button
+              htmlType="button"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              <div className={styles.loaderContainer}>
+                <div className={styles.loader}></div>
+              </div>
+            </Button>
+          ) : (
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+            >
+              Сохранить{" "}
+            </Button>
+          )}
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Вспомнили пароль?
