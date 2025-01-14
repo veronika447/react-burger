@@ -1,6 +1,6 @@
 import styles from "./profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Button,
   Input,
@@ -8,15 +8,20 @@ import {
 import AppHeader from "../../components/app-header/app-header";
 import { useState } from "react";
 import { request } from "../../utils/request";
-import { setUserData } from "../../services/auth-slice";
+import {
+  removeUserData,
+  changeUserInfo,
+  refreshTokens,
+} from "../../services/auth-slice";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userData = useSelector((state) => state.auth);
   const [isChanged, setIsChanged] = useState(false);
   const [actualFormValues, setActualFormValues] = useState({
-    name: userData.user.name,
-    email: userData.user.email,
+    name: userData.user ? userData.user.name : "",
+    email: userData.user ? userData.user.email : "",
     password: "",
   });
   const [isSubmit, setIsSubmit] = useState(false);
@@ -46,8 +51,7 @@ export const ProfilePage = () => {
         authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        name: actualFormValues.name,
-        email: actualFormValues.email,
+        user: { name: actualFormValues.name, email: actualFormValues.email },
       }),
     });
   };
@@ -68,7 +72,7 @@ export const ProfilePage = () => {
     changeUserDataRequest(userData.accessToken)
       .then((res) => {
         if (res.success) {
-          dispatch(setUserData({ user: res.user }));
+          dispatch(changeUserInfo({ user: res.user }));
           setIsSuccess(true);
           setIsChanged(false);
         }
@@ -80,7 +84,7 @@ export const ProfilePage = () => {
               const token = res.accessToken.split(" ")[1];
               const refreshToken = res.refreshToken;
               dispatch(
-                setUserData({
+                refreshTokens({
                   accessToken: token,
                   refreshToken: refreshToken,
                 })
@@ -108,6 +112,25 @@ export const ProfilePage = () => {
     setIsError(false);
   };
 
+  const logoutRequest = (token) => {
+    return request("/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ token: token }),
+    });
+  };
+
+  const logout = () => {
+    logoutRequest(userData.refreshToken).then((res) => {
+      if (res.success) {
+        dispatch(removeUserData());
+        navigate("/", { replace: true });
+      }
+    });
+  };
+
   return (
     <div className={styles.page}>
       <AppHeader />
@@ -127,6 +150,7 @@ export const ProfilePage = () => {
           </Link>
           <h3
             className={`${styles.title} text text_type_main-medium text_color_inactive pt-4`}
+            onClick={() => logout()}
           >
             Выход
           </h3>

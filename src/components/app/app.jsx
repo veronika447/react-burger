@@ -13,8 +13,10 @@ import {
   DetailsPage,
   ProfilePage,
   OrdersPage,
-  NotFoundPage
+  NotFoundPage,
 } from "../../pages";
+
+import { ProtectedRouteElement } from "../protected-route/protected-route";
 
 import { Modal } from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -33,8 +35,14 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/ingredients/:id" element={<DetailsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/orders" element={<OrdersPage />} />
+        <Route
+          path="/profile"
+          element={<ProtectedRouteElement element={<ProfilePage />} />}
+        />
+        <Route
+          path="/profile/orders"
+          element={<ProtectedRouteElement element={<OrdersPage />} />}
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {previousLocation && (
