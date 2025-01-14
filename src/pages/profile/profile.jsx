@@ -1,5 +1,5 @@
 import styles from "./profile.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import {
   Button,
@@ -7,44 +7,105 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
 import { useState } from "react";
+import { request } from "../../utils/request";
+import { setUserData } from "../../services/auth-slice";
 
 export const ProfilePage = () => {
-  const userData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth);
   const [isChanged, setIsChanged] = useState(false);
   const [actualFormValues, setActualFormValues] = useState({
-    name: userData.name,
-    email: userData.email,
+    name: userData.user.name,
+    email: userData.user.email,
     password: "",
   });
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleInputChange = (e) => {
     e.preventDefault();
     setActualFormValues((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    if (userData[e.target.name]) {
-      if (userData[e.target.name] !== e.target.value) {
+    if (userData.user[e.target.name]) {
+      if (userData.user[e.target.name] !== e.target.value) {
         setIsChanged(true);
       }
     } else {
       setIsChanged(true);
     }
+    setIsSuccess(false);
+  };
+
+  const changeUserDataRequest = (token) => {
+    return request("/auth/user", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: actualFormValues.name,
+        email: actualFormValues.email,
+      }),
+    });
+  };
+
+  const refreshTokenRequest = (token) => {
+    return request("/auth/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({ token: token }),
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    changeUserDataRequest(userData.accessToken)
+      .then((res) => {
+        if (res.success) {
+          dispatch(setUserData({ user: res.user }));
+          setIsSuccess(true);
+          setIsChanged(false);
+        }
+      })
+      .catch((error) => {
+        if (error === 401) {
+          refreshTokenRequest(userData.refreshToken).then((res) => {
+            if (res.success) {
+              const token = res.accessToken.split(" ")[1];
+              const refreshToken = res.refreshToken;
+              dispatch(
+                setUserData({
+                  accessToken: token,
+                  refreshToken: refreshToken,
+                })
+              );
+              changeUserDataRequest(token);
+            }
+          });
+        } else {
+          setIsError(true);
+        }
+      })
+      .finally(() => {
+        setIsSubmit(false);
+      });
   };
 
   const cancelChanges = (e) => {
     e.preventDefault();
     setActualFormValues({
-      name: userData.name,
-      email: userData.email,
+      name: userData.user.name,
+      email: userData.user.email,
       password: "",
     });
     setIsChanged(false);
+    setIsError(false);
   };
 
   return (
@@ -114,6 +175,16 @@ export const ProfilePage = () => {
               extraClass="ml-1 mt-6"
               disabled={isSubmit}
             />
+            {isSuccess && (
+              <span className={`${styles.completeMessage} mt-2 text`}>
+                Данные изменены
+              </span>
+            )}
+            {isError && (
+              <span className={`${styles.errorMessage} mt-2 text`}>
+                При сохранении данных произошла ошибка
+              </span>
+            )}{" "}
             {isChanged && isSubmit && (
               <div className={`${styles.btnsContainer} mt-6`}>
                 <Button type="secondary" onClick={(e) => cancelChanges(e)}>

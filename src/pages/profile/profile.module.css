@@ -42,6 +42,16 @@
   color: unset;
 }
 
+.errorMessage {
+  align-self: flex-end;
+  color: red;
+}
+
+.completeMessage {
+  align-self: flex-end;
+  color: green;
+}
+
 .btnsContainer {
   align-self: flex-end;
 }
