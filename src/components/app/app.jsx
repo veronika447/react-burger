@@ -13,6 +13,7 @@ import {
   DetailsPage,
   ProfilePage,
   OrdersPage,
+  NotFoundPage
 } from "../../pages";
 
 import { Modal } from "../modal/modal";
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/ingredients/:id" element={<DetailsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/orders" element={<OrdersPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {previousLocation && (
         <Routes>

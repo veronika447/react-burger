@@ -6,6 +6,7 @@ import { HomePage } from "./home/home";
 import { DetailsPage } from "./details/details";
 import { ProfilePage } from "./profile/profile";
 import { OrdersPage } from "./orders/orders";
+import { NotFoundPage } from "./not-found/not-found";
 
 export {
   LoginPage,
@@ -15,5 +16,6 @@ export {
   HomePage,
   DetailsPage,
   ProfilePage,
-  OrdersPage
+  OrdersPage,
+  NotFoundPage,
 };
