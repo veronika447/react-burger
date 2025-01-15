@@ -19,16 +19,25 @@ export const ResetPasswordPage = () => {
   const form = useSelector((state) => state.resetPasswordForm);
   const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const check = localStorage.getItem("forgot-password");
     if (!check) {
       navigate("/login", { replace: true });
     }
-    return localStorage.removeItem("forgot-password");
+    return () => {
+      localStorage.removeItem("forgot-password");
+      dispatch(resetForm());
+      setErrorMessage(null);
+      setError(false);
+    };
   }, []);
 
   const handleInputChange = (e) => {
+    setErrorMessage(null);
+    setError(false);
     dispatch(
       resetPasswordFormSetValue({ field: e.target.name, value: e.target.value })
     );
@@ -46,8 +55,13 @@ export const ResetPasswordPage = () => {
     })
       .then((res) => {
         if (res.success) {
+          navigate("/login", { replace: true });
           dispatch(resetForm());
         }
+      })
+      .catch(() => {
+        setError(true);
+        setErrorMessage("Неверный код");
       })
       .finally(() => {
         setIsSubmit(false);
@@ -88,9 +102,14 @@ export const ResetPasswordPage = () => {
             error={false}
             errorText={"Ошибка"}
             size={"default"}
-            extraClass="ml-1 mt-6"
+            extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
           />
+          {error && (
+            <span className={`${styles.errorMessage} ml-8`}>
+              {errorMessage}
+            </span>
+          )}
           {isSubmit ? (
             <Button
               htmlType="button"

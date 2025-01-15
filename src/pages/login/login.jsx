@@ -1,9 +1,10 @@
 import styles from "./login.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppHeader from "../../components/app-header/app-header";
 import {
   Button,
   Input,
+  PasswordInput
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,14 @@ export const LoginPage = () => {
   const loginForm = useSelector((state) => state.loginForm);
   const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetForm());
+    }
+  }, [])
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -47,12 +56,22 @@ export const LoginPage = () => {
           navigate("/");
         }
       })
+      .catch((err) => {
+        if (err === 401) {
+          setErrorMessage("Неверный email или пароль");
+        } else {
+          setErrorMessage(`Ошибка ${err}`);
+        }
+        setError(true);
+      })
       .finally(() => {
         setIsSubmit(false);
       });
   };
 
   const handleInputChange = (e) => {
+    setError(false);
+    setErrorMessage(null);
     dispatch(
       loginFormSetValue({ field: e.target.name, value: e.target.value })
     );
@@ -77,23 +96,21 @@ export const LoginPage = () => {
             error={false}
             errorText={"Ошибка"}
             size={"default"}
-            extraClass="ml-1 mt-6"
+            extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
           />
-          <Input
+          <PasswordInput
             name={"password"}
-            type={"password"}
-            placeholder={"Пароль"}
             value={loginForm.password}
             onChange={handleInputChange}
-            required={true}
-            icon={"ShowIcon"}
-            error={false}
-            errorText={"Ошибка"}
-            size={"default"}
-            extraClass="ml-1 mt-6"
+            extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
           />
+          {error && (
+            <span className={`${styles.errorMessage} ml-8`}>
+              {errorMessage}
+            </span>
+          )}
           {isSubmit ? (
             <Button
               htmlType="button"

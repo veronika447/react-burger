@@ -3,6 +3,7 @@ import AppHeader from "../../components/app-header/app-header";
 import {
   Button,
   Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate, Navigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -98,16 +99,10 @@ export const RegisterPage = () => {
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
           />
-          <Input
+          <PasswordInput
             name={"password"}
-            type={"password"}
-            placeholder={"Пароль"}
             value={registerForm.password}
             onChange={handleInputChange}
-            icon={"ShowIcon"}
-            error={false}
-            errorText={"Ошибка"}
-            size={"default"}
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
           />

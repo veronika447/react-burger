@@ -11,14 +11,13 @@ import {
   resetForm,
 } from "../../services/forgot-password-form-slice";
 import { request } from "../../utils/request";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const form = useSelector((state) => state.forgotPasswordForm);
   const user = useSelector((state) => state.auth.user);
-  const [errorMessage, setErrorMessage] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (e) => {
@@ -43,12 +42,7 @@ export const ForgotPasswordPage = () => {
         if (res.success) {
           navigate("/reset-password");
           dispatch(resetForm());
-        } else {
-          setErrorMessage(true);
         }
-      })
-      .catch(() => {
-        setErrorMessage(true);
       })
       .finally(() => {
         setIsSubmit(false);
@@ -79,11 +73,6 @@ export const ForgotPasswordPage = () => {
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
           />
-          {errorMessage && (
-            <span className={`${styles.errorMessage} ml-8`}>
-              Неверный e-mail
-            </span>
-          )}
           {isSubmit ? (
             <Button
               htmlType="button"
