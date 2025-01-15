@@ -20,10 +20,12 @@ export default function AppHeader() {
     if (location.pathname === "/") {
       setIsConstructorActive(true);
       setIsProfileActive(false);
-    }
-    if (location.pathname === "/profile") {
+    } else if (location.pathname === "/profile") {
       setIsProfileActive(true);
       setIsConstructorActive(false);
+    } else {
+      setIsConstructorActive(false);
+      setIsProfileActive(false);
     }
   }, [location]);
 

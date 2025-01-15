@@ -18,11 +18,18 @@ import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
 import { getOrderNumber } from "../../services/order-slice";
 import { resetConstructor } from "../../services/burger-constructor-slice";
+import { useNavigate } from "react-router";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const selectedIngredients = useSelector((state) => state.burgerConstructor);
+  const user = useSelector((state) => state.auth.user);
+
   const openModalWindow = () => {
+    if (!user) {
+      return navigate("/login", { replace: true });
+    }
     if (!selectedIngredients.bun) {
       return;
     }
@@ -92,7 +99,14 @@ export default function BurgerConstructor() {
         <li
           ref={topBunRef}
           className={styles.listItem}
-          style={{ boxShadow: boxShadowBun }}
+          style={{
+            boxShadow: boxShadowBun,
+            borderTopRightRadius: "88px",
+            borderTopLeftRadius: "88px",
+            borderBottomLeftRadius: "40px",
+            borderBottomRightRadius: "40px",
+            width: "536px",
+          }}
         >
           {selectedIngredients.bun ? (
             <ConstructorElement
@@ -101,7 +115,7 @@ export default function BurgerConstructor() {
               text={selectedIngredients.bun.name + " (верх)"}
               price={selectedIngredients.bun.price}
               thumbnail={selectedIngredients.bun.image}
-              extraClass="ml-8 pt-4 pb-4 pr-8 pl-6 mr-4"
+              extraClass="pt-4 pb-4 pr-8 pl-6 mr-4"
             />
           ) : (
             <p
@@ -111,7 +125,14 @@ export default function BurgerConstructor() {
             </p>
           )}
         </li>
-        <li ref={filingRef} style={{ boxShadow: boxShadowFiling }}>
+        <li
+          ref={filingRef}
+          style={{
+            boxShadow: boxShadowFiling,
+            borderRadius: "40px",
+            width: "536px",
+          }}
+        >
           {selectedIngredients.ingredients.length ? (
             <ul className={styles.listFilling}>
               {selectedIngredients.ingredients.map((el, index) => (
@@ -141,7 +162,17 @@ export default function BurgerConstructor() {
             </p>
           )}
         </li>
-        <li ref={bottomBunRef} style={{ boxShadow: boxShadowBun }}>
+        <li
+          ref={bottomBunRef}
+          style={{
+            boxShadow: boxShadowBun,
+            borderTopLeftRadius: "40px",
+            borderTopRightRadius: "40px",
+            borderBottomLeftRadius: "88px",
+            borderBottomRightRadius: "88px",
+            width: "536px",
+          }}
+        >
           {selectedIngredients.bun ? (
             <ConstructorElement
               type="bottom"
@@ -149,7 +180,7 @@ export default function BurgerConstructor() {
               text={selectedIngredients.bun.name + " (низ)"}
               price={selectedIngredients.bun.price}
               thumbnail={selectedIngredients.bun.image}
-              extraClass="ml-8 pt-4 pb-4 pr-8 pl-6 mr-4"
+              extraClass="pt-4 pb-4 pr-8 pl-6 mr-4"
             />
           ) : (
             <p

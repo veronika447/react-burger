@@ -3,3 +3,10 @@
   flex-direction: row;
   align-items: center;
 }
+
+.navItem:hover {
+  height: 5px;
+  border-radius: 40px;
+  box-shadow: 0px 0px 10px 2px lightblue;
+}
+
