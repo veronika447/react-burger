@@ -217,7 +217,3 @@ export default function BurgerConstructor() {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  onOpen: PropTypes.func,
-};

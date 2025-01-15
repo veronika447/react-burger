@@ -15,13 +15,11 @@ export default function NavItem({ icon, text, isActive }) {
         {text}{" "}
       </p>
     </div>
-
-    // </a>
   );
 }
 
 NavItem.propTypes = {
   text: PropTypes.string,
-  sectionId: PropTypes.string,
+  icon: PropTypes.node,
   isActive: PropTypes.bool,
 };
