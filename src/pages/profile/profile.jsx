@@ -51,7 +51,8 @@ export const ProfilePage = () => {
         authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        user: { name: actualFormValues.name, email: actualFormValues.email },
+        name: actualFormValues.name,
+        email: actualFormValues.email,
       }),
     });
   };
