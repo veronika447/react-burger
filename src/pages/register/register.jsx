@@ -11,7 +11,7 @@ import {
   registerFormSetValue,
   resetForm,
 } from "../../services/register-form-slice";
-import { request } from "../../utils/request";
+import { registerRequest } from "../../utils/register";
 import { setUserData } from "../../services/auth-slice";
 import { useState } from "react";
 
@@ -25,17 +25,12 @@ export const RegisterPage = () => {
   const register = (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    request("/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        email: registerForm.email,
-        password: registerForm.password,
-        name: registerForm.name,
-      }),
-    })
+
+    registerRequest(
+      registerForm.email,
+      registerForm.password,
+      registerForm.name
+    )
       .then((res) => {
         if (res.success) {
           const userData = res.user;

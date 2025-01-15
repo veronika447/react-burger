@@ -7,7 +7,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
 import { useEffect, useState } from "react";
-import { request } from "../../utils/request";
+import { refreshTokenRequest } from "../../utils/refresh-token";
+import { changeUserDataRequest } from "../../utils/change-user-data";
+import { logoutRequest } from "../../utils/logout";
 import {
   removeUserData,
   changeUserInfo,
@@ -60,34 +62,14 @@ export const ProfilePage = () => {
     setIsSuccess(false);
   };
 
-  const changeUserDataRequest = (token) => {
-    return request("/auth/user", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name: actualFormValues.name,
-        email: actualFormValues.email,
-      }),
-    });
-  };
-
-  const refreshTokenRequest = (token) => {
-    return request("/auth/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({ token: token }),
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    changeUserDataRequest(userData.accessToken)
+    changeUserDataRequest(
+      userData.accessToken,
+      actualFormValues.name,
+      actualFormValues.email
+    )
       .then((res) => {
         if (res.success) {
           dispatch(changeUserInfo({ user: res.user }));
@@ -95,24 +77,22 @@ export const ProfilePage = () => {
           setIsChanged(false);
         }
       })
-      .catch((error) => {
-        if (error === 401) {
-          refreshTokenRequest(userData.refreshToken).then((res) => {
-            if (res.success) {
-              const token = res.accessToken.split(" ")[1];
-              const refreshToken = res.refreshToken;
-              dispatch(
-                refreshTokens({
-                  accessToken: token,
-                  refreshToken: refreshToken,
-                })
-              );
-              changeUserDataRequest(token);
-            }
-          });
-        } else {
-          setIsError(true);
-        }
+      .catch(() => {
+        refreshTokenRequest(userData.refreshToken).then((res) => {
+          if (res.success) {
+            const newToken = res.accessToken.split(" ")[1];
+            const newRefreshToken = res.refreshToken;
+            dispatch(
+              refreshTokens({
+                accessToken: newToken,
+                refreshToken: newRefreshToken,
+              })
+            );
+            return changeUserDataRequest(newToken);
+          } else {
+            setIsError(true);
+          }
+        });
       })
       .finally(() => {
         setIsSubmit(false);
@@ -130,16 +110,6 @@ export const ProfilePage = () => {
     setIsError(false);
   };
 
-  const logoutRequest = (token) => {
-    return request("/auth/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({ token: token }),
-    });
-  };
-
   const logout = () => {
     setIsLogoutActive(true);
     setIsProfileActive(false);
@@ -147,7 +117,7 @@ export const ProfilePage = () => {
     logoutRequest(userData.refreshToken).then((res) => {
       if (res.success) {
         dispatch(removeUserData());
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
       }
     });
   };
@@ -160,17 +130,27 @@ export const ProfilePage = () => {
       <div className={`${styles.container}`}>
         <section className={`${styles.navBar} mt-30`}>
           <Link to="/profile" className={styles.link}>
-            <h3 className={`${styles.title} ${!isProfileActive && inactiveClass} text text_type_main-medium pt-4`}>
+            <h3
+              className={`${styles.title} ${
+                !isProfileActive && inactiveClass
+              } text text_type_main-medium pt-4`}
+            >
               Профиль
             </h3>
           </Link>
           <Link to="/profile/orders" className={styles.link}>
-            <h3 className={`${styles.title} ${!isOrdersActive && inactiveClass} text text_type_main-medium pt-4`}>
+            <h3
+              className={`${styles.title} ${
+                !isOrdersActive && inactiveClass
+              } text text_type_main-medium pt-4`}
+            >
               История заказов
             </h3>
           </Link>
           <h3
-            className={`${styles.title}  ${!isLogoutActive && inactiveClass} text text_type_main-medium pt-4`}
+            className={`${styles.title}  ${
+              !isLogoutActive && inactiveClass
+            } text text_type_main-medium pt-4`}
             onClick={() => logout()}
           >
             Выход

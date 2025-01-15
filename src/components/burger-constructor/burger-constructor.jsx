@@ -1,5 +1,6 @@
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeValue } from "../../services/modal-window-slice";
 import {
@@ -25,23 +26,26 @@ export default function BurgerConstructor() {
   const navigate = useNavigate();
   const selectedIngredients = useSelector((state) => state.burgerConstructor);
   const user = useSelector((state) => state.auth.user);
+  const [isBunError, setIsBunError] = useState(false);
 
-  const openModalWindow = () => {
+  const handleOnOrderButtonClick = () => {
     if (!user) {
       return navigate("/login", { replace: true });
     }
     if (!selectedIngredients.bun) {
+      setIsBunError(true);
       return;
     }
     dispatch(getOrderNumber())
       .unwrap()
       .then(() => {
+        setIsBunError(false);
+        dispatch(changeValue("order"));
         dispatch(resetConstructor());
       })
       .catch(() => {
         return;
       });
-    dispatch(changeValue("order"));
   };
 
   const [{ isHoverTopBun }, topBunRef] = useDrop({
@@ -50,6 +54,7 @@ export default function BurgerConstructor() {
       isHoverTopBun: monitor.isOver(),
     }),
     drop(item) {
+      setIsBunError(false)
       dispatch(addBun(item));
     },
   });
@@ -81,6 +86,8 @@ export default function BurgerConstructor() {
     ? "0px 0px 10px  2px lightblue"
     : "none";
 
+  const border = isBunError ? "solid red" : "none";
+
   const totalPrice = useMemo(() => {
     if (selectedIngredients.bun)
       return (
@@ -101,6 +108,7 @@ export default function BurgerConstructor() {
           className={styles.listItem}
           style={{
             boxShadow: boxShadowBun,
+            border: border,
             borderTopRightRadius: "88px",
             borderTopLeftRadius: "88px",
             borderBottomLeftRadius: "40px",
@@ -166,6 +174,7 @@ export default function BurgerConstructor() {
           ref={bottomBunRef}
           style={{
             boxShadow: boxShadowBun,
+            border: border,
             borderTopLeftRadius: "40px",
             borderTopRightRadius: "40px",
             borderBottomLeftRadius: "88px",
@@ -200,7 +209,7 @@ export default function BurgerConstructor() {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => openModalWindow()}
+          onClick={() => handleOnOrderButtonClick()}
         >
           Оформить заказ
         </Button>

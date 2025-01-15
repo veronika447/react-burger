@@ -1,4 +1,4 @@
-import { checkResponse } from "./checkResponse";
+import { checkResponse } from "./check-response";
 import { BASE_URL } from "../components/app/app";
 
 export function request(endPoint, options) {

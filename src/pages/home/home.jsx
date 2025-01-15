@@ -22,28 +22,14 @@ export const HomePage = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    // return () => 
   }, []);
 
   if (ingredientsFailed) {
     return <div>Ошибка</div>;
   }
-  if (ingredientsRequest) {
-    return (
-      <div className={styles.loaderContainer}>
-        <span className={styles.loader}></span>
-      </div>
-    );
-  }
+
   if (orderFailed) {
     return <div> При создании заказа произошла ошибка</div>;
-  }
-  if (orderRequest) {
-    return (
-      <div className={styles.loaderContainer}>
-        <span className={styles.loader}></span>
-      </div>
-    );
   }
 
   return (
@@ -55,6 +41,11 @@ export const HomePage = () => {
             <BurgerIngredients />
             <BurgerConstructor />
           </div>
+          {(orderRequest || ingredientsRequest) && (
+            <div className={styles.loaderContainer}>
+              <span className={styles.loader}></span>
+            </div>
+          )}
         </main>
       </DndProvider>
 

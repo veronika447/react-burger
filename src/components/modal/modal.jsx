@@ -5,15 +5,18 @@ import { createPortal } from "react-dom";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { changeValue } from "../../services/modal-window-slice";
+import { resetOrderNumber } from "../../services/order-slice";
 
 const modalRoot = document.getElementById("react-modals");
 
 export function Modal({ children, title }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const modalWindow = useSelector((state) => state.modalValue.value);
+
   useEffect(() => {
     function onEscClick(e) {
       if (e.key === "Escape") {
@@ -29,6 +32,9 @@ export function Modal({ children, title }) {
   }, []);
 
   const onClose = () => {
+    if (modalWindow === "order") {
+      dispatch(resetOrderNumber());
+    }
     dispatch(changeValue(null));
     navigate("/");
   };
