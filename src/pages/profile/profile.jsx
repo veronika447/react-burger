@@ -1,12 +1,12 @@
 import styles from "./profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import AppHeader from "../../components/app-header/app-header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { request } from "../../utils/request";
 import {
   removeUserData,
@@ -17,6 +17,7 @@ import {
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const userData = useSelector((state) => state.auth);
   const [isChanged, setIsChanged] = useState(false);
   const [actualFormValues, setActualFormValues] = useState({
@@ -27,6 +28,22 @@ export const ProfilePage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isProfileActive, setIsProfileActive] = useState(true);
+  const [isOrdersActive, setIsOrdersActive] = useState(false);
+  const [isLogoutActive, setIsLogoutActive] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === "/profile") {
+      setIsProfileActive(true);
+      setIsLogoutActive(false);
+      setIsOrdersActive(false);
+    }
+    if (location.pathname === "/profile/orders") {
+      setIsOrdersActive(true);
+      setIsProfileActive(false);
+      setIsLogoutActive(false);
+    }
+  }, [location]);
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -124,6 +141,9 @@ export const ProfilePage = () => {
   };
 
   const logout = () => {
+    setIsLogoutActive(true);
+    setIsProfileActive(false);
+    setIsOrdersActive(false);
     logoutRequest(userData.refreshToken).then((res) => {
       if (res.success) {
         dispatch(removeUserData());
@@ -132,25 +152,25 @@ export const ProfilePage = () => {
     });
   };
 
+  const inactiveClass = "text_color_inactive";
+
   return (
     <div className={styles.page}>
       <AppHeader />
       <div className={`${styles.container}`}>
         <section className={`${styles.navBar} mt-30`}>
           <Link to="/profile" className={styles.link}>
-            <h3 className={`${styles.title} text text_type_main-medium pt-4`}>
+            <h3 className={`${styles.title} ${!isProfileActive && inactiveClass} text text_type_main-medium pt-4`}>
               Профиль
             </h3>
           </Link>
-          <Link to="/orders" className={styles.link}>
-            <h3
-              className={`${styles.title} text text_type_main-medium text_color_inactive pt-4`}
-            >
+          <Link to="/profile/orders" className={styles.link}>
+            <h3 className={`${styles.title} ${!isOrdersActive && inactiveClass} text text_type_main-medium pt-4`}>
               История заказов
             </h3>
           </Link>
           <h3
-            className={`${styles.title} text text_type_main-medium text_color_inactive pt-4`}
+            className={`${styles.title}  ${!isLogoutActive && inactiveClass} text text_type_main-medium pt-4`}
             onClick={() => logout()}
           >
             Выход

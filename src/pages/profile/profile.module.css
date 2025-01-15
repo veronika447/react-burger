@@ -24,6 +24,11 @@
 .title {
   height: 48px;
   cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.title:hover {
+  color: rgba(242, 242, 243, 1);
 }
 
 .form {
