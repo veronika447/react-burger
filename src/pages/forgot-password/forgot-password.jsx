@@ -4,19 +4,20 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, Navigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   forgotPasswordFormSetValue,
   resetForm,
 } from "../../services/forgot-password-form-slice";
 import { request } from "../../utils/request";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const form = useSelector((state) => state.forgotPasswordForm);
+  const user = useSelector((state) => state.auth.user);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
 
@@ -27,6 +28,8 @@ export const ForgotPasswordPage = () => {
   const checkEmail = (e) => {
     e.preventDefault();
     setIsSubmit(true);
+    localStorage.setItem("forgot-password", true);
+
     request("/password-reset", {
       method: "POST",
       headers: {
@@ -51,6 +54,10 @@ export const ForgotPasswordPage = () => {
         setIsSubmit(false);
       });
   };
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className={styles.page}>

@@ -5,7 +5,7 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
 import { request } from "../../utils/request";
@@ -15,6 +15,7 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginForm = useSelector((state) => state.loginForm);
+  const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleLogin = (e) => {
@@ -56,6 +57,10 @@ export const LoginPage = () => {
       loginFormSetValue({ field: e.target.name, value: e.target.value })
     );
   };
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className={styles.page}>

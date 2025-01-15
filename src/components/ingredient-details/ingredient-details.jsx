@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 export default function IngredientDetails() {
   const ingredient = useSelector((state) => state.details);
-  console.log(1);
   return (
     <div className={styles.ingredientDetails}>
       <img

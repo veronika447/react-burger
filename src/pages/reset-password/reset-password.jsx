@@ -4,19 +4,29 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetPasswordFormSetValue,
   resetForm,
 } from "../../services/reset-password-form-slice";
 import { request } from "../../utils/request";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const form = useSelector((state) => state.resetPasswordForm);
+  const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
+
+  useEffect(() => {
+    const check = localStorage.getItem("forgot-password");
+    if (!check) {
+      navigate("/login", { replace: true });
+    }
+    return localStorage.removeItem("forgot-password");
+  }, []);
 
   const handleInputChange = (e) => {
     dispatch(
@@ -43,6 +53,10 @@ export const ResetPasswordPage = () => {
         setIsSubmit(false);
       });
   };
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className={styles.page}>
