@@ -17,6 +17,7 @@ import {
 } from "../../pages";
 
 import { ProtectedRouteElement } from "../protected-route/protected-route";
+import { ProtectedRouteWithoutAuth } from "../protected-route/protected-route-without-auth";
 
 import { Modal } from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -30,10 +31,26 @@ export default function App() {
     <>
       <Routes location={previousLocation || location}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route
+          path="/login"
+          element={<ProtectedRouteWithoutAuth element={<LoginPage />} />}
+        />
+        <Route
+          path="/register"
+          element={<ProtectedRouteWithoutAuth element={<RegisterPage />} />}
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRouteWithoutAuth element={<ForgotPasswordPage />} />
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRouteWithoutAuth element={<ResetPasswordPage />} />
+          }
+        />
         <Route path="/ingredients/:id" element={<DetailsPage />} />
         <Route
           path="/profile"

@@ -5,7 +5,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   registerFormSetValue,
@@ -19,7 +19,6 @@ export const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const registerForm = useSelector((state) => state.registerForm);
-  const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const register = (e) => {
@@ -57,10 +56,6 @@ export const RegisterPage = () => {
       registerFormSetValue({ field: e.target.name, value: e.target.value })
     );
   };
-
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <div className={styles.page}>

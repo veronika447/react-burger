@@ -4,9 +4,9 @@ import AppHeader from "../../components/app-header/app-header";
 import {
   Button,
   Input,
-  PasswordInput
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
 import { request } from "../../utils/request";
@@ -16,7 +16,6 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginForm = useSelector((state) => state.loginForm);
-  const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -24,8 +23,8 @@ export const LoginPage = () => {
   useEffect(() => {
     return () => {
       dispatch(resetForm());
-    }
-  }, [])
+    };
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -76,10 +75,6 @@ export const LoginPage = () => {
       loginFormSetValue({ field: e.target.name, value: e.target.value })
     );
   };
-
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <div className={styles.page}>

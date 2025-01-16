@@ -4,7 +4,7 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   forgotPasswordFormSetValue,
@@ -17,7 +17,6 @@ export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const form = useSelector((state) => state.forgotPasswordForm);
-  const user = useSelector((state) => state.auth.user);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (e) => {
@@ -48,10 +47,6 @@ export const ForgotPasswordPage = () => {
         setIsSubmit(false);
       });
   };
-
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <div className={styles.page}>
