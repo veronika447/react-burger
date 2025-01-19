@@ -1,7 +1,7 @@
 import { request } from "./request";
 
 export const checkEmailRequest = (email) => {
-  request("/password-reset", {
+  return request("/password-reset", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

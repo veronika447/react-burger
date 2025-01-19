@@ -1,7 +1,7 @@
 import { request } from "./request";
 
 export const resetPasswordRequest = (password, token) => {
-  request("/password-reset/reset", {
+  return request("/password-reset/reset", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
