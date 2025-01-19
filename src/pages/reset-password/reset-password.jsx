@@ -10,8 +10,8 @@ import {
   resetPasswordFormSetValue,
   resetForm,
 } from "../../services/reset-password-form-slice";
-import { request } from "../../utils/request";
 import { useEffect, useState } from "react";
+import { resetPasswordRequest } from "../../utils/reset-password";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
@@ -45,13 +45,7 @@ export const ResetPasswordPage = () => {
   const resetPassword = (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    request("/password-reset/reset", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({ password: form.password, token: form.code }),
-    })
+    resetPasswordRequest(form.password, form.code)
       .then((res) => {
         if (res.success) {
           navigate("/login", { replace: true });

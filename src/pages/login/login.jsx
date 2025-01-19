@@ -9,8 +9,8 @@ import {
 import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
-import { request } from "../../utils/request";
 import { setUserData } from "../../services/auth-slice";
+import { loginRequest } from "../../utils/login";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -29,16 +29,7 @@ export const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    request("/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        email: loginForm.email,
-        password: loginForm.password,
-      }),
-    })
+    loginRequest(loginForm.email, loginForm.password)
       .then((res) => {
         if (res.success) {
           const userData = res.user;

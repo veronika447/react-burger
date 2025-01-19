@@ -10,8 +10,8 @@ import {
   forgotPasswordFormSetValue,
   resetForm,
 } from "../../services/forgot-password-form-slice";
-import { request } from "../../utils/request";
 import { useState } from "react";
+import { checkEmailRequest } from "../../utils/check-email";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
@@ -28,15 +28,7 @@ export const ForgotPasswordPage = () => {
     setIsSubmit(true);
     localStorage.setItem("forgot-password", true);
 
-    request("/password-reset", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({
-        email: form.email,
-      }),
-    })
+    checkEmailRequest(form.email)
       .then((res) => {
         if (res.success) {
           navigate("/reset-password");
