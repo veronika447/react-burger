@@ -1,5 +1,4 @@
 import styles from "./app-header.module.css";
-import PropTypes from "prop-types";
 
 import {
   BurgerIcon,
@@ -9,39 +8,61 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import NavItem from "./nav-item/nav-item";
+import { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router";
 
-export default function AppHeader({ sectionId }) {
+export default function AppHeader() {
+  const location = useLocation();
+  const [isProfileActive, setIsProfileActive] = useState(false);
+  const [isConstructorActive, setIsConstructorActive] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setIsConstructorActive(true);
+      setIsProfileActive(false);
+    } else if (location.pathname === "/profile") {
+      setIsProfileActive(true);
+      setIsConstructorActive(false);
+    } else {
+      setIsConstructorActive(false);
+      setIsProfileActive(false);
+    }
+  }, [location]);
+
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <nav className={styles.navBar}>
-          <NavItem
-            icon={<BurgerIcon type="primary" />}
-            text="Конструктор"
-            sectionId={sectionId}
-            isActive={true}
-          />
+          <Link to="/" className={styles.links}>
+            <NavItem
+              icon={
+                <BurgerIcon
+                  type={isConstructorActive ? "primary" : "secondary"}
+                />
+              }
+              text="Конструктор"
+              isActive={isConstructorActive}
+            />
+          </Link>
           <NavItem
             icon={<ListIcon type="secondary" />}
             text="Лента заказов"
-            sectionId={sectionId}
             isActive={false}
           />
         </nav>
         <Logo className="mr-30" />
         <nav className={styles.navBar}>
-          <NavItem
-            icon={<ProfileIcon type="secondary" />}
-            text="Личный кабинет"
-            sectionId={sectionId}
-            isActive={false}
-          />
+          <Link to="/profile" className={styles.links}>
+            <NavItem
+              icon={
+                <ProfileIcon type={isProfileActive ? "primary" : "secondary"} />
+              }
+              text="Личный кабинет"
+              isActive={isProfileActive}
+            />
+          </Link>
         </nav>
       </div>
     </header>
   );
 }
-
-AppHeader.propTypes = {
-  sectionId: PropTypes.string,
-};

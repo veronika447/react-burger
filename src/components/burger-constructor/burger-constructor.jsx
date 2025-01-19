@@ -1,12 +1,13 @@
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeValue } from "../../services/modal-window/modal-window-slice";
+import { changeValue } from "../../services/modal-window-slice";
 import {
   addBun,
   addIngredient,
   deleteIngredient,
-} from "../../services/burger-constructor/burger-constructor-slice";
+} from "../../services/burger-constructor-slice";
 import { useDrop } from "react-dnd";
 import {
   Button,
@@ -16,26 +17,35 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
-import { getOrderNumber } from "../../services/order/order-slice";
-import { resetConstructor } from "../../services/burger-constructor/burger-constructor-slice";
+import { getOrderNumber } from "../../services/order-slice";
+import { resetConstructor } from "../../services/burger-constructor-slice";
+import { useNavigate } from "react-router";
 
-export default function BurgerConstructor({ onOpen }) {
+export default function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const selectedIngredients = useSelector((state) => state.burgerConstructor);
-  const openModalWindow = () => {
+  const user = useSelector((state) => state.auth.user);
+  const [isBunError, setIsBunError] = useState(false);
+
+  const handleOnOrderButtonClick = () => {
+    if (!user) {
+      return navigate("/login", { replace: true });
+    }
     if (!selectedIngredients.bun) {
+      setIsBunError(true);
       return;
     }
     dispatch(getOrderNumber())
       .unwrap()
       .then(() => {
+        setIsBunError(false);
+        dispatch(changeValue("order"));
         dispatch(resetConstructor());
       })
       .catch(() => {
         return;
       });
-    onOpen();
-    dispatch(changeValue("order"));
   };
 
   const [{ isHoverTopBun }, topBunRef] = useDrop({
@@ -44,6 +54,7 @@ export default function BurgerConstructor({ onOpen }) {
       isHoverTopBun: monitor.isOver(),
     }),
     drop(item) {
+      setIsBunError(false)
       dispatch(addBun(item));
     },
   });
@@ -75,6 +86,8 @@ export default function BurgerConstructor({ onOpen }) {
     ? "0px 0px 10px  2px lightblue"
     : "none";
 
+  const border = isBunError ? "solid red" : "none";
+
   const totalPrice = useMemo(() => {
     if (selectedIngredients.bun)
       return (
@@ -93,7 +106,15 @@ export default function BurgerConstructor({ onOpen }) {
         <li
           ref={topBunRef}
           className={styles.listItem}
-          style={{ boxShadow: boxShadowBun }}
+          style={{
+            boxShadow: boxShadowBun,
+            border: border,
+            borderTopRightRadius: "88px",
+            borderTopLeftRadius: "88px",
+            borderBottomLeftRadius: "40px",
+            borderBottomRightRadius: "40px",
+            width: "536px",
+          }}
         >
           {selectedIngredients.bun ? (
             <ConstructorElement
@@ -102,7 +123,7 @@ export default function BurgerConstructor({ onOpen }) {
               text={selectedIngredients.bun.name + " (верх)"}
               price={selectedIngredients.bun.price}
               thumbnail={selectedIngredients.bun.image}
-              extraClass="ml-8 pt-4 pb-4 pr-8 pl-6 mr-4"
+              extraClass="pt-4 pb-4 pr-8 pl-6 mr-4"
             />
           ) : (
             <p
@@ -112,7 +133,14 @@ export default function BurgerConstructor({ onOpen }) {
             </p>
           )}
         </li>
-        <li ref={filingRef} style={{ boxShadow: boxShadowFiling }}>
+        <li
+          ref={filingRef}
+          style={{
+            boxShadow: boxShadowFiling,
+            borderRadius: "40px",
+            width: "536px",
+          }}
+        >
           {selectedIngredients.ingredients.length ? (
             <ul className={styles.listFilling}>
               {selectedIngredients.ingredients.map((el, index) => (
@@ -142,7 +170,18 @@ export default function BurgerConstructor({ onOpen }) {
             </p>
           )}
         </li>
-        <li ref={bottomBunRef} style={{ boxShadow: boxShadowBun }}>
+        <li
+          ref={bottomBunRef}
+          style={{
+            boxShadow: boxShadowBun,
+            border: border,
+            borderTopLeftRadius: "40px",
+            borderTopRightRadius: "40px",
+            borderBottomLeftRadius: "88px",
+            borderBottomRightRadius: "88px",
+            width: "536px",
+          }}
+        >
           {selectedIngredients.bun ? (
             <ConstructorElement
               type="bottom"
@@ -150,7 +189,7 @@ export default function BurgerConstructor({ onOpen }) {
               text={selectedIngredients.bun.name + " (низ)"}
               price={selectedIngredients.bun.price}
               thumbnail={selectedIngredients.bun.image}
-              extraClass="ml-8 pt-4 pb-4 pr-8 pl-6 mr-4"
+              extraClass="pt-4 pb-4 pr-8 pl-6 mr-4"
             />
           ) : (
             <p
@@ -170,7 +209,7 @@ export default function BurgerConstructor({ onOpen }) {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => openModalWindow()}
+          onClick={() => handleOnOrderButtonClick()}
         >
           Оформить заказ
         </Button>
@@ -178,7 +217,3 @@ export default function BurgerConstructor({ onOpen }) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  onOpen: PropTypes.func,
-};

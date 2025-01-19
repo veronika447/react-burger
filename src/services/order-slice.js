@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { request } from "../../utils/request";
+import { orderRequest } from "../utils/order";
+import { refreshTokenRequest } from "../utils/refresh-token";
+import { refreshTokens } from "./auth-slice";
 
 export const getOrderNumber = createAsyncThunk(
   "order/orderNumber",
@@ -11,14 +13,27 @@ export const getOrderNumber = createAsyncThunk(
         .burgerConstructor.ingredients.map((item) => item._id),
       thunkAPI.getState().burgerConstructor.bun._id,
     ];
-    const response = await request("/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify({ ingredients: order }),
-    });
-    return await response.order.number;
+    const token = thunkAPI.getState().auth.accessToken;
+    const refreshToken = thunkAPI.getState().auth.refreshToken;
+    return orderRequest(token, order)
+      .then((res) => {
+        return res.order.number;
+      })
+      .catch(() => {
+        refreshTokenRequest(refreshToken).then((res) => {
+          if (res.success) {
+            const newToken = res.accessToken.split(" ")[1];
+            const newRefreshToken = res.refreshToken;
+            thunkAPI.dispatch(
+              refreshTokens({
+                accessToken: newToken,
+                refreshToken: newRefreshToken,
+              })
+            );
+            return orderRequest(newToken, order);
+          }
+        });
+      });
   }
 );
 
@@ -31,6 +46,11 @@ const initialState = {
 const orderSlice = createSlice({
   name: "order",
   initialState,
+  reducers: {
+    resetOrderNumber: (state) => {
+      state.orderNumber = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getOrderNumber.fulfilled, (state, action) => {
@@ -49,4 +69,5 @@ const orderSlice = createSlice({
   },
 });
 
-export default orderSlice.reducer; 
+export const { resetOrderNumber } = orderSlice.actions;
+export default orderSlice.reducer;

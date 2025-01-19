@@ -1,18 +1,16 @@
+import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
 
-export default function IngredientDetails({
-  src,
-  name,
-  calories,
-  proteins,
-  fat,
-  carbohydrates,
-}) {
+export default function IngredientDetails() {
+  const ingredient = useSelector((state) => state.details);
   return (
     <div className={styles.ingredientDetails}>
-      <img src={src} alt={name} className={styles.ingredientImage} />
-      <h3 className="text text_type_main-medium mt-4">{name}</h3>
+      <img
+        src={ingredient.src}
+        alt={ingredient.name}
+        className={styles.ingredientImage}
+      />
+      <h3 className="text text_type_main-medium mt-4">{ingredient.name}</h3>
       <div className={styles.nutritionalValueContainer + " mt-8"}>
         <p
           className={
@@ -22,7 +20,7 @@ export default function IngredientDetails({
         >
           Калории, ккал{" "}
           <span className={styles.value + " text text_type_digits-medium"}>
-            {calories}
+            {ingredient.calories}
           </span>
         </p>
         <p
@@ -33,7 +31,7 @@ export default function IngredientDetails({
         >
           Белки, г{" "}
           <span className={styles.value + " text text_type_digits-medium"}>
-            {proteins}
+            {ingredient.proteins}
           </span>
         </p>
         <p
@@ -44,7 +42,7 @@ export default function IngredientDetails({
         >
           Жиры, г{" "}
           <span className={styles.value + " text text_type_digits-medium"}>
-            {fat}
+            {ingredient.fat}
           </span>
         </p>
         <p
@@ -55,19 +53,10 @@ export default function IngredientDetails({
         >
           Углеводы, г{" "}
           <span className={styles.value + " text text_type_digits-medium"}>
-            {carbohydrates}
+            {ingredient.carbohydrates}
           </span>
         </p>
       </div>
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  src: PropTypes.string,
-  name: PropTypes.string,
-  calories: PropTypes.number,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-};

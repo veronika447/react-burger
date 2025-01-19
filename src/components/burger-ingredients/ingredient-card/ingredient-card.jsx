@@ -1,8 +1,7 @@
 import styles from "./ingredient-card.module.css";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { changeValue } from "../../../services/modal-window/modal-window-slice";
-import { addDetails } from "../../../services/ingredient-details/ingredient-details-slice";
+import { changeValue } from "../../../services/modal-window-slice";
+import { addDetails } from "../../../services/ingredient-details-slice";
 import { useDrag } from "react-dnd";
 
 import {
@@ -10,15 +9,16 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../../utils/types";
+import { Link, useLocation } from "react-router";
 
-export default function IngredientCard({ ingredient, onOpen }) {
+export default function IngredientCard({ ingredient }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const selectedIngredients = useSelector((state) => state.burgerConstructor);
 
   const openIngredientModalWindow = () => {
     dispatch(changeValue("ingredient"));
     dispatch(addDetails(ingredient));
-    onOpen();
   };
 
   const count =
@@ -35,33 +35,38 @@ export default function IngredientCard({ ingredient, onOpen }) {
     item: ingredient,
   });
   return (
-    <div
-      className={styles.container}
-      onClick={() => openIngredientModalWindow()}
-      ref={dragRef}
-      draggable
+    <Link
+      to={`/ingredients/${ingredient._id}`}
+      state={{ previousLocation: location }}
+      className={styles.link}
     >
-      {count > 0 ? (
-        <Counter count={count} size="default" extraClass="m-1" />
-      ) : null}
+      <div
+        className={styles.container}
+        onClick={() => openIngredientModalWindow()}
+        ref={dragRef}
+        draggable
+      >
+        {count > 0 ? (
+          <Counter count={count} size="default" extraClass="m-1" />
+        ) : null}
 
-      <img
-        className={styles.ingredientImage}
-        src={ingredient.image}
-        alt={ingredient.name}
-      ></img>
-      <div className={styles.priceContainer + " mt-1 mb-1"}>
-        <p className="text text_type_digits-default">{ingredient.price}</p>
-        <CurrencyIcon type="primary" />
+        <img
+          className={styles.ingredientImage}
+          src={ingredient.image}
+          alt={ingredient.name}
+        ></img>
+        <div className={styles.priceContainer + " mt-1 mb-1"}>
+          <p className="text text_type_digits-default">{ingredient.price}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <h3 className={styles.ingredientName + " text text_type_main-default"}>
+          {ingredient.name}
+        </h3>
       </div>
-      <h3 className={styles.ingredientName + " text text_type_main-default"}>
-        {ingredient.name}
-      </h3>
-    </div>
+    </Link>
   );
 }
 
 IngredientCard.propTypes = {
   ingredient: ingredientType,
-  onOpen: PropTypes.func,
 };

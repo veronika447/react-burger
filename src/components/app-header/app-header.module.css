@@ -15,4 +15,10 @@
 .navBar {
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+
+.links {
+  text-decoration: none;
+  color: unset;
 }
