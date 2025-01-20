@@ -1,6 +1,6 @@
 import { request } from "./request";
 
-export const checkEmailRequest = (email) => {
+export const checkEmailRequest = (email: string) => {
   return request("/password-reset", {
     method: "POST",
     headers: {
