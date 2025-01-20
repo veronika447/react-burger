@@ -2,7 +2,7 @@ import styles from "./order-details.module.css";
 import pathImg from "../../images/done.png";
 import { useAppSelector } from "../app/store";
 
-export default function OrderDetails() {
+export const OrderDetails = () => {
   const orderNumber = useAppSelector((state) => state.order.orderNumber);
   return (
     <div className={styles.orderDetails}>
@@ -19,4 +19,4 @@ export default function OrderDetails() {
       </p>
     </div>
   );
-}
+};

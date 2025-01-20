@@ -8,7 +8,7 @@ import { AppHeader } from "../../components/app-header/app-header";
 import { BurgerIngredients } from "../../components/burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../../components/burger-constructor/burger-constructor";
 import { Modal } from "../../components/modal/modal";
-import OrderDetails from "../../components/order-details/order-details";
+import { OrderDetails } from "../../components/order-details/order-details";
 import { getIngredients } from "../../services/ingredients-slice";
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
