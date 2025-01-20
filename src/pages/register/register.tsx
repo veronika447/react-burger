@@ -6,22 +6,22 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../components/app/store";
 import {
   registerFormSetValue,
   resetForm,
 } from "../../services/register-form-slice";
 import { registerRequest } from "../../utils/register";
 import { setUserData } from "../../services/auth-slice";
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 
 export const RegisterPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const registerForm = useSelector((state) => state.registerForm);
+  const registerForm = useAppSelector((state) => state.registerForm);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const register = (e) => {
+  const register = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmit(true);
 
@@ -51,7 +51,7 @@ export const RegisterPage = () => {
       });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(
       registerFormSetValue({ field: e.target.name, value: e.target.value })
     );
@@ -76,6 +76,8 @@ export const RegisterPage = () => {
             size={"default"}
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
           <Input
             name={"email"}
@@ -88,6 +90,8 @@ export const RegisterPage = () => {
             size={"default"}
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
           <PasswordInput
             name={"password"}
