@@ -4,16 +4,16 @@ import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef, useState } from "react";
 
-export default function BurgerIngredients() {
-  const containerRef = useRef(null);
-  const bunsRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
+export const BurgerIngredients = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bunsRef = useRef<HTMLElement>(null);
+  const sauceRef = useRef<HTMLElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
   const [isBunActive, setIsBunActive] = useState(true);
   const [isSauceActive, setIsSauceActive] = useState(false);
   const [isMainActive, setIsMainActive] = useState(false);
 
-  const handleOnScroll = (e) => {
+  const handleOnScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     e.preventDefault();
     const distances = [];
     if (
@@ -53,13 +53,13 @@ export default function BurgerIngredients() {
     <section className={styles.burgersIngredientSection}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
       <div className={styles.tabsContainer + " mt-5"} ref={containerRef}>
-        <Tab value="Булки" active={isBunActive}>
+        <Tab value="Булки" active={isBunActive} onClick={() => {}}>
           Булки
         </Tab>
-        <Tab value="Соусы" active={isSauceActive}>
+        <Tab value="Соусы" active={isSauceActive} onClick={() => {}}>
           Соусы
         </Tab>
-        <Tab value="Начинки" active={isMainActive}>
+        <Tab value="Начинки" active={isMainActive} onClick={() => {}}>
           Начинки
         </Tab>
       </div>
@@ -73,4 +73,4 @@ export default function BurgerIngredients() {
       </div>
     </section>
   );
-}
+};
