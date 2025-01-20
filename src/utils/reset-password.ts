@@ -1,6 +1,6 @@
 import { request } from "./request";
 
-export const resetPasswordRequest = (password, token) => {
+export const resetPasswordRequest = (password: string, token: string) => {
   return request("/password-reset/reset", {
     method: "POST",
     headers: {

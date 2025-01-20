@@ -1,6 +1,10 @@
 import { request } from "./request";
 
-export const registerRequest = (email, password, name) => {
+export const registerRequest = (
+  email: string,
+  password: string,
+  name: string
+) => {
   return request("/auth/register", {
     method: "POST",
     headers: {

@@ -1,7 +1,7 @@
 import { request } from "./request";
 
-export const refreshTokenRequest = (token) => {
-  return request("/auth/token", {
+export const logoutRequest = (token: string) => {
+  return request("/auth/logout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

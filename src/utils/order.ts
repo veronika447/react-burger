@@ -1,6 +1,6 @@
 import { request } from "./request";
 
-export const orderRequest = (token, order) => {
+export const orderRequest = (token: string, order: number) => {
   return request("/orders", {
     method: "POST",
     headers: {
