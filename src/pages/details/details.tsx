@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
+import { useAppDispatch, useAppSelector } from "../../components/app/store";
 import { AppHeader } from "../../components/app-header/app-header";
 import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
 import { addDetails } from "../../services/ingredient-details-slice";
@@ -9,9 +9,9 @@ import { getIngredients } from "../../services/ingredients-slice";
 
 export const DetailsPage = () => {
   const params = useParams();
-  const dispatch = useDispatch();
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const details = useSelector((state) => state.details);
+  const dispatch = useAppDispatch();
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
+  const details = useAppSelector((state) => state.details);
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -29,7 +29,7 @@ export const DetailsPage = () => {
       >
         Детали ингредиента
       </h2>
-      <IngredientDetails {...details} />
+      <IngredientDetails />
     </>
   );
 };
