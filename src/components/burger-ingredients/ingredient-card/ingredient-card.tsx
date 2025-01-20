@@ -1,5 +1,4 @@
 import styles from "./ingredient-card.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { changeValue } from "../../../services/modal-window-slice";
 import { addDetails } from "../../../services/ingredient-details-slice";
 import { useDrag } from "react-dnd";
@@ -8,13 +7,21 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientType } from "../../../utils/types";
 import { Link, useLocation } from "react-router";
+import { type IngredientType } from "../../../utils/types";
+import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/store";
 
-export default function IngredientCard({ ingredient }) {
-  const dispatch = useDispatch();
+type Props = {
+  ingredient: IngredientType;
+};
+
+export const IngredientCard: FC<Props> = ({ ingredient }) => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const selectedIngredients = useSelector((state) => state.burgerConstructor);
+  const selectedIngredients = useAppSelector(
+    (state) => state.burgerConstructor
+  );
 
   const openIngredientModalWindow = () => {
     dispatch(changeValue("ingredient"));
@@ -65,8 +72,4 @@ export default function IngredientCard({ ingredient }) {
       </div>
     </Link>
   );
-}
-
-IngredientCard.propTypes = {
-  ingredient: ingredientType,
 };
