@@ -7,11 +7,11 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import NavItem from "./nav-item/nav-item";
+import { NavItem } from "./nav-item/nav-item";
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router";
 
-export default function AppHeader() {
+export const AppHeader = () => {
   const location = useLocation();
   const [isProfileActive, setIsProfileActive] = useState(false);
   const [isConstructorActive, setIsConstructorActive] = useState(true);
@@ -65,4 +65,4 @@ export default function AppHeader() {
       </div>
     </header>
   );
-}
+};
