@@ -1,10 +1,11 @@
 import styles from "./profile.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppDispatch, useAppSelector } from "../../components/app/store";
 import { AppHeader } from "../../components/app-header/app-header";
 import { useEffect, useState } from "react";
 import { refreshTokenRequest } from "../../utils/refresh-token";
@@ -17,10 +18,10 @@ import {
 } from "../../services/auth-slice";
 
 export const ProfilePage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const userData = useSelector((state) => state.auth);
+  const userData = useAppSelector((state) => state.auth);
   const [isChanged, setIsChanged] = useState(false);
   const [actualFormValues, setActualFormValues] = useState({
     name: userData.user ? userData.user.name : "",
@@ -47,22 +48,24 @@ export const ProfilePage = () => {
     }
   }, [location]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setActualFormValues((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    if (userData.user[e.target.name]) {
-      if (userData.user[e.target.name] !== e.target.value) {
+    if (userData.user) {
+      if (userData.user[e.target.name]) {
+        if (userData.user[e.target.name] !== e.target.value) {
+          setIsChanged(true);
+        }
+      } else {
         setIsChanged(true);
       }
-    } else {
-      setIsChanged(true);
     }
     setIsSuccess(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmit(true);
     changeUserDataRequest(
@@ -99,13 +102,15 @@ export const ProfilePage = () => {
       });
   };
 
-  const cancelChanges = (e) => {
+  const cancelChanges = (e: SyntheticEvent) => {
     e.preventDefault();
-    setActualFormValues({
-      name: userData.user.name,
-      email: userData.user.email,
-      password: "",
-    });
+    if (userData.user) {
+      setActualFormValues({
+        name: userData.user.name,
+        email: userData.user.email,
+        password: "",
+      });
+    }
     setIsChanged(false);
     setIsError(false);
   };
@@ -173,6 +178,8 @@ export const ProfilePage = () => {
               size={"default"}
               extraClass="ml-1 mt-6"
               disabled={isSubmit}
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
             />
             <Input
               name={"email"}
@@ -186,6 +193,8 @@ export const ProfilePage = () => {
               size={"default"}
               extraClass="ml-1 mt-6"
               disabled={isSubmit}
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
             />
             <Input
               name={"password"}
@@ -199,6 +208,8 @@ export const ProfilePage = () => {
               size={"default"}
               extraClass="ml-1 mt-6"
               disabled={isSubmit}
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
             />
             {isSuccess && (
               <span className={`${styles.completeMessage} mt-2 text`}>
@@ -212,7 +223,11 @@ export const ProfilePage = () => {
             )}{" "}
             {isChanged && isSubmit && (
               <div className={`${styles.btnsContainer} mt-6`}>
-                <Button type="secondary" onClick={(e) => cancelChanges(e)}>
+                <Button
+                  htmlType="button"
+                  type="secondary"
+                  onClick={(e) => cancelChanges(e)}
+                >
                   Отмена
                 </Button>
                 <Button htmlType="button" type="primary" size="medium">

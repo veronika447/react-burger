@@ -14,6 +14,8 @@ export type IngredientType = {
   uniqueId?: string;
 };
 
-export type Response = {
-  
-}
+export type User = {
+  [key: string]: string;
+};
+
+export type Response = {};

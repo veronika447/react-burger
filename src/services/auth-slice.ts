@@ -1,6 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { type User } from "../utils/types";
 
-const initialState = {
+interface AuthState {
+  user: User | null;
+  accessToken: string;
+  refreshToken: string;
+}
+
+const initialState: AuthState = {
   user: null,
   accessToken: "",
   refreshToken: "",
@@ -10,7 +17,14 @@ const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserData: (state, action) => {
+    setUserData: (
+      state,
+      action: PayloadAction<{
+        user: User;
+        accessToken: string;
+        refreshToken: string;
+      }>
+    ) => {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
@@ -20,10 +34,13 @@ const authSlice = createSlice({
       state.accessToken = "";
       state.refreshToken = "";
     },
-    changeUserInfo: (state, action) => {
+    changeUserInfo: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
     },
-    refreshTokens: (state, action) => {
+    refreshTokens: (
+      state,
+      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+    ) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
     },
