@@ -1,5 +1,5 @@
 import styles from "./login.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent, ChangeEvent } from "react";
 import { AppHeader } from "../../components/app-header/app-header";
 import {
   Button,
@@ -7,18 +7,18 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../components/app/store";
 import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
 import { setUserData } from "../../services/auth-slice";
 import { loginRequest } from "../../utils/login";
 
 export const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const loginForm = useSelector((state) => state.loginForm);
+  const loginForm = useAppSelector((state) => state.loginForm);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     return () => {
@@ -26,7 +26,7 @@ export const LoginPage = () => {
     };
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmit(true);
     loginRequest(loginForm.email, loginForm.password)
@@ -59,7 +59,7 @@ export const LoginPage = () => {
       });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setError(false);
     setErrorMessage(null);
     dispatch(
@@ -84,6 +84,8 @@ export const LoginPage = () => {
             size={"default"}
             extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
           <PasswordInput
             name={"password"}

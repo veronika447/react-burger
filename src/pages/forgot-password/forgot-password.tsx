@@ -10,7 +10,7 @@ import {
   forgotPasswordFormSetValue,
   resetForm,
 } from "../../services/forgot-password-form-slice";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { checkEmailRequest } from "../../utils/check-email";
 
 export const ForgotPasswordPage = () => {
@@ -19,11 +19,11 @@ export const ForgotPasswordPage = () => {
   const form = useAppSelector((state) => state.forgotPasswordForm);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(forgotPasswordFormSetValue(e.target.value));
   };
 
-  const checkEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  const checkEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmit(true);
     localStorage.setItem("forgot-password", "true");
