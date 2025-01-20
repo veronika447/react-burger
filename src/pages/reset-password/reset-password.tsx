@@ -5,21 +5,21 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../components/app/store";
 import {
   resetPasswordFormSetValue,
   resetForm,
 } from "../../services/reset-password-form-slice";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { resetPasswordRequest } from "../../utils/reset-password";
 
 export const ResetPasswordPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const form = useSelector((state) => state.resetPasswordForm);
+  const form = useAppSelector((state) => state.resetPasswordForm);
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const check = localStorage.getItem("forgot-password");
@@ -34,7 +34,7 @@ export const ResetPasswordPage = () => {
     };
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setErrorMessage(null);
     setError(false);
     dispatch(
@@ -42,7 +42,7 @@ export const ResetPasswordPage = () => {
     );
   };
 
-  const resetPassword = (e) => {
+  const resetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmit(true);
     resetPasswordRequest(form.password, form.code)
@@ -81,6 +81,8 @@ export const ResetPasswordPage = () => {
             size={"default"}
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
           <Input
             name={"code"}
@@ -93,6 +95,8 @@ export const ResetPasswordPage = () => {
             size={"default"}
             extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
           {error && (
             <span className={`${styles.errorMessage} ml-8`}>
