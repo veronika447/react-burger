@@ -5,7 +5,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../components/app/store";
 import {
   forgotPasswordFormSetValue,
   resetForm,
@@ -14,19 +14,19 @@ import { useState } from "react";
 import { checkEmailRequest } from "../../utils/check-email";
 
 export const ForgotPasswordPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const form = useSelector((state) => state.forgotPasswordForm);
+  const form = useAppSelector((state) => state.forgotPasswordForm);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(forgotPasswordFormSetValue(e.target.value));
   };
 
-  const checkEmail = (e) => {
+  const checkEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmit(true);
-    localStorage.setItem("forgot-password", true);
+    localStorage.setItem("forgot-password", "true");
 
     checkEmailRequest(form.email)
       .then((res) => {
@@ -49,16 +49,18 @@ export const ForgotPasswordPage = () => {
         </h2>
         <form className={styles.form} onSubmit={(e) => checkEmail(e)}>
           <Input
-            name={"email"}
-            type={"email"}
-            placeholder={"Укажите e-mail"}
+            name="email"
+            type="email"
+            placeholder="Укажите e-mail"
             value={form.email}
             onChange={handleInputChange}
             error={false}
-            errorText={"Ошибка"}
-            size={"default"}
+            errorText="Ошибка"
+            size="default"
             extraClass="ml-1 mt-6"
             disabled={isSubmit}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
           {isSubmit ? (
             <Button
