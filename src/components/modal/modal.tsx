@@ -2,23 +2,25 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import { FC, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/store";
 
 import { changeValue } from "../../services/modal-window-slice";
 import { resetOrderNumber } from "../../services/order-slice";
 
-const modalRoot = document.getElementById("react-modals");
+type Props = {
+  children: ReactNode;
+  title?: string;
+};
 
-export function Modal({ children, title }) {
-  const dispatch = useDispatch();
+export const Modal: FC<Props> = ({ children, title }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const modalWindow = useSelector((state) => state.modalValue.value);
+  const modalWindow = useAppSelector((state) => state.modalValue.value);
 
   useEffect(() => {
-    function onEscClick(e) {
+    function onEscClick(e: KeyboardEvent) {
       if (e.key === "Escape") {
         e.preventDefault();
         onClose();
@@ -55,11 +57,6 @@ export function Modal({ children, title }) {
         {children}
       </div>
     </>,
-    modalRoot
+    document.getElementById("react-modals")!
   );
-}
-
-Modal.propTypes = {
-  children: PropTypes.node,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
