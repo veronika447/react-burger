@@ -1,6 +1,10 @@
 import { request } from "./request";
 
-export const changeUserDataRequest = (token, name, email) => {
+export const changeUserDataRequest = (
+  token: string,
+  name: string,
+  email: string
+) => {
   return request("/auth/user", {
     method: "PATCH",
     headers: {
