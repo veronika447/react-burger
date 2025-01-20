@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 } from "uuid";
+import { type IngredientType } from "../utils/types";
+import { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface BurgerConstructorState {
+  bun: null | IngredientType;
+  ingredients: IngredientType[];
+}
+
+const initialState: BurgerConstructorState = {
   bun: null,
   ingredients: [],
 };
@@ -10,23 +17,26 @@ const burgerConstructorSlice = createSlice({
   name: "burgerConstructor",
   initialState,
   reducers: {
-    addBun: (state, action) => {
+    addBun: (state, action: PayloadAction<IngredientType>) => {
       state.bun = action.payload;
     },
     addIngredient: {
-      prepare: (ingredient) => {
+      prepare: (ingredient: IngredientType) => {
         return { payload: { ...ingredient, uniqueId: v4() } };
       },
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<IngredientType>) => {
         state.ingredients.push(action.payload);
       },
     },
-    deleteIngredient: (state, action) => {
+    deleteIngredient: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
-        (item) => item.uniqueId !== action.payload
+        (item) => item.uniqueId && item.uniqueId !== action.payload
       );
     },
-    sortIngredients: (state, action) => {
+    sortIngredients: (
+      state,
+      action: PayloadAction<{ hoverIndex: number; dragIndex: number }>
+    ) => {
       state.ingredients.splice(
         action.payload.hoverIndex,
         0,
