@@ -17,5 +17,3 @@ export type IngredientType = {
 export type User = {
   [key: string]: string;
 };
-
-export type Response = {};
