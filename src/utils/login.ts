@@ -1,6 +1,6 @@
 import { request } from "./request";
 
-export const loginRequest = (email, password) => {
+export const loginRequest = (email: string, password: string) => {
   return request("/auth/login", {
     method: "POST",
     headers: {
