@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 import { AppHeader } from "../../components/app-header/app-header";
-import IngredientDetails from "../../components/ingredient-details/ingredient-details";
+import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
 import { addDetails } from "../../services/ingredient-details-slice";
 import { getIngredients } from "../../services/ingredients-slice";
 

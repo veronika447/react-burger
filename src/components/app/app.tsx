@@ -20,7 +20,7 @@ import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { ProtectedRouteWithoutAuth } from "../protected-route/protected-route-without-auth";
 
 import { Modal } from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 

@@ -1,7 +1,7 @@
 import styles from "./ingredient-details.module.css";
 import { useAppSelector } from "../app/store";
 
-export default function IngredientDetails() {
+export const IngredientDetails = () => {
   const ingredient = useAppSelector((state) => state.details);
   return (
     <div className={styles.ingredientDetails}>
@@ -59,4 +59,4 @@ export default function IngredientDetails() {
       </div>
     </div>
   );
-}
+};
