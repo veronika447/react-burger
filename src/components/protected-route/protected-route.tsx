@@ -1,9 +1,9 @@
 import { Navigate } from "react-router";
 import { useAppSelector } from "../app/store";
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 
 type Props = {
-  element: ReactNode;
+  element: ReactElement;
 };
 
 export function ProtectedRouteElement({ element }: Props) {

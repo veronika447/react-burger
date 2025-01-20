@@ -91,7 +91,11 @@ export const ProfilePage = () => {
                 refreshToken: newRefreshToken,
               })
             );
-            return changeUserDataRequest(newToken);
+            return changeUserDataRequest(
+              newToken,
+              actualFormValues.name,
+              actualFormValues.email
+            );
           } else {
             setIsError(true);
           }
