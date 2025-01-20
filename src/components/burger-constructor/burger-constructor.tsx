@@ -1,7 +1,6 @@
 import styles from "./burger-constructor.module.css";
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../app/store";
 import { changeValue } from "../../services/modal-window-slice";
 import {
   addBun,
@@ -20,12 +19,15 @@ import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/dragg
 import { getOrderNumber } from "../../services/order-slice";
 import { resetConstructor } from "../../services/burger-constructor-slice";
 import { useNavigate } from "react-router";
+import { type IngredientType } from "../../utils/types";
 
-export default function BurgerConstructor() {
-  const dispatch = useDispatch();
+export const BurgerConstructor = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const selectedIngredients = useSelector((state) => state.burgerConstructor);
-  const user = useSelector((state) => state.auth.user);
+  const selectedIngredients = useAppSelector(
+    (state) => state.burgerConstructor
+  );
+  const user = useAppSelector((state) => state.auth.user);
   const [isBunError, setIsBunError] = useState(false);
 
   const handleOnOrderButtonClick = () => {
@@ -53,8 +55,8 @@ export default function BurgerConstructor() {
     collect: (monitor) => ({
       isHoverTopBun: monitor.isOver(),
     }),
-    drop(item) {
-      setIsBunError(false)
+    drop: (item: IngredientType) => {
+      setIsBunError(false);
       dispatch(addBun(item));
     },
   });
@@ -64,7 +66,7 @@ export default function BurgerConstructor() {
     collect: (monitor) => ({
       isHoverBottomBun: monitor.isOver(),
     }),
-    drop(item) {
+    drop: (item: IngredientType) => {
       dispatch(addBun(item));
     },
   });
@@ -74,7 +76,7 @@ export default function BurgerConstructor() {
     collect: (monitor) => ({
       isHoverFiling: monitor.isOver(),
     }),
-    drop(item) {
+    drop: (item: IngredientType) => {
       dispatch(addIngredient(item));
     },
   });
@@ -155,7 +157,9 @@ export default function BurgerConstructor() {
                     price={el.price}
                     thumbnail={el.image}
                     extraClass="pt-4 pb-4 pr-8 pl-6"
-                    handleClose={() => dispatch(deleteIngredient(el.uniqueId))}
+                    handleClose={() =>
+                      el.uniqueId && dispatch(deleteIngredient(el.uniqueId))
+                    }
                   />
                 </DraggableIngredientWrapper>
               ))}
@@ -216,4 +220,4 @@ export default function BurgerConstructor() {
       </div>
     </section>
   );
-}
+};
