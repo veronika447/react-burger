@@ -1,9 +1,9 @@
 import styles from "./order-details.module.css";
 import pathImg from "../../images/done.png";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../app/store";
 
 export default function OrderDetails() {
-  const orderNumber = useSelector((state) => state.order.orderNumber);
+  const orderNumber = useAppSelector((state) => state.order.orderNumber);
   return (
     <div className={styles.orderDetails}>
       <h3 className={styles.orderNumber + " text text_type_digits-large"}>
