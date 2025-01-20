@@ -12,6 +12,7 @@ import registerFormReducer from "../../services/register-form-slice";
 import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
 import resetPasswordFormReducer from "../../services/reset-password-form-slice";
 import authReducer from "../../services/auth-slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const persistConfig = {
   key: "root",
@@ -45,3 +46,8 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();
