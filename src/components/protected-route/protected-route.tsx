@@ -6,7 +6,8 @@ type Props = {
   element: ReactNode;
 };
 
-export function ProtectedRouteWithoutAuth({ element }: Props) {
+export function ProtectedRouteElement({ element }: Props) {
   const user = useAppSelector((state) => state.auth.user);
-  return user ? <Navigate to="/" replace /> : element;
+
+  return user ? element : <Navigate to="/login" replace />;
 }
