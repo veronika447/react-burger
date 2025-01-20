@@ -1,13 +1,29 @@
 import styles from "./draggable-ingredient-wrapper.module.css";
-import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
-import { useRef } from "react";
+import { FC, ReactNode, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { sortIngredients } from "../../../services/burger-constructor-slice";
+import type { XYCoord } from "react-dnd";
 
-export const DraggableIngredientWrapper = ({ children, id, index }) => {
+type Props = {
+  id: string;
+  index: number;
+  children: ReactNode;
+};
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+
+export const DraggableIngredientWrapper: FC<Props> = ({
+  children,
+  id,
+  index,
+}) => {
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   const [{ isDragging }, drag] = useDrag({
     type: "sortElement",
     item: () => {
@@ -17,7 +33,7 @@ export const DraggableIngredientWrapper = ({ children, id, index }) => {
       isDragging: monitor.isDragging(),
     }),
   });
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<DragItem>({
     accept: "sortElement",
     hover(item, monitor) {
       if (!ref.current) {
@@ -32,7 +48,7 @@ export const DraggableIngredientWrapper = ({ children, id, index }) => {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -57,10 +73,4 @@ export const DraggableIngredientWrapper = ({ children, id, index }) => {
       {children}
     </li>
   );
-};
-
-DraggableIngredientWrapper.propTypes = {
-  children: PropTypes.node,
-  id: PropTypes.string,
-  index: PropTypes.number,
 };
