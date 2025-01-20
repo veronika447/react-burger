@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
+import { useAppSelector } from "../app/store";
 
 export default function IngredientDetails() {
-  const ingredient = useSelector((state) => state.details);
+  const ingredient = useAppSelector((state) => state.details);
   return (
     <div className={styles.ingredientDetails}>
       <img
