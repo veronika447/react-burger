@@ -5,7 +5,7 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import AppHeader from "../../components/app-header/app-header";
+import { AppHeader } from "../../components/app-header/app-header";
 import { useEffect, useState } from "react";
 import { refreshTokenRequest } from "../../utils/refresh-token";
 import { changeUserDataRequest } from "../../utils/change-user-data";

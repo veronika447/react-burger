@@ -1,5 +1,5 @@
 import styles from "./reset-password.module.css";
-import AppHeader from "../../components/app-header/app-header";
+import { AppHeader } from "../../components/app-header/app-header";
 import {
   Button,
   Input,

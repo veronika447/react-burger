@@ -1,6 +1,6 @@
 import styles from "./login.module.css";
 import { useEffect, useState } from "react";
-import AppHeader from "../../components/app-header/app-header";
+import { AppHeader } from "../../components/app-header/app-header";
 import {
   Button,
   Input,

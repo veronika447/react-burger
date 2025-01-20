@@ -1,5 +1,5 @@
 import styles from "./forgot-password.module.css";
-import AppHeader from "../../components/app-header/app-header";
+import { AppHeader } from "../../components/app-header/app-header";
 import {
   Button,
   Input,

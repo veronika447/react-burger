@@ -1,1 +1,3 @@
-export const OrdersPage = () => {};
+export const OrdersPage = () => {
+  return (<></>)
+};
