@@ -1,5 +1,5 @@
 import styles from "./login.module.css";
-import { useEffect, useState, FormEvent, ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { AppHeader } from "../../components/app-header/app-header";
 import {
   Button,
@@ -7,10 +7,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../components/app/store";
+import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
 import { setUserData } from "../../services/auth-slice";
 import { loginRequest } from "../../utils/login";
+import type { FormEvent, ChangeEvent } from "react";
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +47,7 @@ export const LoginPage = () => {
           navigate("/");
         }
       })
-      .catch((err) => {
+      .catch((err: number) => {
         if (err === 401) {
           setErrorMessage("Неверный email или пароль");
         } else {

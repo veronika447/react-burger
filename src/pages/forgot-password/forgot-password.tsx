@@ -5,13 +5,14 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../components/app/store";
+import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import {
   forgotPasswordFormSetValue,
   resetForm,
 } from "../../services/forgot-password-form-slice";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import { checkEmailRequest } from "../../utils/check-email";
+import type { ChangeEvent, FormEvent } from "react";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import styles from "./burger-constructor.module.css";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/store";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { changeValue } from "../../services/modal-window-slice";
 import {
   addBun,

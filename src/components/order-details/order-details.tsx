@@ -1,6 +1,6 @@
 import styles from "./order-details.module.css";
 import pathImg from "../../images/done.png";
-import { useAppSelector } from "../app/store";
+import { useAppSelector } from "../app/hooks";
 
 export const OrderDetails = () => {
   const orderNumber = useAppSelector((state) => state.order.orderNumber);

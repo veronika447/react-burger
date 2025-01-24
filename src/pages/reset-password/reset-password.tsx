@@ -5,12 +5,13 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../components/app/store";
+import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import {
   resetPasswordFormSetValue,
   resetForm,
 } from "../../services/reset-password-form-slice";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { resetPasswordRequest } from "../../utils/reset-password";
 
 export const ResetPasswordPage = () => {

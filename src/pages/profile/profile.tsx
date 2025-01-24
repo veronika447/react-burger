@@ -1,11 +1,11 @@
 import styles from "./profile.module.css";
-import { ChangeEvent, FormEvent, SyntheticEvent } from "react";
+import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useAppDispatch, useAppSelector } from "../../components/app/store";
+import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import { AppHeader } from "../../components/app-header/app-header";
 import { useEffect, useState } from "react";
 import { refreshTokenRequest } from "../../utils/refresh-token";
@@ -50,17 +50,17 @@ export const ProfilePage = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    const eName = e.target.name as "name" | "email";
+    const eValue = e.target.value;
     setActualFormValues((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
+      return { ...prev, [eName]: eValue };
     });
-    if (userData.user) {
-      if (userData.user[e.target.name]) {
-        if (userData.user[e.target.name] !== e.target.value) {
-          setIsChanged(true);
-        }
-      } else {
+    if (userData.user && userData.user[eName]) {
+      if (userData.user[eName] !== eValue) {
         setIsChanged(true);
       }
+    } else {
+      setIsChanged(true);
     }
     setIsSuccess(false);
   };

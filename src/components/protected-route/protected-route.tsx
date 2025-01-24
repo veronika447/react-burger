@@ -1,6 +1,6 @@
 import { Navigate } from "react-router";
-import { useAppSelector } from "../app/store";
-import { ReactElement } from "react";
+import { useAppSelector } from "../app/hooks";
+import type { ReactElement } from "react";
 
 type Props = {
   element: ReactElement;

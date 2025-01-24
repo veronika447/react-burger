@@ -1,9 +1,10 @@
 import styles from "./draggable-ingredient-wrapper.module.css";
 import { useDrag, useDrop } from "react-dnd";
-import { FC, ReactNode, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useRef } from "react";
 import { sortIngredients } from "../../../services/burger-constructor-slice";
 import type { XYCoord } from "react-dnd";
+import type { FC, ReactNode } from "react";
+import { useAppDispatch } from "../../app/hooks";
 
 type Props = {
   id: string;
@@ -22,7 +23,7 @@ export const DraggableIngredientWrapper: FC<Props> = ({
   id,
   index,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
   const [{ isDragging }, drag] = useDrag({
     type: "sortElement",

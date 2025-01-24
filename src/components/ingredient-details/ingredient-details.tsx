@@ -1,12 +1,12 @@
 import styles from "./ingredient-details.module.css";
-import { useAppSelector } from "../app/store";
+import { useAppSelector } from "../app/hooks";
 
 export const IngredientDetails = () => {
   const ingredient = useAppSelector((state) => state.details);
   return (
     <div className={styles.ingredientDetails}>
       <img
-        src={ingredient.src}
+        src={ingredient.image_large}
         alt={ingredient.name}
         className={styles.ingredientImage}
       />

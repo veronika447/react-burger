@@ -9,8 +9,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation } from "react-router";
 import { type IngredientType } from "../../../utils/types";
-import { FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/store";
+import type { FC } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 type Props = {
   ingredient: IngredientType;

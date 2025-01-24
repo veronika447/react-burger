@@ -6,14 +6,15 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../components/app/store";
+import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import {
   registerFormSetValue,
   resetForm,
 } from "../../services/register-form-slice";
 import { registerRequest } from "../../utils/register";
 import { setUserData } from "../../services/auth-slice";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState } from "react";
+import type { FormEvent, ChangeEvent } from "react";
 
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
