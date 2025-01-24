@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface ForgotPasswordState {
+  email: string;
+}
+
+const initialState: ForgotPasswordState = {
   email: "",
 };
 
@@ -8,7 +13,7 @@ const forgotPasswordFormSlice = createSlice({
   name: "forgotPasswordForm",
   initialState,
   reducers: {
-    forgotPasswordFormSetValue: (state, action) => {
+    forgotPasswordFormSetValue: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
     resetForm: (state) => {
@@ -17,5 +22,6 @@ const forgotPasswordFormSlice = createSlice({
   },
 });
 
-export const { forgotPasswordFormSetValue, resetForm } = forgotPasswordFormSlice.actions;
+export const { forgotPasswordFormSetValue, resetForm } =
+  forgotPasswordFormSlice.actions;
 export default forgotPasswordFormSlice.reducer;

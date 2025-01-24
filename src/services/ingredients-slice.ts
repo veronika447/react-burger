@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { request } from "../utils/request";
-import { IngredientType } from "../utils/types";
+import { GetIngredientsRes, IngredientType } from "../utils/types";
 
 export const getIngredients = createAsyncThunk(
   "ingredients/ingredients",
-  async (): Promise<Array<IngredientType>> => {
-    const response = await request("/ingredients");
-    return await response.data;
+  async () => {
+    const response = await request<GetIngredientsRes>("/ingredients");
+    return response.data;
   }
 );
 
@@ -31,7 +31,7 @@ const ingredientsSlice = createSlice({
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.ingredientsFailed = false;
         state.ingredientsRequest = false;
-        state.ingredients = action.payload;
+        state.ingredients = action.payload ?? [];
       })
       .addCase(getIngredients.pending, (state) => {
         state.ingredientsFailed = false;

@@ -1,26 +1,30 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { orderRequest } from "../utils/order";
 import { refreshTokenRequest } from "../utils/refresh-token";
 import { refreshTokens } from "./auth-slice";
+import { type IngredientType } from "../utils/types";
+import { type ThunkAPI } from "../utils/types";
 
-export const getOrderNumber = createAsyncThunk(
+export const getOrderNumber = createAsyncThunk<number, void, ThunkAPI>(
   "order/orderNumber",
   async (_, thunkAPI) => {
-    const order = [
-      thunkAPI.getState().burgerConstructor.bun._id,
+    const order: string[] = [
+      thunkAPI.getState().burgerConstructor.bun!._id,
       ...thunkAPI
         .getState()
-        .burgerConstructor.ingredients.map((item) => item._id),
-      thunkAPI.getState().burgerConstructor.bun._id,
+        .burgerConstructor.ingredients.map((item: IngredientType) => item._id),
+      thunkAPI.getState().burgerConstructor.bun!._id,
     ];
-    const token = thunkAPI.getState().auth.accessToken;
-    const refreshToken = thunkAPI.getState().auth.refreshToken;
+
+    const token: string = thunkAPI.getState().auth.accessToken;
+    const refreshToken: string = thunkAPI.getState().auth.refreshToken;
+
     return orderRequest(token, order)
       .then((res) => {
         return res.order.number;
       })
-      .catch(() => {
-        refreshTokenRequest(refreshToken).then((res) => {
+      .catch(async () => {
+        return refreshTokenRequest(refreshToken).then((res) => {
           if (res.success) {
             const newToken = res.accessToken.split(" ")[1];
             const newRefreshToken = res.refreshToken;
@@ -30,14 +34,28 @@ export const getOrderNumber = createAsyncThunk(
                 refreshToken: newRefreshToken,
               })
             );
-            return orderRequest(newToken, order);
+            return orderRequest(newToken, order)
+              .then((res) => {
+                return res.order.number;
+              })
+              .catch(() => {
+                return thunkAPI.rejectWithValue("Error after refresh");
+              });
+          } else {
+            return thunkAPI.rejectWithValue("Error refresh");
           }
         });
       });
   }
 );
 
-const initialState = {
+interface OrderState {
+  orderRequest: boolean;
+  orderFailed: boolean;
+  orderNumber: number | null;
+}
+
+const initialState: OrderState = {
   orderRequest: false,
   orderFailed: false,
   orderNumber: null,
@@ -51,6 +69,7 @@ const orderSlice = createSlice({
       state.orderNumber = null;
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getOrderNumber.fulfilled, (state, action) => {

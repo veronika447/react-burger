@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface LoginFormState {
+  [key: string]: string;
+}
+
+const initialState: LoginFormState = {
   email: "",
   password: "",
 };
@@ -9,7 +14,10 @@ const loginFormSlice = createSlice({
   name: "loginForm",
   initialState,
   reducers: {
-    loginFormSetValue: (state, action) => {
+    loginFormSetValue: (
+      state,
+      action: PayloadAction<{ field: string; value: string }>
+    ) => {
       state[action.payload.field] = action.payload.value;
     },
     resetForm: (state) => {
