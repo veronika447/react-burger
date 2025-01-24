@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface ModalWindowState {
+type ModalWindowState = {
   value: string | null;
-}
+};
 
 const initialState: ModalWindowState = {
   value: null,

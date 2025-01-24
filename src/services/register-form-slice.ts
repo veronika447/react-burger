@@ -1,9 +1,9 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface RegisterFormState {
-  [key: string]: string
-}
+type RegisterFormState = {
+  [key: string]: string;
+};
 
 const initialState: RegisterFormState = {
   name: "",
@@ -15,7 +15,10 @@ const registerFormSlice = createSlice({
   name: "registerForm",
   initialState,
   reducers: {
-    registerFormSetValue: (state, action: PayloadAction<{field: string, value: string}>) => {
+    registerFormSetValue: (
+      state,
+      action: PayloadAction<{ field: string; value: string }>
+    ) => {
       state[action.payload.field] = action.payload.value;
     },
     resetForm: (state) => {

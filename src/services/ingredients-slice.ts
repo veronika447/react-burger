@@ -10,11 +10,11 @@ export const getIngredients = createAsyncThunk(
   }
 );
 
-interface IngredientState {
+type IngredientState = {
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
   ingredients: IngredientType[];
-}
+};
 
 const initialState: IngredientState = {
   ingredientsRequest: false,

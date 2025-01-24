@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface IngredientDetailsState {
+type IngredientDetailsState = {
   image_large: string;
   name: string;
   calories: number;
   proteins: number;
   fat: number;
   carbohydrates: number;
-}
+};
 
 const initialState: IngredientDetailsState = {
   image_large: "",

@@ -3,10 +3,10 @@ import { v4 } from "uuid";
 import { type IngredientType } from "../utils/types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface BurgerConstructorState {
+type BurgerConstructorState = {
   bun: null | IngredientType;
   ingredients: IngredientType[];
-}
+};
 
 const initialState: BurgerConstructorState = {
   bun: null,

@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface ForgotPasswordState {
+type ForgotPasswordState = {
   email: string;
-}
+};
 
 const initialState: ForgotPasswordState = {
   email: "",

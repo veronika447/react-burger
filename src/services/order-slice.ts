@@ -49,11 +49,11 @@ export const getOrderNumber = createAsyncThunk<number, void, ThunkAPI>(
   }
 );
 
-interface OrderState {
+type OrderState = {
   orderRequest: boolean;
   orderFailed: boolean;
   orderNumber: number | null;
-}
+};
 
 const initialState: OrderState = {
   orderRequest: false,

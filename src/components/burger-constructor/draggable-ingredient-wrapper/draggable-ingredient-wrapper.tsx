@@ -12,11 +12,11 @@ type Props = {
   children: ReactNode;
 };
 
-interface DragItem {
+type DragItem = {
   index: number;
   id: string;
   type: string;
-}
+};
 
 export const DraggableIngredientWrapper: FC<Props> = ({
   children,

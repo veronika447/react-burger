@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface LoginFormState {
+type LoginFormState = {
   [key: string]: string;
-}
+};
 
 const initialState: LoginFormState = {
   email: "",

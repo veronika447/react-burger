@@ -53,13 +53,13 @@ export const ProfilePage = () => {
     const eName = e.target.name as "name" | "email";
     const eValue = e.target.value;
     setActualFormValues((prev) => {
-      return { ...prev, [eName]: eValue };
+      return { ...prev, [e.target.name]: eValue };
     });
     if (userData.user && userData.user[eName]) {
       if (userData.user[eName] !== eValue) {
         setIsChanged(true);
       }
-    } else {
+    } else if (userData.user && e.target.name === "password") {
       setIsChanged(true);
     }
     setIsSuccess(false);
