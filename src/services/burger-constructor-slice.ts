@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 } from "uuid";
 import { type IngredientType } from "../utils/types";
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface BurgerConstructorState {
   bun: null | IngredientType;

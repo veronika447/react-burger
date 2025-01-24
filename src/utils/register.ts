@@ -1,11 +1,12 @@
 import { request } from "./request";
+import { type RegisterRes } from "./types";
 
 export const registerRequest = (
   email: string,
   password: string,
   name: string
 ) => {
-  return request("/auth/register", {
+  return request<RegisterRes>("/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

@@ -1,7 +1,8 @@
 import { request } from "./request";
+import type { OrderRes } from "./types";
 
-export const orderRequest = (token: string, order: number) => {
-  return request("/orders", {
+export const orderRequest = (token: string, order: string[]) => {
+  return request<OrderRes>("/orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
