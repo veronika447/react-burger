@@ -1,8 +1,5 @@
 import { Routes, Route, useLocation } from "react-router";
 
-import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
-import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
-import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 
 import {
   LoginPage,
