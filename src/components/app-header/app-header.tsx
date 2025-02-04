@@ -15,14 +15,21 @@ export const AppHeader = () => {
   const location = useLocation();
   const [isProfileActive, setIsProfileActive] = useState(false);
   const [isConstructorActive, setIsConstructorActive] = useState(true);
+  const [isFeedActive, setIsFeedActive] = useState(false);
 
   useEffect(() => {
     if (location.pathname === "/") {
       setIsConstructorActive(true);
       setIsProfileActive(false);
+      setIsFeedActive(false);
     } else if (location.pathname === "/profile") {
       setIsProfileActive(true);
       setIsConstructorActive(false);
+      setIsFeedActive(false);
+    } else if (location.pathname === "/feed") {
+      setIsFeedActive(true);
+      setIsConstructorActive(false);
+      setIsProfileActive(false);
     } else {
       setIsConstructorActive(false);
       setIsProfileActive(false);
@@ -44,11 +51,13 @@ export const AppHeader = () => {
               isActive={isConstructorActive}
             />
           </Link>
-          <NavItem
-            icon={<ListIcon type="secondary" />}
-            text="Лента заказов"
-            isActive={false}
-          />
+          <Link to="/feed" className={styles.links}>
+            <NavItem
+              icon={<ListIcon type={isFeedActive ? "primary" : "secondary"} />}
+              text="Лента заказов"
+              isActive={isFeedActive}
+            />
+          </Link>
         </nav>
         <Logo className="mr-30" />
         <nav className={styles.navBar}>

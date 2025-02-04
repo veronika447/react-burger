@@ -14,6 +14,7 @@ import {
   ProfilePage,
   OrdersPage,
   NotFoundPage,
+  FeedPage,
 } from "../../pages";
 
 import { ProtectedRouteElement } from "../protected-route/protected-route";
@@ -60,6 +61,7 @@ export default function App() {
           path="/profile/orders"
           element={<ProtectedRouteElement element={<OrdersPage />} />}
         />
+        <Route path="/feed" element={<FeedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {previousLocation && (
