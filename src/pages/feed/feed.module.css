@@ -75,3 +75,8 @@
 .ordersCompleted {
   text-shadow: 0 4px 32px rgba(51, 51, 255, 0.5);
 }
+
+.links {
+  text-decoration: none;
+  color: unset;
+}

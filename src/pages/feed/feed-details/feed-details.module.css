@@ -1,0 +1,68 @@
+.main {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoContainer {
+  width: 640px;
+  height: 620px;
+}
+
+.ingredientsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 312px;
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listItemContainer {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.icon {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background: rgba(19, 19, 22, 1);
+  border-radius: 100px;
+}
+
+.icon::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  background: linear-gradient(rgba(128, 26, 178, 1), rgba(76, 76, 255, 1));
+  border-radius: 100px;
+  z-index: -1;
+}
+
+.price {
+  display: flex;
+}
+
+.timePriceContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceContainer {
+  display: flex;
+}
