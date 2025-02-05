@@ -1,26 +1,19 @@
 import styles from "./profile.module.css";
 import type { ChangeEvent, FormEvent, SyntheticEvent } from "react";
-import { Link, useLocation, useNavigate } from "react-router";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import { AppHeader } from "../../components/app-header/app-header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { refreshTokenRequest } from "../../utils/refresh-token";
 import { changeUserDataRequest } from "../../utils/change-user-data";
-import { logoutRequest } from "../../utils/logout";
-import {
-  removeUserData,
-  changeUserInfo,
-  refreshTokens,
-} from "../../services/auth-slice";
+import { changeUserInfo, refreshTokens } from "../../services/auth-slice";
+import { ProfileNavBar } from "../../components/profile-nav-bar/profile-nav-bar";
 
 export const ProfilePage = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
   const userData = useAppSelector((state) => state.auth);
   const [isChanged, setIsChanged] = useState(false);
   const [actualFormValues, setActualFormValues] = useState({
@@ -31,22 +24,6 @@ export const ProfilePage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isProfileActive, setIsProfileActive] = useState(true);
-  const [isOrdersActive, setIsOrdersActive] = useState(false);
-  const [isLogoutActive, setIsLogoutActive] = useState(false);
-
-  useEffect(() => {
-    if (location.pathname === "/profile") {
-      setIsProfileActive(true);
-      setIsLogoutActive(false);
-      setIsOrdersActive(false);
-    }
-    if (location.pathname === "/profile/orders") {
-      setIsOrdersActive(true);
-      setIsProfileActive(false);
-      setIsLogoutActive(false);
-    }
-  }, [location]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -119,55 +96,11 @@ export const ProfilePage = () => {
     setIsError(false);
   };
 
-  const logout = () => {
-    setIsLogoutActive(true);
-    setIsProfileActive(false);
-    setIsOrdersActive(false);
-    logoutRequest(userData.refreshToken).then((res) => {
-      if (res.success) {
-        dispatch(removeUserData());
-        navigate("/login", { replace: true });
-      }
-    });
-  };
-
-  const inactiveClass = "text_color_inactive";
-
   return (
     <div className={styles.page}>
       <AppHeader />
       <div className={`${styles.container}`}>
-        <section className={`${styles.navBar} mt-30`}>
-          <Link to="/profile" className={styles.link}>
-            <h3
-              className={`${styles.title} ${
-                !isProfileActive && inactiveClass
-              } text text_type_main-medium pt-4`}
-            >
-              Профиль
-            </h3>
-          </Link>
-          <Link to="/profile/orders" className={styles.link}>
-            <h3
-              className={`${styles.title} ${
-                !isOrdersActive && inactiveClass
-              } text text_type_main-medium pt-4`}
-            >
-              История заказов
-            </h3>
-          </Link>
-          <h3
-            className={`${styles.title}  ${
-              !isLogoutActive && inactiveClass
-            } text text_type_main-medium pt-4`}
-            onClick={() => logout()}
-          >
-            Выход
-          </h3>
-          <p className="text text_type_main-small text_color_inactive mt-20">
-            В этом разделе вы можете изменить свои персональные данные
-          </p>
-        </section>
+        <ProfileNavBar />
         <section className={styles.dataContainer + " mt-20"}>
           <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
             <Input
