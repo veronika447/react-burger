@@ -1,9 +1,9 @@
-import styles from './profile-nav-bar.module.css';
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { logoutRequest } from '../../utils/logout';
-import { removeUserData } from '../../services/auth-slice';
+import styles from "./profile-nav-bar.module.css";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Link } from "react-router";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { logoutRequest } from "../../utils/logout";
+import { removeUserData } from "../../services/auth-slice";
 
 export const ProfileNavBar = () => {
   const location = useLocation();
@@ -15,17 +15,20 @@ export const ProfileNavBar = () => {
   const [isProfileActive, setIsProfileActive] = useState(true);
   const [isOrdersActive, setIsOrdersActive] = useState(false);
   const [isLogoutActive, setIsLogoutActive] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
     if (location.pathname === "/profile") {
       setIsProfileActive(true);
       setIsLogoutActive(false);
       setIsOrdersActive(false);
+      setText("В этом разделе вы можете изменить свои персональные данные");
     }
     if (location.pathname === "/profile/orders") {
       setIsOrdersActive(true);
       setIsProfileActive(false);
       setIsLogoutActive(false);
+      setText("В этом разделе вы можете просмотреть свою историю заказов");
     }
   }, [location]);
 
@@ -72,7 +75,7 @@ export const ProfileNavBar = () => {
         Выход
       </h3>
       <p className="text text_type_main-small text_color_inactive mt-20">
-        В этом разделе вы можете изменить свои персональные данные
+        {text}
       </p>
     </section>
   );
