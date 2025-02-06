@@ -22,11 +22,11 @@ export const AppHeader = () => {
       setIsConstructorActive(true);
       setIsProfileActive(false);
       setIsFeedActive(false);
-    } else if (location.pathname === "/profile") {
+    } else if (location.pathname.includes("profile")) {
       setIsProfileActive(true);
       setIsConstructorActive(false);
       setIsFeedActive(false);
-    } else if (location.pathname === "/feed") {
+    } else if (location.pathname.includes("feed")) {
       setIsFeedActive(true);
       setIsConstructorActive(false);
       setIsProfileActive(false);
