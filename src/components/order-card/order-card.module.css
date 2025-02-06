@@ -8,11 +8,6 @@
   border-radius: 40px;
 }
 
-.links {
-  text-decoration: none;
-  color: unset;
-}
-
 .orderData {
   display: flex;
   justify-content: space-between;

@@ -125,7 +125,7 @@ export const RegisterPage = () => {
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Уже зарегистрированы?
-          <Link to="/login" className={styles.link}>
+          <Link to="/login" className="link">
             <span className={styles.spanText}> Войти</span>
           </Link>
         </p>

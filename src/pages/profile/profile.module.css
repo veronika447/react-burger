@@ -28,11 +28,6 @@
   color: rgba(76, 76, 255, 1);
 }
 
-.link {
-  text-decoration: none;
-  color: unset;
-}
-
 .errorMessage {
   align-self: flex-end;
   color: red;

@@ -20,3 +20,8 @@ code {
   scrollbar-color: rgba(133, 133, 173, 1) rgba(47, 47, 55, 1);
   scrollbar-width: 8px;
 }
+
+.link {
+  text-decoration: none;
+  color: unset;
+}

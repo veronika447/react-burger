@@ -48,7 +48,7 @@ export const ProfileNavBar = () => {
 
   return (
     <section className={`${styles.navBar} mt-30`}>
-      <Link to="/profile" className={styles.link}>
+      <Link to="/profile" className="link">
         <h3
           className={`${styles.title} ${
             !isProfileActive && inactiveClass
@@ -57,7 +57,7 @@ export const ProfileNavBar = () => {
           Профиль
         </h3>
       </Link>
-      <Link to="/profile/orders" className={styles.link}>
+      <Link to="/profile/orders" className="link">
         <h3
           className={`${styles.title} ${
             !isOrdersActive && inactiveClass

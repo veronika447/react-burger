@@ -40,7 +40,7 @@ export const AppHeader = () => {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <nav className={styles.navBar}>
-          <Link to="/" className={styles.links}>
+          <Link to="/" className="link">
             <NavItem
               icon={
                 <BurgerIcon
@@ -51,7 +51,7 @@ export const AppHeader = () => {
               isActive={isConstructorActive}
             />
           </Link>
-          <Link to="/feed" className={styles.links}>
+          <Link to="/feed" className="link">
             <NavItem
               icon={<ListIcon type={isFeedActive ? "primary" : "secondary"} />}
               text="Лента заказов"
@@ -61,7 +61,7 @@ export const AppHeader = () => {
         </nav>
         <Logo className="mr-30" />
         <nav className={styles.navBar}>
-          <Link to="/profile" className={styles.links}>
+          <Link to="/profile" className="link">
             <NavItem
               icon={
                 <ProfileIcon type={isProfileActive ? "primary" : "secondary"} />

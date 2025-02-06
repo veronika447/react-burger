@@ -87,7 +87,7 @@ export const ForgotPasswordPage = () => {
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Вспомнили пароль?
-          <Link to="/login" className={styles.link}>
+          <Link to="/login" className="link">
             <span className={styles.spanText}> Войти</span>
           </Link>
         </p>
