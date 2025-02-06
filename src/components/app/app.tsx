@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from "react-router";
 
-
 import {
   LoginPage,
   RegisterPage,
@@ -13,6 +12,7 @@ import {
   NotFoundPage,
   FeedPage,
   FeedDetailsPage,
+  ProfileOrderDetailsPage,
 } from "../../pages";
 
 import { ProtectedRouteElement } from "../protected-route/protected-route";
@@ -58,6 +58,12 @@ export default function App() {
         <Route
           path="/profile/orders"
           element={<ProtectedRouteElement element={<OrdersPage />} />}
+        />
+        <Route
+          path="profile/orders/:number"
+          element={
+            <ProtectedRouteElement element={<ProfileOrderDetailsPage />} />
+          }
         />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/feed/:number" element={<FeedDetailsPage />} />

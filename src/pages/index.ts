@@ -9,6 +9,7 @@ import { OrdersPage } from "./orders/orders";
 import { NotFoundPage } from "./not-found/not-found";
 import { FeedPage } from "./feed/feed";
 import { FeedDetailsPage } from "./feed-details/feed-details";
+import { ProfileOrderDetailsPage } from "./profile-order-details/profile-order-details";
 
 export {
   LoginPage,
@@ -22,4 +23,5 @@ export {
   NotFoundPage,
   FeedPage,
   FeedDetailsPage,
+  ProfileOrderDetailsPage
 };
