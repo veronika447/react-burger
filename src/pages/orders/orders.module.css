@@ -10,10 +10,3 @@
   column-gap: 60px;
 }
 
-.ordersContainer {
-  display: flex;
-  flex-direction: column;
-  row-gap: 24px;
-  height: 85vh;
-  overflow-y: auto;
-}

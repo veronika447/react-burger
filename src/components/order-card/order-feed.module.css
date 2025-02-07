@@ -1,3 +1,11 @@
+.ordersContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  height: 85vh;
+  overflow-y: auto;
+}
+
 .orderCard {
   width: 536px;
   display: flex;

@@ -1,7 +1,6 @@
 import styles from "./feed.module.css";
 import { AppHeader } from "../../components/app-header/app-header";
-import { OrderCard } from "../../components/order-card/order-card";
-import { Link } from "react-router";
+import { OrderFeed } from "../../components/order-card/order-feed";
 
 export const FeedPage = () => {
   return (
@@ -10,11 +9,7 @@ export const FeedPage = () => {
       <div className={`${styles.container} pt-10`}>
         <h1 className="text text_type_main-large">Лента заказов</h1>
         <div className={`${styles.itemsContainer} mt-5`}>
-          <section className={`${styles.orders} pr-2`}>
-            <Link to="/feed/123" className='link'>
-              <OrderCard />
-            </Link>
-          </section>
+          <OrderFeed />
           <section className={styles.stats}>
             <div className={styles.ordersBoard}>
               <section className={styles.ordersBoardSection}>
