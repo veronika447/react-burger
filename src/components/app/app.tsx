@@ -14,6 +14,7 @@ import {
   FeedDetailsPage,
   ProfileOrderDetailsPage,
 } from "../../pages";
+import { OrderInfo } from "../order-info/order-info";
 
 import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { ProtectedRouteWithoutAuth } from "../protected-route/protected-route-without-auth";
@@ -76,6 +77,22 @@ export default function App() {
             element={
               <Modal title="Детали ингредиента">
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="feed/:number"
+            element={
+              <Modal>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path="profile/orders/:number"
+            element={
+              <Modal>
+                <OrderInfo />
               </Modal>
             }
           />

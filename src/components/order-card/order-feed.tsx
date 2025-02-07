@@ -13,7 +13,11 @@ export const OrderFeed: FC<Props> = ({ status }) => {
     status === "Выполнен" ? "rgba(0, 204, 204, 1)" : "rgba(242, 242, 243, 1)";
   return (
     <section className={`${styles.ordersContainer} mt-10`}>
-      <Link to={`${location.pathname}/123`} className="link">
+      <Link
+        to={`${location.pathname}/123`}
+        state={{ previousLocation: location }}
+        className="link"
+      >
         <div className={`${styles.orderCard} p-6`}>
           <div className={styles.orderData}>
             <h3 className="text text_type_digits-default">#034535</h3>

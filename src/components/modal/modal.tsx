@@ -3,7 +3,7 @@ import styles from "./modal.module.css";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import type { FC, ReactNode } from "react";
 
@@ -18,6 +18,7 @@ type Props = {
 export const Modal: FC<Props> = ({ children, title }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const modalWindow = useAppSelector((state) => state.modalValue.value);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const Modal: FC<Props> = ({ children, title }) => {
       dispatch(resetOrderNumber());
     }
     dispatch(changeValue(null));
-    navigate("/");
+    navigate(location.state.previousLocation);
   };
 
   return createPortal(
