@@ -2,9 +2,12 @@ import { Ingredients } from "./ingredients/ingredients";
 import styles from "./burger-ingredients.module.css";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAppSelector } from "../app/hooks";
+import { IngredientType } from "../../utils/types";
 
 export const BurgerIngredients = () => {
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
   const containerRef = useRef<HTMLDivElement>(null);
   const bunsRef = useRef<HTMLElement>(null);
   const sauceRef = useRef<HTMLElement>(null);
@@ -12,6 +15,22 @@ export const BurgerIngredients = () => {
   const [isBunActive, setIsBunActive] = useState(true);
   const [isSauceActive, setIsSauceActive] = useState(false);
   const [isMainActive, setIsMainActive] = useState(false);
+  const [types, setTypes] = useState<{
+    bun: IngredientType[];
+    sauce: IngredientType[];
+    main: IngredientType[];
+  }>({ bun: [], sauce: [], main: [] });
+
+  useEffect(() => {
+    for (let ingredient of ingredients.values()) {
+      setTypes((prev) => {
+        return {
+          ...prev,
+          [ingredient.type]: [...prev[ingredient.type], ingredient],
+        };
+      });
+    }
+  }, [ingredients]);
 
   const handleOnScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     e.preventDefault();
@@ -67,9 +86,9 @@ export const BurgerIngredients = () => {
         className={styles.ingredientContainer}
         onScroll={(e) => handleOnScroll(e)}
       >
-        <Ingredients value="Булки" type="bun" ref={bunsRef} />
-        <Ingredients value="Соусы" type="sauce" ref={sauceRef} />
-        <Ingredients value="Начинки" type="main" ref={mainRef} />
+        <Ingredients value="Булки" array={types.bun} ref={bunsRef} />
+        <Ingredients value="Соусы" array={types.sauce} ref={sauceRef} />
+        <Ingredients value="Начинки" array={types.main} ref={mainRef} />
       </div>
     </section>
   );
