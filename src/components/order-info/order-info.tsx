@@ -1,93 +1,88 @@
 import styles from "./order-info.module.css";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppSelector } from "../app/hooks";
+import { useParams } from "react-router";
 
 export const OrderInfo = () => {
+  const params = useParams();
+  const orders = useAppSelector((state) => state.orderFeed.data?.orders);
+  const order = orders?.find((el) => el.number.toString() === params.number);
+  const set = new Set(order?.ingredients);
+  const uniqOrder = Array.from(set);
+
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
+  const statusText = {
+    done: "Выполнен",
+    pending: "Готовится",
+    created: "Создан",
+  };
+  if (!order) {
+    return (
+      <div className={styles.loaderContainer}>
+        <span className={styles.loader}></span>
+      </div>
+    );
+  }
   return (
     <div className={styles.infoContainer}>
       <h3
         className="text text_type_digits-default"
         style={{ textAlign: "center" }}
       >
-        #034533
+        {`#${order.number}`}
       </h3>
-      <h3 className="text text_type_main-medium mt-10">
-        Black Hole Singularity острый бургер
-      </h3>
+      <h3 className="text text_type_main-medium mt-10">{order.name}</h3>
       <p
         className="text text_type_main-default mt-3"
         style={{ color: "rgba(0, 204, 204, 1)" }}
       >
-        Выполнен
+        {statusText[order.status]}
       </p>
       <h3 className="text text_type_main-medium mt-15 mb-6">Состав:</h3>
       <ul className={styles.ingredientsList}>
-        <li className={`${styles.listItem} mr-6`}>
-          <div className={styles.listItemContainer}>
-            <div className={`${styles.icon} ml-1`}></div>
-            <p className="text text_type_main-default ml-4">
-              Флюоресцентная булка R2-D3
-            </p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">2 x 20</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        </li>
-        <li className={`${styles.listItem} mr-6`}>
-          <div className={styles.listItemContainer}>
-            <div className={`${styles.icon} ml-1`}></div>
-            <p className="text text_type_main-default ml-4">
-              Филе Люминесцентного тетраодонтимформа
-            </p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">1 x 300</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        </li>{" "}
-        <li className={`${styles.listItem} mr-6`}>
-          <div className={styles.listItemContainer}>
-            <div className={`${styles.icon} ml-1`}></div>
-            <p className="text text_type_main-default ml-4">
-              Соус традиционный галактический
-            </p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">1 x 30</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        </li>{" "}
-        <li className={`${styles.listItem} mr-6`}>
-          <div className={styles.listItemContainer}>
-            <div className={`${styles.icon} ml-1`}></div>
-            <p className="text text_type_main-default ml-4">
-              Плоды фалленианского дерева
-            </p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">1 x 80</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        </li>
-        <li className={`${styles.listItem} mr-6`}>
-          <div className={styles.listItemContainer}>
-            <div className={`${styles.icon} ml-1`}></div>
-            <p className="text text_type_main-default ml-4">
-              Флюоресцентная булка R2-D3
-            </p>
-          </div>
-          <div className={styles.price}>
-            <p className="text text_type_digits-default mr-2">2 x 20</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        </li>
+        {uniqOrder.map((el) => {
+          const ingredient = ingredients[el];
+          const current = order.ingredients.filter(
+            (item) => item === el
+          ).length;
+          return (
+            <li className={`${styles.listItem} mr-6`} key={el}>
+              <div className={styles.listItemContainer}>
+                <div className={`${styles.icon} ml-1`}>
+                  <img
+                    src={ingredient.image_mobile}
+                    alt="icon"
+                    width={60}
+                    height={60}
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+                <p className="text text_type_main-default ml-4">
+                  {ingredient.name}
+                </p>
+              </div>
+              <div className={styles.price}>
+                <p className="text text_type_digits-default mr-2">{`${current} x ${ingredient.price}`}</p>
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+          );
+        })}
       </ul>
       <div className={`${styles.timePriceContainer} mt-10`}>
         <p className="text text_type_main-default text_color_inactive">
-          Вчера, 13:50
+          <FormattedDate date={new Date(order.createdAt)} />
         </p>
         <div className={styles.priceContainer}>
-          <p className="text text_type_digits-default mr-2">510</p>
+          <p className="text text_type_digits-default mr-2">
+            {order.ingredients.reduce(
+              (acc, cur) => acc + ingredients[cur].price,
+              0
+            )}
+          </p>
           <CurrencyIcon type="primary" />
         </div>
       </div>

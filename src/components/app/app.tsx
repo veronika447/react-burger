@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router";
+import { Routes, Route, useLocation} from "react-router";
 
 import {
   LoginPage,
@@ -26,7 +26,9 @@ export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export default function App() {
   const location = useLocation();
+
   const previousLocation = location.state?.previousLocation;
+
   return (
     <>
       <Routes location={previousLocation || location}>
@@ -84,18 +86,19 @@ export default function App() {
             path="feed/:number"
             element={
               <Modal>
+                {" "}
                 <OrderInfo />
               </Modal>
             }
           />
-          <Route
+          {/* <Route
             path="profile/orders/:number"
             element={
               <Modal>
                 <OrderInfo />
               </Modal>
             }
-          />
+          /> */}
         </Routes>
       )}
     </>
