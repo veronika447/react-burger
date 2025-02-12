@@ -1,4 +1,8 @@
-import { AnyAction, combineReducers, configureStore, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  ThunkDispatch,
+} from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -12,6 +16,20 @@ import registerFormReducer from "../../services/register-form-slice";
 import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
 import resetPasswordFormReducer from "../../services/reset-password-form-slice";
 import authReducer from "../../services/auth-slice";
+import orderFeedReducer, {
+  WsInternalActions,
+  wsClose,
+  wsConnecting,
+  wsError,
+  wsMessage,
+  wsOpen,
+} from "../../services/order-feed-slice";
+import { socketMiddleware } from "../../middlewares/socket-middleware";
+import {
+  WsExternalActions,
+  wsConnect,
+  wsDisconnect,
+} from "../../services/actions";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +47,17 @@ const rootReducer = combineReducers({
   forgotPasswordForm: forgotPasswordFormReducer,
   resetPasswordForm: resetPasswordFormReducer,
   auth: authReducer,
+  orderFeed: orderFeedReducer,
+});
+
+const orderFeedMiddleware = socketMiddleware({
+  connect: wsConnect,
+  disconnect: wsDisconnect,
+  onConnecting: wsConnecting,
+  onOpen: wsOpen,
+  onClose: wsClose,
+  onError: wsError,
+  onMessage: wsMessage,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -41,12 +70,13 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }),
+    }).concat(orderFeedMiddleware),
 });
 
 export const persistor = persistStore(store);
 
+type ApplicationActions = WsExternalActions | WsInternalActions;
+
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch & ThunkDispatch<RootState, any, UnknownAction>;
-
-
+export type AppDispatch = typeof store.dispatch &
+  ThunkDispatch<RootState, any, ApplicationActions>;

@@ -1,8 +1,19 @@
 import styles from "./feed.module.css";
 import { AppHeader } from "../../components/app-header/app-header";
-import { OrderFeed } from "../../components/order-card/order-feed";
+import { OrderFeed } from "../../components/order-feed/order-feed";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../components/app/hooks";
+import { wsConnect, wsDisconnect } from "../../services/actions";
 
 export const FeedPage = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(wsConnect("wss://norma.nomoreparties.space/orders/all"));
+    return () => {
+      dispatch(wsDisconnect());
+    };
+  }, []);
+
   return (
     <>
       <AppHeader />
