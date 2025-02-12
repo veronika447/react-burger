@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WebSocketStatus, Orders } from "../utils/types";
+import { WebSocketStatus, Orders, OrderFeedData } from "../utils/types";
 
 type OrderFeedState = {
   status: WebSocketStatus;
-  orders: Orders;
+  data: OrderFeedData | null;
   connectionError: string | null;
 };
 
 const initialState: OrderFeedState = {
   status: WebSocketStatus.OFFLINE,
-  orders: [],
+  data: null,
   connectionError: null,
 };
 
@@ -30,8 +30,8 @@ export const OrderFeedSlice = createSlice({
     wsError: (state, action: PayloadAction<string>) => {
       state.connectionError = action.payload;
     },
-    wsMessage: (state, action: PayloadAction<Orders>) => {
-      state.orders = action.payload;
+    wsMessage: (state, action: PayloadAction<OrderFeedData>) => {
+      state.data = action.payload;
     },
   },
 });

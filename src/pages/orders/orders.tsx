@@ -9,7 +9,7 @@ export const OrdersPage = () => {
       <AppHeader />
       <main className={styles.main}>
         <ProfileNavBar />
-        <OrderFeed />
+        {/* <OrderFeed orders={} isProfile={false} /> */}
       </main>
     </div>
   );

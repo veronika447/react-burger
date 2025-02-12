@@ -87,8 +87,8 @@ export type Order = {
   name: string;
   status: "done" | "pending" | "created";
   number: number;
-  createAt: string;
-  updateAt: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Orders = Array<Order>;

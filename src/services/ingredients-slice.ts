@@ -13,13 +13,13 @@ export const getIngredients = createAsyncThunk(
 type IngredientState = {
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
-  ingredients: Map<string, IngredientType>;
+  ingredients: Record<string, IngredientType>;
 };
 
 const initialState: IngredientState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
-  ingredients: new Map(),
+  ingredients: {},
 };
 
 const ingredientsSlice = createSlice({
@@ -31,9 +31,9 @@ const ingredientsSlice = createSlice({
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.ingredientsFailed = false;
         state.ingredientsRequest = false;
-        const ingredientsMap = new Map();
-        action.payload?.forEach((el) => ingredientsMap.set(el._id, el));
-        state.ingredients = ingredientsMap;
+        let ingredients: Record<string, IngredientType> = {};
+        action.payload?.forEach((el) => (ingredients[el._id] = el));
+        state.ingredients = ingredients;
       })
       .addCase(getIngredients.pending, (state) => {
         state.ingredientsFailed = false;

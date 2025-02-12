@@ -68,6 +68,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
+        // ignoredPaths: ["ingredients.ingredients"],
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
     }).concat(orderFeedMiddleware),
