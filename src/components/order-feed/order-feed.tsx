@@ -28,7 +28,6 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
   return (
     <section className={`${styles.ordersContainer} mt-10`}>
       {orders.map((el) => {
-        console.log(el.createdAt)
         return (
           <Link
             to={`${location.pathname}/${el.number}`}
