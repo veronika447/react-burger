@@ -50,7 +50,7 @@ export type LogoutRes = Response & {
   message: string;
 };
 
-export type OrderRes = Response & {
+export type OrderNumberRes = Response & {
   order: {
     number: number;
   };
@@ -98,4 +98,8 @@ export type OrderFeedData = {
   orders: Orders;
   total: number;
   totalToday: number;
+};
+
+export type OrderRes = Response & {
+  order: Order;
 };
