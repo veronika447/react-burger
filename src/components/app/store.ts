@@ -24,11 +24,25 @@ import orderFeedReducer, {
   wsMessage,
   wsOpen,
 } from "../../services/order-feed-slice";
-import { socketMiddleware } from "../../middlewares/socket-middleware";
+import profileOrdersReducer, {
+  authWsClose,
+  authWsConnecting,
+  authWsError,
+  authWsMessage,
+  authWsOpen,
+  WsAuthInternalActions,
+} from "../../services/profile-orders-slice";
+import {
+  socketMiddleware,
+  authSocketMiddleware,
+} from "../../middlewares/socket-middleware";
 import {
   WsExternalActions,
   wsConnect,
   wsDisconnect,
+  wsAuthConnect,
+  wsAuthDisconnect,
+  WsAuthExternalActions,
 } from "../../services/actions";
 
 const persistConfig = {
@@ -48,17 +62,34 @@ const rootReducer = combineReducers({
   resetPasswordForm: resetPasswordFormReducer,
   auth: authReducer,
   orderFeed: orderFeedReducer,
+  profileOrders: profileOrdersReducer,
 });
 
-const orderFeedMiddleware = socketMiddleware({
-  connect: wsConnect,
-  disconnect: wsDisconnect,
-  onConnecting: wsConnecting,
-  onOpen: wsOpen,
-  onClose: wsClose,
-  onError: wsError,
-  onMessage: wsMessage,
-});
+const orderFeedMiddleware = socketMiddleware(
+  {
+    connect: wsConnect,
+    disconnect: wsDisconnect,
+    onConnecting: wsConnecting,
+    onOpen: wsOpen,
+    onClose: wsClose,
+    onError: wsError,
+    onMessage: wsMessage,
+  },
+  false
+);
+
+const profileOrderMiddleware = authSocketMiddleware(
+  {
+    connect: wsAuthConnect,
+    disconnect: wsAuthDisconnect,
+    onConnecting: authWsConnecting,
+    onOpen: authWsOpen,
+    onClose: authWsClose,
+    onError: authWsError,
+    onMessage: authWsMessage,
+  },
+  true
+);
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -71,12 +102,16 @@ export const store = configureStore({
         // ignoredPaths: ["ingredients.ingredients"],
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }).concat(orderFeedMiddleware),
+    }).concat(orderFeedMiddleware, profileOrderMiddleware),
 });
 
 export const persistor = persistStore(store);
 
-type ApplicationActions = WsExternalActions | WsInternalActions;
+type ApplicationActions =
+  | WsExternalActions
+  | WsInternalActions
+  | WsAuthExternalActions
+  | WsAuthInternalActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch &

@@ -23,11 +23,16 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
     dispatch(getIngredients());
   }, []);
 
-  // const textColor = isProfile &&
-  //   status === "Выполнен" ? "rgba(0, 204, 204, 1)" : "rgba(242, 242, 243, 1)";
+  const statusText = {
+    done: "Выполнен",
+    created: "Создан",
+    pending: "Готовится",
+  };
+
   return (
     <section className={`${styles.ordersContainer} mt-10`}>
       {orders.map((el) => {
+        const status = statusText[el.status];
         return (
           <Link
             to={`${location.pathname}/${el.number}`}
@@ -40,7 +45,6 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
                 <h3 className="text text_type_digits-default">{`#${el.number}`}</h3>
                 <p className="text text_type_main-default text_color_inactive">
                   <FormattedDate date={new Date(el.createdAt)} />
-                  
                 </p>
               </div>
               <h2 className="text text_type_main-medium">
@@ -48,9 +52,14 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
                 {isProfile && (
                   <p
                     className="text text_type_main-default mt-2"
-                    // style={{ color: textColor }}
+                    style={{
+                      color:
+                        status === "Выполнен"
+                          ? "rgba(0, 204, 204, 1)"
+                          : "rgba(242, 242, 243, 1)",
+                    }}
                   >
-                    {el.status}
+                    {status}
                   </p>
                 )}
               </h2>

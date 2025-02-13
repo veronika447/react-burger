@@ -13,32 +13,37 @@ const initialState: OrderFeedState = {
   connectionError: null,
 };
 
-export const OrderFeedSlice = createSlice({
-  name: "orderFeed",
+export const ProfileOrdersSlice = createSlice({
+  name: "profileOrders",
   initialState,
   reducers: {
-    wsConnecting: (state) => {
+    authWsConnecting: (state) => {
       state.status = WebSocketStatus.CONNECTING;
     },
-    wsOpen: (state) => {
+    authWsOpen: (state) => {
       state.status = WebSocketStatus.ONLINE;
       state.connectionError = null;
     },
-    wsClose: (state) => {
+    authWsClose: (state) => {
       state.status = WebSocketStatus.OFFLINE;
     },
-    wsError: (state, action: PayloadAction<string>) => {
+    authWsError: (state, action: PayloadAction<string>) => {
       state.connectionError = action.payload;
     },
-    wsMessage: (state, action: PayloadAction<OrderFeedData>) => {
+    authWsMessage: (state, action: PayloadAction<OrderFeedData>) => {
       state.data = action.payload;
     },
   },
 });
 
-export type WsInternalActions = ReturnType<
-  (typeof OrderFeedSlice.actions)[keyof typeof OrderFeedSlice.actions]
+export type WsAuthInternalActions = ReturnType<
+  (typeof ProfileOrdersSlice.actions)[keyof typeof ProfileOrdersSlice.actions]
 >;
-export const { wsClose, wsConnecting, wsError, wsMessage, wsOpen } =
-  OrderFeedSlice.actions;
-export default OrderFeedSlice.reducer;
+export const {
+  authWsClose,
+  authWsConnecting,
+  authWsError,
+  authWsMessage,
+  authWsOpen,
+} = ProfileOrdersSlice.actions;
+export default ProfileOrdersSlice.reducer;

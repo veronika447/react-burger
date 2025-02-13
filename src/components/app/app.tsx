@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation} from "react-router";
+import { Routes, Route, useLocation } from "react-router";
 
 import {
   LoginPage,
@@ -91,14 +91,14 @@ export default function App() {
               </Modal>
             }
           />
-          {/* <Route
+          <Route
             path="profile/orders/:number"
             element={
               <Modal>
                 <OrderInfo />
               </Modal>
             }
-          /> */}
+          />
         </Routes>
       )}
     </>
