@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   row-gap: 24px;
-  height: 85vh;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .orderCard {
@@ -35,7 +35,7 @@
 }
 
 .price {
-  width: 84px;
+  /* width: 84px; */
   display: flex;
   align-items: center;
   column-gap: 8px;

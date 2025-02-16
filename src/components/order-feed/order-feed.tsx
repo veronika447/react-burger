@@ -30,9 +30,27 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
   };
 
   return (
-    <section className={`${styles.ordersContainer} mt-10`}>
-      {orders.map((el) => {
+    <section
+      className={`${styles.ordersContainer} mt-10 pr-2`}
+      style={{
+        height: isProfile ? "80vh" : "70vh",
+      }}
+    >
+      {[...orders].reverse().map((el) => {
         const status = statusText[el.status];
+
+        let orderIngredients: string[];
+        let lastIngredient: string | null = null;
+        let current: number = 0;
+
+        if (el.ingredients.length < 5) {
+          orderIngredients = el.ingredients;
+        } else {
+          orderIngredients = el.ingredients.slice(0, 4);
+          lastIngredient = el.ingredients[4];
+          current = el.ingredients.length - 4;
+        }
+
         return (
           <Link
             to={`${location.pathname}/${el.number}`}
@@ -65,7 +83,7 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
               </h2>
               <div className={styles.orderData}>
                 <div className={styles.ingredients}>
-                  {el.ingredients.map((id, index) => {
+                  {orderIngredients.map((id, index) => {
                     const imgSrc = ingredients[id]?.image_mobile;
                     return (
                       <div
@@ -90,6 +108,47 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
                       </div>
                     );
                   })}
+                  {lastIngredient && (
+                    <>
+                      <div
+                        className={styles.ingredientIcon}
+                        style={{
+                          zIndex: `0`,
+                          left: "-70px",
+                        }}
+                      >
+                        {ingredients[lastIngredient].image_mobile && (
+                          <img
+                            src={ingredients[lastIngredient].image_mobile}
+                            alt="Icon"
+                            width={64}
+                            height={64}
+                            style={{
+                              objectFit: "cover",
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div
+                        style={{
+                          width: "64px",
+                          height: "60px",
+                          backgroundColor: "rgba(28, 28, 33, 1)",
+                          position: "relative",
+                          zIndex: "1",
+                          left: "-136px",
+                          top: "4px",
+                          opacity: "80%",
+                          borderRadius: "100px",
+                        }}
+                      >
+                        <p
+                          className="text text_type_main-small mt-4"
+                          style={{ textAlign: "center" }}
+                        >{`+${current}`}</p>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className={styles.price}>
                   <p className="text text_type_digits-default">
