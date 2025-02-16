@@ -5,6 +5,7 @@ import { OrderFeed } from "../../components/order-feed/order-feed";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import { wsAuthConnect, wsAuthDisconnect } from "../../services/actions";
+import { AUTH_WS_URL } from "../../components/app/app";
 
 export const OrdersPage = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +13,7 @@ export const OrdersPage = () => {
   const orders = useAppSelector((state) => state.profileOrders.data?.orders);
 
   useEffect(() => {
-    dispatch(wsAuthConnect(`wss://norma.nomoreparties.space/orders?token=${token}`));
+    dispatch(wsAuthConnect(`${AUTH_WS_URL}?token=${token}`));
     return () => {
       dispatch(wsAuthDisconnect());
     };

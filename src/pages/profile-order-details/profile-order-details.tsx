@@ -7,7 +7,7 @@ export const ProfileOrderDetailsPage = () => {
     <>
       <AppHeader />
       <main className={styles.main}>
-        {/* <OrderInfo /> */}
+        <OrderInfo />
       </main>
     </>
   );

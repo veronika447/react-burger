@@ -17,18 +17,25 @@ type Props = {
 export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
 
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
 
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
   const statusText = {
     done: "Выполнен",
     created: "Создан",
     pending: "Готовится",
   };
 
+  if (!ingredients) {
+    return (
+      <div className={styles.loaderContainer}>
+        <span className={styles.loader}></span>
+      </div>
+    );
+  }
   return (
     <section
       className={`${styles.ordersContainer} mt-10 pr-2`}
@@ -36,7 +43,7 @@ export const OrderFeed: FC<Props> = ({ orders, isProfile }) => {
         height: isProfile ? "80vh" : "70vh",
       }}
     >
-      {[...orders].reverse().map((el) => {
+      {orders.map((el) => {
         const status = statusText[el.status];
 
         let orderIngredients: string[];

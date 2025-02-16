@@ -23,6 +23,8 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
+export const WS_URL = "wss://norma.nomoreparties.space/orders/all";
+export const AUTH_WS_URL = "wss://norma.nomoreparties.space/orders";
 
 export default function App() {
   const location = useLocation();

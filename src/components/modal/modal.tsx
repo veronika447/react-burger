@@ -47,7 +47,7 @@ export const Modal: FC<Props> = ({ children, title }) => {
 
   return createPortal(
     <>
-      <ModalOverlay onClose={() => onClose} />
+      <ModalOverlay onClose={onClose} />
       <div
         className={styles.modalWindow + " pt-10 pl-10 pr-10 pb-15"}
         onClick={(e) => e.stopPropagation()}

@@ -11,7 +11,7 @@ import { Order } from "../../utils/types";
 
 export const OrderInfo = () => {
   const params = useParams();
-  const location = useLocation();
+  const orderNumber = params.number;
   const orders = useAppSelector((state) => state.orderFeed.data?.orders);
   const history = useAppSelector((state) => state.profileOrders.data?.orders);
   const [uniqIngredients, setUniqIngredients] = useState<string[]>([]);
@@ -19,12 +19,25 @@ export const OrderInfo = () => {
 
   useEffect(() => {
     let newOrder: Order | undefined;
-    if (location.pathname.includes("profile")) {
-      newOrder = history?.find((el) => el.number.toString() === params.number);
-    } else if (location.pathname.includes("feed")) {
-      newOrder = orders?.find((el) => el.number.toString() === params.number);
-    }
+    // if (location.pathname.includes("profile")) {
+    //   newOrder = history?.find((el) => el.number.toString() === params.number);
+    //   console.log("🚀 ~ useEffect ~ newOrder:", newOrder);
+    // } else if (location.pathname.includes("feed")) {
+    //   newOrder = orders?.find((el) => el.number.toString() === params.number);
+    // }
+    const orderFromHistory = history?.find(
+      (el) => el.number.toString() === orderNumber
+    );
+    const orderFromOrders = orders?.find(
+      (el) => el.number.toString() === orderNumber
+    );
 
+    if (orderFromHistory) {
+      newOrder = orderFromHistory;
+    }
+    if (orderFromHistory) {
+      newOrder = orderFromOrders;
+    }
     if (newOrder) {
       setOrder(newOrder);
       const set = new Set(newOrder?.ingredients);
@@ -47,7 +60,7 @@ export const OrderInfo = () => {
     created: "Создан",
   };
 
-  if (!order) {
+  if (!order || !ingredients) {
     return (
       <div className={styles.loaderContainer}>
         <span className={styles.loader}></span>
