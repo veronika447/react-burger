@@ -38,9 +38,11 @@ export const Modal: FC<Props> = ({ children, title }) => {
   const onClose = () => {
     if (modalWindow === "order") {
       dispatch(resetOrderNumber());
+      navigate("/");
+    } else {
+      navigate(location.state.previousLocation);
     }
     dispatch(changeValue(null));
-    navigate(location.state.previousLocation);
   };
 
   return createPortal(
