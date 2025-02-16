@@ -58,25 +58,27 @@ export const ProfilePage = () => {
         }
       })
       .catch(() => {
-        refreshTokenRequest(userData.refreshToken).then((res) => {
-          if (res.success) {
-            const newToken = res.accessToken.split(" ")[1];
-            const newRefreshToken = res.refreshToken;
-            dispatch(
-              refreshTokens({
-                accessToken: newToken,
-                refreshToken: newRefreshToken,
-              })
-            );
-            return changeUserDataRequest(
-              newToken,
-              actualFormValues.name,
-              actualFormValues.email
-            );
-          } else {
-            setIsError(true);
+        refreshTokenRequest(userData.accessToken, userData.refreshToken).then(
+          (res) => {
+            if (res.success) {
+              const newToken = res.accessToken.split(" ")[1];
+              const newRefreshToken = res.refreshToken;
+              dispatch(
+                refreshTokens({
+                  accessToken: newToken,
+                  refreshToken: newRefreshToken,
+                })
+              );
+              return changeUserDataRequest(
+                newToken,
+                actualFormValues.name,
+                actualFormValues.email
+              );
+            } else {
+              setIsError(true);
+            }
           }
-        });
+        );
       })
       .finally(() => {
         setIsSubmit(false);

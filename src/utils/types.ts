@@ -101,5 +101,5 @@ export type OrderFeedData = {
 };
 
 export type OrderRes = Response & {
-  order: Order;
+  orders: Orders;
 };

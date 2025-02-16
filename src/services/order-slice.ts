@@ -24,7 +24,7 @@ export const getOrderNumber = createAsyncThunk<number, void, ThunkAPI>(
         return res.order.number;
       })
       .catch(async () => {
-        return refreshTokenRequest(refreshToken).then((res) => {
+        return refreshTokenRequest(token, refreshToken).then((res) => {
           if (res.success) {
             const newToken = res.accessToken.split(" ")[1];
             const newRefreshToken = res.refreshToken;

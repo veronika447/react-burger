@@ -4,23 +4,41 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector } from "../app/hooks";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { getOrder } from "../../utils/get-order";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { Order } from "../../utils/types";
 
 export const OrderInfo = () => {
   const params = useParams();
+  const location = useLocation();
   const orders = useAppSelector((state) => state.orderFeed.data?.orders);
+  const history = useAppSelector((state) => state.profileOrders.data?.orders);
   const [uniqIngredients, setUniqIngredients] = useState<string[]>([]);
-  const [order, setOrder] = useState(
-    orders?.find((el) => el.number.toString() === params.number)
-  );
-  // let order = orders?.find((el) => el.number.toString() === params.number);
+  const [order, setOrder] = useState<Order>();
 
   useEffect(() => {
-    const set = new Set(order?.ingredients);
-    setUniqIngredients(Array.from(set));
-  }, [order]);
+    let newOrder: Order | undefined;
+    if (location.pathname.includes("profile")) {
+      newOrder = history?.find((el) => el.number.toString() === params.number);
+    } else if (location.pathname.includes("feed")) {
+      newOrder = orders?.find((el) => el.number.toString() === params.number);
+    }
+
+    if (newOrder) {
+      setOrder(newOrder);
+      const set = new Set(newOrder?.ingredients);
+      setUniqIngredients(Array.from(set));
+    } else {
+      getOrder(params.number!).then((res) => {
+        if (res.success) {
+          setOrder(res.orders[0]);
+          const set = new Set(res.orders[0]?.ingredients);
+          setUniqIngredients(Array.from(set));
+        }
+      });
+    }
+  }, []);
 
   const ingredients = useAppSelector((state) => state.ingredients.ingredients);
   const statusText = {
@@ -28,26 +46,22 @@ export const OrderInfo = () => {
     pending: "Готовится",
     created: "Создан",
   };
+
   if (!order) {
-    getOrder(params.number!).then((res) => {
-      if (res.success) {
-        setOrder(res.order);
-      } else {
-        return (
-          <div className={styles.loaderContainer}>
-            <span className={styles.loader}></span>
-          </div>
-        );
-      }
-    });
+    return (
+      <div className={styles.loaderContainer}>
+        <span className={styles.loader}></span>
+      </div>
+    );
   }
+
   return (
     <div className={styles.infoContainer}>
       <h3
         className="text text_type_digits-default"
         style={{ textAlign: "center" }}
       >
-        {`#${order!.number}`}
+        {`#${order?.number}`}
       </h3>
       <h3 className="text text_type_main-medium mt-10">{order!.name}</h3>
       <p
@@ -93,7 +107,7 @@ export const OrderInfo = () => {
         </p>
         <div className={styles.priceContainer}>
           <p className="text text_type_digits-default mr-2">
-            {order!.ingredients.reduce(
+            {order?.ingredients.reduce(
               (acc, cur) => acc + ingredients[cur].price,
               0
             )}

@@ -7,6 +7,8 @@ import {
 import { refreshTokenRequest } from "../utils/refresh-token";
 import { RootState } from "../components/app/store";
 import { wsAuthConnect, wsAuthDisconnect } from "../services/actions";
+import { refreshTokens, removeUserData } from "../services/auth-slice";
+import { logoutRequest } from "../utils/logout";
 
 export type ActionTypes = {
   connect: ActionCreatorWithPayload<string>;
@@ -140,33 +142,39 @@ export const authSocketMiddleware = (
         socket.onmessage = (event) => {
           const { data } = event;
           const parseData = JSON.parse(data);
+          dispatch(onMessage(parseData));
 
           if (
             withTokenRefresh &&
             parseData.message === "Invalid or missing token"
           ) {
             const state = store.getState() as RootState;
-            refreshTokenRequest(state.auth.refreshToken)
+            refreshTokenRequest(state.auth.accessToken, state.auth.refreshToken)
               .then((res) => {
-                const wssUrl = new URL(url);
-                wssUrl.searchParams.set(
-                  "token",
-                  res.accessToken.replace("Bearer ", "")
+                const newToken = res.accessToken.split(" ")[1];
+                const newRefreshToken = res.refreshToken;
+                const wssUrl = `${url}?token=${newToken}`;
+                dispatch(wsAuthConnect(wssUrl));
+                dispatch(
+                  refreshTokens({
+                    accessToken: newToken,
+                    refreshToken: newRefreshToken,
+                  })
                 );
-                dispatch(wsAuthConnect(wssUrl.toString()));
               })
               .catch((err) => {
                 dispatch(onError(err.message));
+                logoutRequest(state.auth.refreshToken).then(() => {
+                  dispatch(removeUserData());
+                });
               });
             dispatch(wsAuthDisconnect());
-            return;
           }
-
-          dispatch(onMessage(parseData));
         };
 
         socket.onclose = () => {
           dispatch(onClose());
+          socket = null;
 
           if (isConnected) {
             reconnectTimer = window.setTimeout(() => {
@@ -188,7 +196,7 @@ export const authSocketMiddleware = (
         socket = null;
       }
 
-      next(action);
+      return next(action);
     };
   };
 };
