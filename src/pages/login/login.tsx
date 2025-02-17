@@ -8,7 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
-import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
+import {
+  loginFormSetValue,
+  resetForm,
+} from "../../services/login-form/login-form-slice";
 import { setUserData } from "../../services/auth-slice";
 import { loginRequest } from "../../utils/login";
 import type { FormEvent, ChangeEvent } from "react";

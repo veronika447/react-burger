@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { orderRequest } from "../utils/order";
-import { refreshTokenRequest } from "../utils/refresh-token";
+import { orderRequest } from "../../utils/order";
+import { refreshTokenRequest } from "../../utils/refresh-token";
 import { refreshTokens } from "./auth-slice";
-import { type IngredientType } from "../utils/types";
-import { type ThunkAPI } from "../utils/types";
+import { type IngredientType } from "../../utils/types";
+import { type ThunkAPI } from "../../utils/types";
 
 export const getOrderNumber = createAsyncThunk<number, void, ThunkAPI>(
   "order/orderNumber",

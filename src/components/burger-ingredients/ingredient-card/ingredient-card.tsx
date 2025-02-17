@@ -1,6 +1,6 @@
 import styles from "./ingredient-card.module.css";
-import { changeValue } from "../../../services/modal-window-slice";
-import { addDetails } from "../../../services/ingredient-details-slice";
+import { changeValue } from "../../../services/modal-window/modal-window-slice";
+import { addDetails } from "../../../services/ingredient-details/ingredient-details-slice";
 import { useDrag } from "react-dnd";
 
 import {

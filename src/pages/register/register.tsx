@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import {
   registerFormSetValue,
   resetForm,
-} from "../../services/register-form-slice";
+} from "../../services/register-form/register-form-slice";
 import { registerRequest } from "../../utils/register";
 import { setUserData } from "../../services/auth-slice";
 import { useState } from "react";

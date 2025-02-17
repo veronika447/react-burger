@@ -1,7 +1,7 @@
 import styles from "./burger-constructor.module.css";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { changeValue } from "../../services/modal-window-slice";
+import { changeValue } from "../../services/modal-window/modal-window-slice";
 import {
   addBun,
   addIngredient,
@@ -16,7 +16,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
-import { getOrderNumber } from "../../services/order-slice";
+import { getOrderNumber } from "../../services/order/order-slice";
 import { resetConstructor } from "../../services/burger-constructor-slice";
 import { useNavigate } from "react-router";
 import { type IngredientType } from "../../utils/types";

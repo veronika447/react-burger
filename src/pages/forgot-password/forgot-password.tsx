@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import {
   forgotPasswordFormSetValue,
   resetForm,
-} from "../../services/forgot-password-form-slice";
+} from "../../services/forgot-password-form/forgot-password-form-slice";
 import { useState } from "react";
 import { checkEmailRequest } from "../../utils/check-email";
 import type { ChangeEvent, FormEvent } from "react";

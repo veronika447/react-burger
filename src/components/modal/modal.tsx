@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import type { FC, ReactNode } from "react";
 
-import { changeValue } from "../../services/modal-window-slice";
-import { resetOrderNumber } from "../../services/order-slice";
+import { changeValue } from "../../services/modal-window/modal-window-slice";
+import { resetOrderNumber } from "../../services/order/order-slice";
 
 type Props = {
   children: ReactNode;
