@@ -1,9 +1,5 @@
 import { Routes, Route, useLocation } from "react-router";
 
-import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/fonts/fonts.css";
-import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
-import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
-
 import {
   LoginPage,
   RegisterPage,
@@ -14,7 +10,11 @@ import {
   ProfilePage,
   OrdersPage,
   NotFoundPage,
+  FeedPage,
+  FeedDetailsPage,
+  ProfileOrderDetailsPage,
 } from "../../pages";
+import { OrderInfo } from "../order-info/order-info";
 
 import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { ProtectedRouteWithoutAuth } from "../protected-route/protected-route-without-auth";
@@ -23,10 +23,14 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
+export const WS_URL = "wss://norma.nomoreparties.space/orders/all";
+export const AUTH_WS_URL = "wss://norma.nomoreparties.space/orders";
 
 export default function App() {
   const location = useLocation();
+
   const previousLocation = location.state?.previousLocation;
+
   return (
     <>
       <Routes location={previousLocation || location}>
@@ -60,6 +64,14 @@ export default function App() {
           path="/profile/orders"
           element={<ProtectedRouteElement element={<OrdersPage />} />}
         />
+        <Route
+          path="profile/orders/:number"
+          element={
+            <ProtectedRouteElement element={<ProfileOrderDetailsPage />} />
+          }
+        />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:number" element={<FeedDetailsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {previousLocation && (
@@ -69,6 +81,23 @@ export default function App() {
             element={
               <Modal title="Детали ингредиента">
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="feed/:number"
+            element={
+              <Modal>
+                {" "}
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path="profile/orders/:number"
+            element={
+              <Modal>
+                <OrderInfo />
               </Modal>
             }
           />

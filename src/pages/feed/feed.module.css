@@ -1,0 +1,49 @@
+.container {
+  width: 1240px;
+  margin: 0 auto;
+}
+
+.itemsContainer {
+  width: 100%;
+  display: flex;
+  column-gap: 60px;
+}
+
+.orders {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 70vh;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px;
+}
+
+.ordersBoard {
+  display: flex;
+  column-gap: 36px;
+}
+
+.ordersBoardSection {
+  width: 268px;
+}
+
+.boardContainer {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.doneOrders {
+  color: rgba(0, 204, 204, 1);
+}
+
+.ordersCompleted {
+  text-shadow: 0 4px 32px rgba(51, 51, 255, 0.5);
+}

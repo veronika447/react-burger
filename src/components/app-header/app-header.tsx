@@ -15,14 +15,21 @@ export const AppHeader = () => {
   const location = useLocation();
   const [isProfileActive, setIsProfileActive] = useState(false);
   const [isConstructorActive, setIsConstructorActive] = useState(true);
+  const [isFeedActive, setIsFeedActive] = useState(false);
 
   useEffect(() => {
     if (location.pathname === "/") {
       setIsConstructorActive(true);
       setIsProfileActive(false);
-    } else if (location.pathname === "/profile") {
+      setIsFeedActive(false);
+    } else if (location.pathname.includes("profile")) {
       setIsProfileActive(true);
       setIsConstructorActive(false);
+      setIsFeedActive(false);
+    } else if (location.pathname.includes("feed")) {
+      setIsFeedActive(true);
+      setIsConstructorActive(false);
+      setIsProfileActive(false);
     } else {
       setIsConstructorActive(false);
       setIsProfileActive(false);
@@ -33,7 +40,7 @@ export const AppHeader = () => {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <nav className={styles.navBar}>
-          <Link to="/" className={styles.links}>
+          <Link to="/" className="link">
             <NavItem
               icon={
                 <BurgerIcon
@@ -44,15 +51,17 @@ export const AppHeader = () => {
               isActive={isConstructorActive}
             />
           </Link>
-          <NavItem
-            icon={<ListIcon type="secondary" />}
-            text="Лента заказов"
-            isActive={false}
-          />
+          <Link to="/feed" className="link">
+            <NavItem
+              icon={<ListIcon type={isFeedActive ? "primary" : "secondary"} />}
+              text="Лента заказов"
+              isActive={isFeedActive}
+            />
+          </Link>
         </nav>
         <Logo className="mr-30" />
         <nav className={styles.navBar}>
-          <Link to="/profile" className={styles.links}>
+          <Link to="/profile" className="link">
             <NavItem
               icon={
                 <ProfileIcon type={isProfileActive ? "primary" : "secondary"} />

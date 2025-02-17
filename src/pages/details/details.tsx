@@ -15,9 +15,11 @@ export const DetailsPage = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    const ingredientId = params.id;
-    const ingredient = ingredients.find((el) => el._id === ingredientId)!;
-    dispatch(addDetails(ingredient));
+    const ingredientId = params.id!;
+    if (ingredients) {
+      const ingredient = ingredients[ingredientId]!;
+      dispatch(addDetails(ingredient));
+    }
   }, [details, params]);
 
   return (

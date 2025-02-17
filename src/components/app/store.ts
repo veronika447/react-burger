@@ -1,4 +1,8 @@
-import { AnyAction, combineReducers, configureStore, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  ThunkDispatch,
+} from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -12,6 +16,34 @@ import registerFormReducer from "../../services/register-form-slice";
 import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
 import resetPasswordFormReducer from "../../services/reset-password-form-slice";
 import authReducer from "../../services/auth-slice";
+import orderFeedReducer, {
+  WsInternalActions,
+  wsClose,
+  wsConnecting,
+  wsError,
+  wsMessage,
+  wsOpen,
+} from "../../services/order-feed-slice";
+import profileOrdersReducer, {
+  authWsClose,
+  authWsConnecting,
+  authWsError,
+  authWsMessage,
+  authWsOpen,
+  WsAuthInternalActions,
+} from "../../services/profile-orders-slice";
+import {
+  socketMiddleware,
+  authSocketMiddleware,
+} from "../../middlewares/socket-middleware";
+import {
+  WsExternalActions,
+  wsConnect,
+  wsDisconnect,
+  wsAuthConnect,
+  wsAuthDisconnect,
+  WsAuthExternalActions,
+} from "../../services/actions";
 
 const persistConfig = {
   key: "root",
@@ -29,7 +61,35 @@ const rootReducer = combineReducers({
   forgotPasswordForm: forgotPasswordFormReducer,
   resetPasswordForm: resetPasswordFormReducer,
   auth: authReducer,
+  orderFeed: orderFeedReducer,
+  profileOrders: profileOrdersReducer,
 });
+
+const orderFeedMiddleware = socketMiddleware(
+  {
+    connect: wsConnect,
+    disconnect: wsDisconnect,
+    onConnecting: wsConnecting,
+    onOpen: wsOpen,
+    onClose: wsClose,
+    onError: wsError,
+    onMessage: wsMessage,
+  },
+  false
+);
+
+const profileOrderMiddleware = authSocketMiddleware(
+  {
+    connect: wsAuthConnect,
+    disconnect: wsAuthDisconnect,
+    onConnecting: authWsConnecting,
+    onOpen: authWsOpen,
+    onClose: authWsClose,
+    onError: authWsError,
+    onMessage: authWsMessage,
+  },
+  true
+);
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -39,14 +99,20 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
+        // ignoredPaths: ["ingredients.ingredients"],
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }),
+    }).concat(orderFeedMiddleware, profileOrderMiddleware),
 });
 
 export const persistor = persistStore(store);
 
+type ApplicationActions =
+  | WsExternalActions
+  | WsInternalActions
+  | WsAuthExternalActions
+  | WsAuthInternalActions;
+
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch & ThunkDispatch<RootState, any, UnknownAction>;
-
-
+export type AppDispatch = typeof store.dispatch &
+  ThunkDispatch<RootState, any, ApplicationActions>;

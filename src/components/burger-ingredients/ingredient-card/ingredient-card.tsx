@@ -45,7 +45,7 @@ export const IngredientCard: FC<Props> = ({ ingredient }) => {
     <Link
       to={`/ingredients/${ingredient._id}`}
       state={{ previousLocation: location }}
-      className={styles.link}
+      className="link"
     >
       <div
         className={styles.container}

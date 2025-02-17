@@ -71,7 +71,7 @@ export const LoginPage = () => {
   return (
     <div className={styles.page}>
       <AppHeader />
-      <article className={styles.container + " mt-20"}>
+      <section className={styles.container + " mt-20"}>
         <h2 className={styles.title + " text text_type_main-medium"}>Вход</h2>
         <form className={styles.form} onSubmit={(e) => handleLogin(e)}>
           <Input
@@ -124,17 +124,17 @@ export const LoginPage = () => {
         </form>
         <p className="text text_type_main-small text_color_inactive mt-20">
           Вы - новый пользователь?
-          <Link to="/register" className={styles.link}>
+          <Link to="/register" className="link">
             <span className={styles.spanText}> Зарегистрироваться</span>
           </Link>
         </p>
         <p className="text text_type_main-small text_color_inactive mt-4">
           Забыли пароль?
-          <Link to="/forgot-password" className={styles.link}>
+          <Link to="/forgot-password" className="link">
             <span className={styles.spanText}> Восстановить пароль</span>
           </Link>
         </p>
-      </article>
+      </section>
     </div>
   );
 };

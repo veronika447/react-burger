@@ -9,7 +9,7 @@ export const NotFoundPage = () => {
       <h3 className="text text_type_main-default text_color_inactive">
         Страница не найдена
       </h3>
-      <Link to="/" className={styles.link}>
+      <Link to="/" className="link">
         <Button htmlType="button" size="small">
           Вернуться на главную
         </Button>

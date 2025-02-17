@@ -10,7 +10,7 @@ export type ThunkAPI = {
 export type IngredientType = {
   _id: string;
   name: string;
-  type: string;
+  type: "sauce" | "bun" | "main";
   proteins: number;
   fat: number;
   carbohydrates: number;
@@ -50,7 +50,7 @@ export type LogoutRes = Response & {
   message: string;
 };
 
-export type OrderRes = Response & {
+export type OrderNumberRes = Response & {
   order: {
     number: number;
   };
@@ -73,4 +73,33 @@ export type ResetPasswordRes = Response & {
 
 export type GetIngredientsRes = Response & {
   data: IngredientType[];
+};
+
+export enum WebSocketStatus {
+  CONNECTING = "CONNECTING...",
+  ONLINE = "ONLINE",
+  OFFLINE = "OFFLINE",
+}
+
+export type Order = {
+  ingredients: string[];
+  _id: string;
+  name: string;
+  status: "done" | "pending" | "created";
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Orders = Array<Order>;
+
+export type OrderFeedData = {
+  success: boolean;
+  orders: Orders;
+  total: number;
+  totalToday: number;
+};
+
+export type OrderRes = Response & {
+  orders: Orders;
 };
