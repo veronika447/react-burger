@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 } from "uuid";
-import { type IngredientType } from "../utils/types";
+import { type IngredientType } from "../../utils/types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 type BurgerConstructorState = {
