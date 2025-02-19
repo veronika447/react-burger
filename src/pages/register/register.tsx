@@ -12,7 +12,7 @@ import {
   resetForm,
 } from "../../services/register-form/register-form-slice";
 import { registerRequest } from "../../utils/register";
-import { setUserData } from "../../services/auth-slice";
+import { setUserData } from "../../services/auth/auth-slice";
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 

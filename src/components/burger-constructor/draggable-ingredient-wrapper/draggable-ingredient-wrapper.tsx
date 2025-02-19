@@ -1,7 +1,7 @@
 import styles from "./draggable-ingredient-wrapper.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
-import { sortIngredients } from "../../../services/burger-constructor-slice";
+import { sortIngredients } from "../../../services/burger-constructor/burger-constructor-slice";
 import type { XYCoord } from "react-dnd";
 import type { FC, ReactNode } from "react";
 import { useAppDispatch } from "../../app/hooks";

@@ -6,7 +6,8 @@ import {
   addBun,
   addIngredient,
   deleteIngredient,
-} from "../../services/burger-constructor-slice";
+  resetConstructor,
+} from "../../services/burger-constructor/burger-constructor-slice";
 import { useDrop } from "react-dnd";
 import {
   Button,
@@ -17,7 +18,6 @@ import {
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
 import { getOrderNumber } from "../../services/order/order-slice";
-import { resetConstructor } from "../../services/burger-constructor-slice";
 import { useNavigate } from "react-router";
 import { type IngredientType } from "../../utils/types";
 

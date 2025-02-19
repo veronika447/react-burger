@@ -12,7 +12,7 @@ import {
   loginFormSetValue,
   resetForm,
 } from "../../services/login-form/login-form-slice";
-import { setUserData } from "../../services/auth-slice";
+import { setUserData } from "../../services/auth/auth-slice";
 import { loginRequest } from "../../utils/login";
 import type { FormEvent, ChangeEvent } from "react";
 

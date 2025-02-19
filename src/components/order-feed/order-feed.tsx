@@ -7,7 +7,7 @@ import {
 import { Link, useLocation } from "react-router";
 import { Orders } from "../../utils/types";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { getIngredients } from "../../services/ingredients-slice";
+import { getIngredients } from "../../services/ingredients/ingredients-slice";
 
 type Props = {
   isProfile: boolean;
