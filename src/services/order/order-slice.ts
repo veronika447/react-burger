@@ -55,7 +55,7 @@ type OrderState = {
   orderNumber: number | null;
 };
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   orderRequest: false,
   orderFailed: false,
   orderNumber: null,
