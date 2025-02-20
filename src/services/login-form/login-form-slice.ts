@@ -5,7 +5,7 @@ type LoginFormState = {
   [key: string]: string;
 };
 
-const initialState: LoginFormState = {
+export const initialState: LoginFormState = {
   email: "",
   password: "",
 };

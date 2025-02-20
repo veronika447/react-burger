@@ -1,20 +1,16 @@
-import reducer from "./modal-window-slice";
+import reducer, { changeValue, initialState } from "./modal-window-slice";
 
 describe("modal window reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      value: null,
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle changeValue", () => {
     expect(
-      reducer(
-        {
-          value: null,
-        },
-        { type: "modalValue/changeValue", payload: "test value" }
-      )
+      reducer(initialState, {
+        type: changeValue.type,
+        payload: "test value",
+      })
     ).toEqual({
       value: "test value",
     });

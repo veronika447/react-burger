@@ -1,12 +1,14 @@
-import reducer from "./auth-slice";
+import reducer, {
+  changeUserInfo,
+  initialState,
+  refreshTokens,
+  removeUserData,
+  setUserData,
+} from "./auth-slice";
 
 describe("auth reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      user: null,
-      accessToken: "",
-      refreshToken: "",
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle setUserData", () => {
@@ -14,7 +16,7 @@ describe("auth reducer", () => {
       reducer(
         {},
         {
-          type: "user/setUserData",
+          type: setUserData.type,
           payload: {
             user: { name: "Test name", email: "Test email" },
             accessToken: "Test access token",
@@ -41,14 +43,10 @@ describe("auth reducer", () => {
           accessToken: "access token",
         },
         {
-          type: "user/removeUserData",
+          type: removeUserData.type,
         }
       )
-    ).toEqual({
-      user: null,
-      accessToken: "",
-      refreshToken: "",
-    });
+    ).toEqual(initialState);
   });
 
   it("should handle changeUserInfo", () => {
@@ -63,7 +61,7 @@ describe("auth reducer", () => {
           accessToken: "access token",
         },
         {
-          type: "user/changeUserInfo",
+          type: changeUserInfo.type,
           payload: {
             user: {
               name: "Test name",
@@ -94,7 +92,7 @@ describe("auth reducer", () => {
           refreshToken: "Prev refresh token",
         },
         {
-          type: "user/refreshTokens",
+          type: refreshTokens.type,
           payload: {
             accessToken: "Test access token",
             refreshToken: "Test refresh token",

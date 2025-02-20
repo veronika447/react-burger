@@ -1,54 +1,42 @@
-import reducer from "./register-form-slice";
+import reducer, {
+  initialState,
+  registerFormSetValue,
+  resetForm,
+} from "./register-form-slice";
 
 describe("register form reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      name: "",
-      email: "",
-      password: "",
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle registerFormSetValue", () => {
     expect(
-      reducer(
-        { name: "", email: "", password: "" },
-        {
-          type: "registerForm/registerFormSetValue",
-          payload: { field: "name", value: "test name" },
-        }
-      )
+      reducer(initialState, {
+        type: registerFormSetValue.type,
+        payload: { field: "name", value: "test name" },
+      })
     ).toEqual({
+      ...initialState,
       name: "test name",
-      email: "",
-      password: "",
     });
 
     expect(
-      reducer(
-        { name: "", email: "", password: "" },
-        {
-          type: "registerForm/registerFormSetValue",
-          payload: { field: "email", value: "test email" },
-        }
-      )
+      reducer(initialState, {
+        type: registerFormSetValue.type,
+        payload: { field: "email", value: "test email" },
+      })
     ).toEqual({
-      name: "",
+      ...initialState,
       email: "test email",
-      password: "",
     });
 
     expect(
-      reducer(
-        { name: "", email: "", password: "" },
-        {
-          type: "registerForm/registerFormSetValue",
-          payload: { field: "password", value: "test password" },
-        }
-      )
+      reducer(initialState, {
+        type: registerFormSetValue.type,
+        payload: { field: "password", value: "test password" },
+      })
     ).toEqual({
-      name: "",
-      email: "",
+      ...initialState,
       password: "test password",
     });
   });
@@ -62,13 +50,9 @@ describe("register form reducer", () => {
           password: "password",
         },
         {
-          type: "registerForm/resetForm",
+          type: resetForm.type,
         }
       )
-    ).toEqual({
-      name: "",
-      email: "",
-      password: "",
-    });
+    ).toEqual(initialState);
   });
 });

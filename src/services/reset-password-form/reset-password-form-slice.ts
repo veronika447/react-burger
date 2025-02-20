@@ -5,7 +5,7 @@ type ResetPasswordFormState = {
   [key: string]: string;
 };
 
-const initialState: ResetPasswordFormState = {
+export const initialState: ResetPasswordFormState = {
   password: "",
   code: "",
 };

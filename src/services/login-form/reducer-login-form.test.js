@@ -1,37 +1,32 @@
-import reducer from "./login-form-slice";
+import reducer, {
+  initialState,
+  loginFormSetValue,
+  resetForm,
+} from "./login-form-slice";
 
 describe("login form reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      email: "",
-      password: "",
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle loginFormSetValue", () => {
     expect(
-      reducer(
-        { email: "", password: "" },
-        {
-          type: "loginForm/loginFormSetValue",
-          payload: { field: "email", value: "test email" },
-        }
-      )
+      reducer(initialState, {
+        type: loginFormSetValue.type,
+        payload: { field: "email", value: "test email" },
+      })
     ).toEqual({
+      ...initialState,
       email: "test email",
-      password: "",
     });
 
     expect(
-      reducer(
-        { email: "", password: "" },
-        {
-          type: "loginForm/loginFormSetValue",
-          payload: { field: "password", value: "test password" },
-        }
-      )
+      reducer(initialState, {
+        type: loginFormSetValue.type,
+        payload: { field: "password", value: "test password" },
+      })
     ).toEqual({
-      email: "",
+      ...initialState,
       password: "test password",
     });
   });
@@ -44,12 +39,9 @@ describe("login form reducer", () => {
           password: "password",
         },
         {
-          type: "loginForm/resetForm",
+          type: resetForm.type,
         }
       )
-    ).toEqual({
-      email: "",
-      password: "",
-    });
+    ).toEqual(initialState);
   });
 });

@@ -1,93 +1,60 @@
-import reducer from "./order-feed-slice";
+import reducer, {
+  initialState,
+  wsClose,
+  wsConnecting,
+  wsError,
+  wsMessage,
+  wsOpen,
+} from "./order-feed-slice";
 
 describe("order feed reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle wsConnecting", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "orderFeed/wsConnecting",
+        type: wsConnecting.type,
       })
     ).toEqual({
+      ...initialState,
       status: "CONNECTING...",
-      data: null,
-      connectionError: null,
     });
   });
 
   it("should handle wsOpen", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "orderFeed/wsOpen",
+        type: wsOpen.type,
       })
     ).toEqual({
+      ...initialState,
       status: "ONLINE",
-      data: null,
-      connectionError: null,
     });
   });
 
   it("should handle wsClose", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "orderFeed/wsClose",
+        type: wsClose.type,
       })
-    ).toEqual({
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    });
+    ).toEqual(initialState);
   });
 
   it("should handle wsError", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "orderFeed/wsError",
+        type: wsError.type,
         payload: "test error",
       })
     ).toEqual({
-      status: "OFFLINE",
-      data: null,
+      ...initialState,
       connectionError: "test error",
     });
   });
 
   it("should handle wsMessage", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
     const message = {
       success: expect.any(Boolean),
       orders: [],
@@ -97,13 +64,12 @@ describe("order feed reducer", () => {
 
     expect(
       reducer(initialState, {
-        type: "orderFeed/wsMessage",
+        type: wsMessage.type,
         payload: message,
       })
     ).toEqual({
-      status: "OFFLINE",
+      ...initialState,
       data: message,
-      connectionError: null,
     });
   });
 });

@@ -1,4 +1,8 @@
-import reducer, { getOrderNumber, initialState } from "./order-slice";
+import reducer, {
+  getOrderNumber,
+  initialState,
+  resetOrderNumber,
+} from "./order-slice";
 
 describe("order reducer", () => {
   it("should return initial state", () => {
@@ -7,10 +11,13 @@ describe("order reducer", () => {
 
   it("should handle resetOrderNumber", () => {
     expect(
-      reducer(initialState, {
-        type: "order/resetOrderNumber",
-      })
-    ).toEqual({ ...initialState, orderNumber: null });
+      reducer(
+        { ...initialState, orderNumber: 1 },
+        {
+          type: resetOrderNumber.type,
+        }
+      )
+    ).toEqual(initialState);
   });
 
   it("should handle getOrderNumber fulfilled", () => {

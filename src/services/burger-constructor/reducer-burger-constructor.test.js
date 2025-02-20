@@ -1,73 +1,43 @@
 import { v4 } from "uuid";
-import reducer, { addIngredient } from "./burger-constructor-slice";
+import reducer, {
+  addBun,
+  addIngredient,
+  deleteIngredient,
+  initialState,
+  resetConstructor,
+  sortIngredients,
+} from "./burger-constructor-slice";
 import { configureStore } from "@reduxjs/toolkit";
 
 describe("burger constructor reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      bun: null,
-      ingredients: [],
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  const newBun = {
-    _id: "Test id",
-    name: "Test name",
-    type: "bun",
-    proteins: 0,
-    fat: 0,
-    carbohydrates: 0,
-    calories: 0,
-    price: 0,
-    image: "image",
-    image_mobile: "image-mobile",
-    image_large: "image-large",
-    __v: 0,
-  };
-
-  const prevBun = {
-    _id: "Prev id",
-    name: "Prev name",
-    type: "bun",
-    proteins: 0,
-    fat: 0,
-    carbohydrates: 0,
-    calories: 0,
-    price: 0,
-    image: "image",
-    image_mobile: "image-mobile",
-    image_large: "image-large",
-    __v: 0,
-  };
-
   it("should handle addBun", () => {
-    expect(
-      reducer(
-        { bun: null, ingredients: [] },
-        {
-          type: "burgerConstructor/addBun",
-          payload: newBun,
-        }
-      )
-    ).toEqual({
-      bun: newBun,
-      ingredients: [],
-    });
+    const newBun = {
+      _id: "Test id",
+      name: "Test name",
+      type: "bun",
+      proteins: 0,
+      fat: 0,
+      carbohydrates: 0,
+      calories: 0,
+      price: 0,
+      image: "image",
+      image_mobile: "image-mobile",
+      image_large: "image-large",
+      __v: 0,
+    };
 
     expect(
-      reducer(
-        {
-          bun: prevBun,
-          ingredients: [],
-        },
-        {
-          type: "burgerConstructor/addBun",
-          payload: newBun,
-        }
-      )
+      reducer(initialState, {
+        type: addBun.type,
+        payload: newBun,
+      })
     ).toEqual({
+      ...initialState,
       bun: newBun,
-      ingredients: [],
     });
   });
 
@@ -87,7 +57,7 @@ describe("burger constructor reducer", () => {
       __v: 0,
     };
     expect(addIngredient(newIngredient)).toEqual({
-      type: "burgerConstructor/addIngredient",
+      type: addIngredient.type,
       payload: {
         uniqueId: expect.any(String),
         _id: "Test id",
@@ -124,18 +94,12 @@ describe("burger constructor reducer", () => {
     };
 
     expect(
-      reducer(
-        {
-          bun: null,
-          ingredients: [],
-        },
-        {
-          type: "burgerConstructor/addIngredient",
-          payload: newIngredient,
-        }
-      )
+      reducer(initialState, {
+        type: addIngredient.type,
+        payload: newIngredient,
+      })
     ).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [
         {
           uniqueId: expect.any(String),
@@ -174,7 +138,7 @@ describe("burger constructor reducer", () => {
     const store = configureStore({ reducer: reducer });
     store.dispatch(addIngredient(newIngredient));
     expect(store.getState()).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [
         {
           uniqueId: expect.any(String),
@@ -230,14 +194,14 @@ describe("burger constructor reducer", () => {
     ];
     expect(
       reducer(
-        { bun: null, ingredients: ingredients },
+        { ...initialState, ingredients: ingredients },
         {
-          type: "burgerConstructor/deleteIngredient",
+          type: deleteIngredient.type,
           payload: "Test uniqueId",
         }
       )
     ).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [
         {
           uniqueId: expect.any(String),
@@ -310,16 +274,16 @@ describe("burger constructor reducer", () => {
     expect(
       reducer(
         {
-          bun: null,
+          ...initialState,
           ingredients: [ingredient1, ingredient2, ingredient3],
         },
         {
-          type: "burgerConstructor/sortIngredients",
+          type: sortIngredients.type,
           payload: { hoverIndex: 2, dragIndex: 0 },
         }
       )
     ).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [ingredient2, ingredient3, ingredient1],
     });
   });
@@ -361,12 +325,9 @@ describe("burger constructor reducer", () => {
           ingredients: [ingredient],
         },
         {
-          type: "burgerConstructor/resetConstructor",
+          type: resetConstructor.type,
         }
       )
-    ).toEqual({
-      bun: null,
-      ingredients: [],
-    });
+    ).toEqual(initialState);
   });
 });

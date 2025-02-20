@@ -1,27 +1,11 @@
-import reducer from "./ingredient-details-slice";
+import reducer, { addDetails, initialState } from "./ingredient-details-slice";
 
 describe("ingredient details reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      image_large: "",
-      name: "",
-      calories: 0,
-      proteins: 0,
-      fat: 0,
-      carbohydrates: 0,
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle addDetails", () => {
-    const prevDetails = {
-      image_large: "",
-      name: "",
-      calories: 0,
-      proteins: 0,
-      fat: 0,
-      carbohydrates: 0,
-    };
-
     const newDetails = {
       image_large: "test image",
       name: "test name",
@@ -32,8 +16,8 @@ describe("ingredient details reducer", () => {
     };
 
     expect(
-      reducer(prevDetails, {
-        type: "details/addDetails",
+      reducer(initialState, {
+        type: addDetails.type,
         payload: newDetails,
       })
     ).toEqual(newDetails);

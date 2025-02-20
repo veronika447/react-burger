@@ -1,93 +1,60 @@
-import reducer from "./profile-orders-slice";
+import reducer, {
+  authWsClose,
+  authWsConnecting,
+  authWsError,
+  authWsMessage,
+  authWsOpen,
+  initialState,
+} from "./profile-orders-slice";
 
 describe("profile orders reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle authWsConnecting", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "profileOrders/authWsConnecting",
+        type: authWsConnecting.type,
       })
     ).toEqual({
+      ...initialState,
       status: "CONNECTING...",
-      data: null,
-      connectionError: null,
     });
   });
 
   it("should handle authWsOpen", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "profileOrders/authWsOpen",
+        type: authWsOpen.type,
       })
     ).toEqual({
+      ...initialState,
       status: "ONLINE",
-      data: null,
-      connectionError: null,
     });
   });
 
   it("should handle authWsClose", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "profileOrders/authWsClose",
+        type: authWsClose.type,
       })
-    ).toEqual({
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    });
+    ).toEqual(initialState);
   });
 
   it("should handle authWsError", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
-
     expect(
       reducer(initialState, {
-        type: "profileOrders/authWsError",
+        type: authWsError.type,
         payload: "test error",
       })
     ).toEqual({
-      status: "OFFLINE",
-      data: null,
+      ...initialState,
       connectionError: "test error",
     });
   });
 
   it("should handle authWsMessage", () => {
-    const initialState = {
-      status: "OFFLINE",
-      data: null,
-      connectionError: null,
-    };
     const message = {
       success: expect.any(Boolean),
       orders: [],
@@ -97,13 +64,12 @@ describe("profile orders reducer", () => {
 
     expect(
       reducer(initialState, {
-        type: "profileOrders/authWsMessage",
+        type: authWsMessage.type,
         payload: message,
       })
     ).toEqual({
-      status: "OFFLINE",
+      ...initialState,
       data: message,
-      connectionError: null,
     });
   });
 });

@@ -1,37 +1,32 @@
-import reducer from "./reset-password-form-slice";
+import reducer, {
+  initialState,
+  resetForm,
+  resetPasswordFormSetValue,
+} from "./reset-password-form-slice";
 
 describe("reset password form reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      password: "",
-      code: "",
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it("should handle resetPasswordFormSetValue", () => {
     expect(
-      reducer(
-        { password: "", code: "" },
-        {
-          type: "resetPasswordForm/resetPasswordFormSetValue",
-          payload: { field: "code", value: "test code" },
-        }
-      )
+      reducer(initialState, {
+        type: resetPasswordFormSetValue.type,
+        payload: { field: "code", value: "test code" },
+      })
     ).toEqual({
+      ...initialState,
       code: "test code",
-      password: "",
     });
 
     expect(
-      reducer(
-        { code: "", password: "" },
-        {
-          type: "resetPasswordForm/resetPasswordFormSetValue",
-          payload: { field: "password", value: "test password" },
-        }
-      )
+      reducer(initialState, {
+        type: resetPasswordFormSetValue.type,
+        payload: { field: "password", value: "test password" },
+      })
     ).toEqual({
-      code: "",
+      ...initialState,
       password: "test password",
     });
   });
@@ -44,12 +39,9 @@ describe("reset password form reducer", () => {
           password: "password",
         },
         {
-          type: "resetPasswordForm/resetForm",
+          type: resetForm.type,
         }
       )
-    ).toEqual({
-      code: "",
-      password: "",
-    });
+    ).toEqual(initialState);
   });
 });

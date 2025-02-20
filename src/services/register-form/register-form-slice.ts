@@ -5,7 +5,7 @@ type RegisterFormState = {
   [key: string]: string;
 };
 
-const initialState: RegisterFormState = {
+export const initialState: RegisterFormState = {
   name: "",
   email: "",
   password: "",

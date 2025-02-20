@@ -8,7 +8,7 @@ type AuthState = {
   refreshToken: string;
 };
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   accessToken: "",
   refreshToken: "",
