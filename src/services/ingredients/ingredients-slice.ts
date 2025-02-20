@@ -16,7 +16,7 @@ type IngredientState = {
   ingredients: Record<string, IngredientType> | null;
 };
 
-const initialState: IngredientState = {
+export const initialState: IngredientState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   ingredients: null,
