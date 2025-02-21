@@ -19,12 +19,6 @@ export const OrderInfo = () => {
 
   useEffect(() => {
     let newOrder: Order | undefined;
-    // if (location.pathname.includes("profile")) {
-    //   newOrder = history?.find((el) => el.number.toString() === params.number);
-    //   console.log("🚀 ~ useEffect ~ newOrder:", newOrder);
-    // } else if (location.pathname.includes("feed")) {
-    //   newOrder = orders?.find((el) => el.number.toString() === params.number);
-    // }
     const orderFromHistory = history?.find(
       (el) => el.number.toString() === orderNumber
     );

@@ -44,10 +44,6 @@ export const getOrderNumber = createAsyncThunk<number, void, ThunkAPI>(
           } else {
             return thunkAPI.rejectWithValue("Error refresh");
           }
-          console.log(
-            "🚀 ~ returnrefreshTokenRequest ~ rejectWithValue:",
-            thunkAPI.rejectWithValue
-          );
         });
       });
   }
