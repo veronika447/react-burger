@@ -55,7 +55,11 @@ export const Modal: FC<Props> = ({ children, title }) => {
         <h2 className={styles.modalTitle + " text text_type_main-large mt-1"}>
           {title}
         </h2>
-        <div className={styles.icon} onClick={() => onClose()}>
+        <div
+          className={styles.icon}
+          onClick={() => onClose()}
+          data-cy="closeIcon"
+        >
           <CloseIcon type="primary" />
         </div>
         {children}

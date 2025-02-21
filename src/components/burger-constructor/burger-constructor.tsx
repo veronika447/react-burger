@@ -31,12 +31,12 @@ export const BurgerConstructor = () => {
   const [isBunError, setIsBunError] = useState(false);
 
   const handleOnOrderButtonClick = () => {
-    if (!user) {
-      return navigate("/login", { replace: true });
-    }
     if (!selectedIngredients.bun) {
       setIsBunError(true);
       return;
+    }
+    if (!user) {
+      return navigate("/login", { replace: true });
     }
     dispatch(getOrderNumber())
       .unwrap()
@@ -117,6 +117,7 @@ export const BurgerConstructor = () => {
             borderBottomRightRadius: "40px",
             width: "536px",
           }}
+          data-cy="constructorBun"
         >
           {selectedIngredients.bun ? (
             <ConstructorElement
@@ -142,6 +143,7 @@ export const BurgerConstructor = () => {
             borderRadius: "40px",
             width: "536px",
           }}
+          data-cy="constructorFilling"
         >
           {selectedIngredients.ingredients.length ? (
             <ul className={styles.listFilling}>
@@ -214,6 +216,7 @@ export const BurgerConstructor = () => {
           type="primary"
           size="medium"
           onClick={() => handleOnOrderButtonClick()}
+          data-cy="placeOrderBtn"
         >
           Оформить заказ
         </Button>

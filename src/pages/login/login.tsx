@@ -90,6 +90,7 @@ export const LoginPage = () => {
             disabled={isSubmit}
             onPointerEnterCapture={undefined}
             onPointerLeaveCapture={undefined}
+            data-cy="inputEmail"
           />
           <PasswordInput
             name={"password"}
@@ -97,6 +98,7 @@ export const LoginPage = () => {
             onChange={handleInputChange}
             extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
+            data-cy="inputPassword"
           />
           {error && (
             <span className={`${styles.errorMessage} ml-8`}>
@@ -120,6 +122,7 @@ export const LoginPage = () => {
               type="primary"
               size="medium"
               extraClass="mt-6"
+              data-cy="loginBtn"
             >
               Войти{" "}
             </Button>

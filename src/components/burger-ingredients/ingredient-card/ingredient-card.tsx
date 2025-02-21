@@ -52,6 +52,7 @@ export const IngredientCard: FC<Props> = ({ ingredient }) => {
         onClick={() => openIngredientModalWindow()}
         ref={dragRef}
         draggable
+        data-cy="ingredientCard"
       >
         {count > 0 ? (
           <Counter count={count} size="default" extraClass="m-1" />
