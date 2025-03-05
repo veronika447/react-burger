@@ -1,1 +1,1 @@
-<a href="https://veronika447.github.io/react-burger/">React burger</a> 
+<a href="https://aesthetic-begonia-9d0dab.netlify.app/">React burger</a>
