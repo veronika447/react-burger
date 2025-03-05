@@ -16,9 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Router
-        basename={process.env.NODE_ENV === "production" ? "/react-burger" : ""}
-      >
+      <Router>
         <App />
       </Router>
     </PersistGate>
