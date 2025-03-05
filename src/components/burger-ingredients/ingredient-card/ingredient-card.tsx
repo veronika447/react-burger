@@ -1,6 +1,6 @@
 import styles from "./ingredient-card.module.css";
-import { changeValue } from "../../../services/modal-window-slice";
-import { addDetails } from "../../../services/ingredient-details-slice";
+import { changeValue } from "../../../services/modal-window/modal-window-slice";
+import { addDetails } from "../../../services/ingredient-details/ingredient-details-slice";
 import { useDrag } from "react-dnd";
 
 import {
@@ -52,6 +52,7 @@ export const IngredientCard: FC<Props> = ({ ingredient }) => {
         onClick={() => openIngredientModalWindow()}
         ref={dragRef}
         draggable
+        data-cy="ingredientCard"
       >
         {count > 0 ? (
           <Counter count={count} size="default" extraClass="m-1" />

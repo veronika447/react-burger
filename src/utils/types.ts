@@ -75,12 +75,6 @@ export type GetIngredientsRes = Response & {
   data: IngredientType[];
 };
 
-export enum WebSocketStatus {
-  CONNECTING = "CONNECTING...",
-  ONLINE = "ONLINE",
-  OFFLINE = "OFFLINE",
-}
-
 export type Order = {
   ingredients: string[];
   _id: string;

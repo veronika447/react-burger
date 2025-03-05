@@ -9,7 +9,7 @@ import { AppHeader } from "../../components/app-header/app-header";
 import { useState } from "react";
 import { refreshTokenRequest } from "../../utils/refresh-token";
 import { changeUserDataRequest } from "../../utils/change-user-data";
-import { changeUserInfo, refreshTokens } from "../../services/auth-slice";
+import { changeUserInfo, refreshTokens } from "../../services/auth/auth-slice";
 import { ProfileNavBar } from "../../components/profile-nav-bar/profile-nav-bar";
 
 export const ProfilePage = () => {

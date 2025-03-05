@@ -6,16 +6,16 @@ import {
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import burgerConstructorReducer from "../../services/burger-constructor-slice";
-import ingredientDetailsReducer from "../../services/ingredient-details-slice";
-import modalWindowReducer from "../../services/modal-window-slice";
-import ingredientsReducer from "../../services/ingredients-slice";
-import orderReducer from "../../services/order-slice";
-import loginFormReducer from "../../services/login-form-slice";
-import registerFormReducer from "../../services/register-form-slice";
-import forgotPasswordFormReducer from "../../services/forgot-password-form-slice";
-import resetPasswordFormReducer from "../../services/reset-password-form-slice";
-import authReducer from "../../services/auth-slice";
+import burgerConstructorReducer from "../../services/burger-constructor/burger-constructor-slice";
+import ingredientDetailsReducer from "../../services/ingredient-details/ingredient-details-slice";
+import modalWindowReducer from "../../services/modal-window/modal-window-slice";
+import ingredientsReducer from "../../services/ingredients/ingredients-slice";
+import orderReducer from "../../services/order/order-slice";
+import loginFormReducer from "../../services/login-form/login-form-slice";
+import registerFormReducer from "../../services/register-form/register-form-slice";
+import forgotPasswordFormReducer from "../../services/forgot-password-form/forgot-password-form-slice";
+import resetPasswordFormReducer from "../../services/reset-password-form/reset-password-form-slice";
+import authReducer from "../../services/auth/auth-slice";
 import orderFeedReducer, {
   WsInternalActions,
   wsClose,
@@ -23,7 +23,7 @@ import orderFeedReducer, {
   wsError,
   wsMessage,
   wsOpen,
-} from "../../services/order-feed-slice";
+} from "../../services/order-feed/order-feed-slice";
 import profileOrdersReducer, {
   authWsClose,
   authWsConnecting,
@@ -31,7 +31,7 @@ import profileOrdersReducer, {
   authWsMessage,
   authWsOpen,
   WsAuthInternalActions,
-} from "../../services/profile-orders-slice";
+} from "../../services/profile-orders/profile-orders-slice";
 import {
   socketMiddleware,
   authSocketMiddleware,
@@ -99,7 +99,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // ignoredPaths: ["ingredients.ingredients"],
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
     }).concat(orderFeedMiddleware, profileOrderMiddleware),

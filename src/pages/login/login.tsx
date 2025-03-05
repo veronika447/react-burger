@@ -8,8 +8,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
-import { loginFormSetValue, resetForm } from "../../services/login-form-slice";
-import { setUserData } from "../../services/auth-slice";
+import {
+  loginFormSetValue,
+  resetForm,
+} from "../../services/login-form/login-form-slice";
+import { setUserData } from "../../services/auth/auth-slice";
 import { loginRequest } from "../../utils/login";
 import type { FormEvent, ChangeEvent } from "react";
 
@@ -87,6 +90,7 @@ export const LoginPage = () => {
             disabled={isSubmit}
             onPointerEnterCapture={undefined}
             onPointerLeaveCapture={undefined}
+            data-cy="inputEmail"
           />
           <PasswordInput
             name={"password"}
@@ -94,6 +98,7 @@ export const LoginPage = () => {
             onChange={handleInputChange}
             extraClass={`${error && styles.error} ml-1 mt-6`}
             disabled={isSubmit}
+            data-cy="inputPassword"
           />
           {error && (
             <span className={`${styles.errorMessage} ml-8`}>
@@ -117,6 +122,7 @@ export const LoginPage = () => {
               type="primary"
               size="medium"
               extraClass="mt-6"
+              data-cy="loginBtn"
             >
               Войти{" "}
             </Button>

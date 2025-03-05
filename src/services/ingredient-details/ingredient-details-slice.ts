@@ -10,7 +10,7 @@ type IngredientDetailsState = {
   carbohydrates: number;
 };
 
-const initialState: IngredientDetailsState = {
+export const initialState: IngredientDetailsState = {
   image_large: "",
   name: "",
   calories: 0,

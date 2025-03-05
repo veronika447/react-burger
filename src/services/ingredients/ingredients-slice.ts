@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { request } from "../utils/request";
-import { GetIngredientsRes, IngredientType } from "../utils/types";
+import { request } from "../../utils/request";
+import { GetIngredientsRes, IngredientType } from "../../utils/types";
 
 export const getIngredients = createAsyncThunk(
   "ingredients/ingredients",
@@ -16,7 +16,7 @@ type IngredientState = {
   ingredients: Record<string, IngredientType> | null;
 };
 
-const initialState: IngredientState = {
+export const initialState: IngredientState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   ingredients: null,

@@ -1,12 +1,13 @@
 import styles from "./burger-constructor.module.css";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { changeValue } from "../../services/modal-window-slice";
+import { changeValue } from "../../services/modal-window/modal-window-slice";
 import {
   addBun,
   addIngredient,
   deleteIngredient,
-} from "../../services/burger-constructor-slice";
+  resetConstructor,
+} from "../../services/burger-constructor/burger-constructor-slice";
 import { useDrop } from "react-dnd";
 import {
   Button,
@@ -16,8 +17,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import { DraggableIngredientWrapper } from "./draggable-ingredient-wrapper/draggable-ingredient-wrapper";
-import { getOrderNumber } from "../../services/order-slice";
-import { resetConstructor } from "../../services/burger-constructor-slice";
+import { getOrderNumber } from "../../services/order/order-slice";
 import { useNavigate } from "react-router";
 import { type IngredientType } from "../../utils/types";
 
@@ -31,12 +31,12 @@ export const BurgerConstructor = () => {
   const [isBunError, setIsBunError] = useState(false);
 
   const handleOnOrderButtonClick = () => {
-    if (!user) {
-      return navigate("/login", { replace: true });
-    }
     if (!selectedIngredients.bun) {
       setIsBunError(true);
       return;
+    }
+    if (!user) {
+      return navigate("/login", { replace: true });
     }
     dispatch(getOrderNumber())
       .unwrap()
@@ -117,6 +117,7 @@ export const BurgerConstructor = () => {
             borderBottomRightRadius: "40px",
             width: "536px",
           }}
+          data-cy="constructorBun"
         >
           {selectedIngredients.bun ? (
             <ConstructorElement
@@ -142,6 +143,7 @@ export const BurgerConstructor = () => {
             borderRadius: "40px",
             width: "536px",
           }}
+          data-cy="constructorFilling"
         >
           {selectedIngredients.ingredients.length ? (
             <ul className={styles.listFilling}>
@@ -214,6 +216,7 @@ export const BurgerConstructor = () => {
           type="primary"
           size="medium"
           onClick={() => handleOnOrderButtonClick()}
+          data-cy="placeOrderBtn"
         >
           Оформить заказ
         </Button>

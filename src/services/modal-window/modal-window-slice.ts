@@ -5,7 +5,7 @@ type ModalWindowState = {
   value: string | null;
 };
 
-const initialState: ModalWindowState = {
+export const initialState: ModalWindowState = {
   value: null,
 };
 

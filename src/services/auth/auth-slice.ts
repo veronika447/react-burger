@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { type User } from "../utils/types";
+import { type User } from "../../utils/types";
 
 type AuthState = {
   user: User | null;
@@ -8,7 +8,7 @@ type AuthState = {
   refreshToken: string;
 };
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   accessToken: "",
   refreshToken: "",

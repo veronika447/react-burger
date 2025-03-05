@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import {
   resetPasswordFormSetValue,
   resetForm,
-} from "../../services/reset-password-form-slice";
+} from "../../services/reset-password-form/reset-password-form-slice";
 import { useEffect, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { resetPasswordRequest } from "../../utils/reset-password";

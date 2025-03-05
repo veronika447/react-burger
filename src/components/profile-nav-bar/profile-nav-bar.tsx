@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { logoutRequest } from "../../utils/logout";
-import { removeUserData } from "../../services/auth-slice";
+import { removeUserData } from "../../services/auth/auth-slice";
 
 export const ProfileNavBar = () => {
   const location = useLocation();

@@ -5,7 +5,7 @@ type ForgotPasswordState = {
   email: string;
 };
 
-const initialState: ForgotPasswordState = {
+export const initialState: ForgotPasswordState = {
   email: "",
 };
 

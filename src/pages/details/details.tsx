@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../components/app/hooks";
 import { AppHeader } from "../../components/app-header/app-header";
 import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
-import { addDetails } from "../../services/ingredient-details-slice";
-import { getIngredients } from "../../services/ingredients-slice";
+import { addDetails } from "../../services/ingredient-details/ingredient-details-slice";
+import { getIngredients } from "../../services/ingredients/ingredients-slice";
 
 export const DetailsPage = () => {
   const params = useParams();

@@ -7,7 +7,7 @@ import {
 import { refreshTokenRequest } from "../utils/refresh-token";
 import { RootState } from "../components/app/store";
 import { wsAuthConnect, wsAuthDisconnect } from "../services/actions";
-import { refreshTokens, removeUserData } from "../services/auth-slice";
+import { refreshTokens, removeUserData } from "../services/auth/auth-slice";
 import { logoutRequest } from "../utils/logout";
 
 export type ActionTypes = {

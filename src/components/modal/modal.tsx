@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import type { FC, ReactNode } from "react";
 
-import { changeValue } from "../../services/modal-window-slice";
-import { resetOrderNumber } from "../../services/order-slice";
+import { changeValue } from "../../services/modal-window/modal-window-slice";
+import { resetOrderNumber } from "../../services/order/order-slice";
 
 type Props = {
   children: ReactNode;
@@ -55,7 +55,11 @@ export const Modal: FC<Props> = ({ children, title }) => {
         <h2 className={styles.modalTitle + " text text_type_main-large mt-1"}>
           {title}
         </h2>
-        <div className={styles.icon} onClick={() => onClose()}>
+        <div
+          className={styles.icon}
+          onClick={() => onClose()}
+          data-cy="closeIcon"
+        >
           <CloseIcon type="primary" />
         </div>
         {children}

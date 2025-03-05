@@ -1,31 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-type LoginFormState = {
+type RegisterFormState = {
   [key: string]: string;
 };
 
-const initialState: LoginFormState = {
+export const initialState: RegisterFormState = {
+  name: "",
   email: "",
   password: "",
 };
 
-const loginFormSlice = createSlice({
-  name: "loginForm",
+const registerFormSlice = createSlice({
+  name: "registerForm",
   initialState,
   reducers: {
-    loginFormSetValue: (
+    registerFormSetValue: (
       state,
       action: PayloadAction<{ field: string; value: string }>
     ) => {
       state[action.payload.field] = action.payload.value;
     },
     resetForm: (state) => {
+      state.name = "";
       state.email = "";
       state.password = "";
     },
   },
 });
 
-export const { loginFormSetValue, resetForm } = loginFormSlice.actions;
-export default loginFormSlice.reducer;
+export const { registerFormSetValue, resetForm } = registerFormSlice.actions;
+export default registerFormSlice.reducer;
