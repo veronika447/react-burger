@@ -19,12 +19,14 @@ export const OrdersPage = () => {
     };
   }, []);
 
+  const reverseOrders = orders && [...orders].reverse();
+
   return (
     <div className={styles.container}>
       <AppHeader />
       <main className={styles.main}>
         <ProfileNavBar />
-        {orders && <OrderFeed orders={orders} isProfile={true} />}
+        {reverseOrders && <OrderFeed orders={reverseOrders} isProfile={true} />}
       </main>
     </div>
   );
